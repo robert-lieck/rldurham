@@ -1,0 +1,33 @@
+﻿pythontemplatepackage
+=====================
+
+.. automodule:: pythontemplatepackage
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :template: custom-module-template.rst
+   :recursive:
+
+   pythontemplatepackage.myclass
+   pythontemplatepackage.rename
+

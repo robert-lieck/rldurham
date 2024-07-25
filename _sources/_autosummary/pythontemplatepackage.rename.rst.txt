@@ -1,0 +1,31 @@
+pythontemplatepackage.rename
+============================
+
+.. automodule:: pythontemplatepackage.rename
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      main
+      replace_in_file
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

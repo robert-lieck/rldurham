@@ -1,0 +1,14 @@
+pythontemplatepackage.myclass.MyClass
+=====================================
+
+.. currentmodule:: pythontemplatepackage.myclass
+
+.. autoclass:: MyClass
+   :members:
+   :undoc-members:
+   :special-members:
+   :private-members:
+   :inherited-members:
+   :show-inheritance:
+
+   .. autoclasstoc::

@@ -1,0 +1,6 @@
+pythontemplatepackage.rename.main
+=================================
+
+.. currentmodule:: pythontemplatepackage.rename
+
+.. autofunction:: main
