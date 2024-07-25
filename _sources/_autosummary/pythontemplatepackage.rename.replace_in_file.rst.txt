@@ -1,6 +1,0 @@
-pythontemplatepackage.rename.replace\_in\_file
-==============================================
-
-.. currentmodule:: pythontemplatepackage.rename
-
-.. autofunction:: replace_in_file

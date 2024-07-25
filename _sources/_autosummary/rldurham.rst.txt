@@ -1,7 +1,7 @@
-﻿pythontemplatepackage
-=====================
+﻿rldurham
+========
 
-.. automodule:: pythontemplatepackage
+.. automodule:: rldurham
 
    
    
@@ -29,5 +29,4 @@
    :recursive:
 
    myclass
-   rename
 

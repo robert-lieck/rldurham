@@ -1,7 +1,7 @@
-pythontemplatepackage.myclass.MyClass
-=====================================
+rldurham.myclass.MyClass
+========================
 
-.. currentmodule:: pythontemplatepackage.myclass
+.. currentmodule:: rldurham.myclass
 
 .. autoclass:: MyClass
    :members:
