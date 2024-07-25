@@ -28,6 +28,6 @@
    :template: custom-module-template.rst
    :recursive:
 
-   pythontemplatepackage.myclass
-   pythontemplatepackage.rename
+   myclass
+   rename
 

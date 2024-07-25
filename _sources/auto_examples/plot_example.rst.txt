@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_auto_examples_plot_example.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -68,6 +68,10 @@ Example code will be executed and shown in the documentation:
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: plot_example.py <plot_example.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: plot_example.zip <plot_example.zip>`
 
 
 .. only:: html
