@@ -7,14 +7,14 @@ with open("requirements.txt", "r") as fh:
     install_requires = fh.read().splitlines()
 
 setuptools.setup(
-    name="pythontemplatepackage",
-    version="0.0.5",
+    name="rldurham",
+    version="0.0.1",
     author="Robert Lieck",
     author_email="robert.lieck@durham.ac.uk",
     description="A template repo for Python packages with GitHub actions and documentation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/robert-lieck/pythontemplatepackage",
+    url="https://github.com/robert-lieck/rldurham",
     packages=setuptools.find_packages(exclude=['tests']),
     install_requires=install_requires,
     include_package_data=True,

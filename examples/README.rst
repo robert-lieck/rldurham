@@ -1,3 +1,3 @@
-PythonTemplatePackage Gallery
+Reinforcement Learning Durham Gallery
 =============================
 

@@ -1,4 +1,4 @@
-#  Copyright (c) 2022 Robert Lieck.
+#  Copyright (c) 2024 Robert Lieck.
 from unittest import TestCase
 
 import os
