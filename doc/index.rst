@@ -1,7 +1,5 @@
-.. documentation master file; adapt to your liking (but should at least contain the root `toctree` directive).
-
 Welcome to Reinforcement Learning Durham's documentation!
-=================================================
+=========================================================
 
 .. toctree::
    :maxdepth: 4
@@ -12,20 +10,8 @@ Welcome to Reinforcement Learning Durham's documentation!
 
 .. ...add more elements to table of contents
 
-You can include code as part of the documentation
-
-   >>> print("Hello World")
-   Hello World
-
-which can be tested by running ``make doctest``. This is also run by the GitHub action to build the documentation.
-
-You can also include executable example files with code and text, which are shown in the :doc:`auto_examples/index`.
-The ``test_examples.py`` unittest automatically runs these examples to check for errors.
-
-.. autoclass:: rldurham.myclass.MyClass
-   :members:
-   :noindex:
-
+This package is for the Reinforcement Learning course at Durham University. The purpose is the help setting up a Python
+environment on Colab and/or NCC and provide some helper and utility functions.
 
 .. Indices and tables
 .. ==================
