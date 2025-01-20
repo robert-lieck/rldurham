@@ -1,4 +1,5 @@
 gymnasium[Box2D,other]
 torch
 numpy
+pandas
 lightning

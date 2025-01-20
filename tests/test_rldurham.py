@@ -64,9 +64,9 @@ class TestTemplate(TestCase):
         env = rld.Env(SimpleTestingEnv(episode_length=episode_length))
         env = rld.Recorder(env, smoothing=10)
         rld.seed_everything(42, env)
-        self.assertEquals(env._episode_count, 0)
+        self.assertEqual(env._episode_count, 0)
         env.reset()
-        self.assertEquals(env._episode_count, 0)
+        self.assertEqual(env._episode_count, 0)
 
         info_tracker = rld.InfoTracker()
 
@@ -75,44 +75,44 @@ class TestTemplate(TestCase):
             for step_count in count():
                 action = episode_num * (step_count % 2)  # alternating action 0 and episode_num
                 obs, reward, terminated, truncated, info = env.step(action)
-                self.assertEquals(env._episode_count, episode_num)
+                self.assertEqual(env._episode_count, episode_num)
                 if terminated or truncated:
                     info_tracker.track(info)
                     break
 
             # episode-specific info
 
-            self.assertEquals(info['recorder']['idx'], episode_num)
-            self.assertEquals(info['recorder']['length'], episode_length)
+            self.assertEqual(info['recorder']['idx'], episode_num)
+            self.assertEqual(info['recorder']['length'], episode_length)
             # half of the rewards are non-zero
-            self.assertEquals(info['recorder']['r_sum'], episode_length * episode_num / 2)
-            self.assertEquals(info['recorder']['r_mean'], episode_num / 2)
+            self.assertEqual(info['recorder']['r_sum'], episode_length * episode_num / 2)
+            self.assertEqual(info['recorder']['r_mean'], episode_num / 2)
             # rewards are zero or episode_num (half/half), so always episode_num/2 from mean (also episode_num/2) away
-            self.assertEquals(info['recorder']['r_std'], episode_num / 2)
+            self.assertEqual(info['recorder']['r_std'], episode_num / 2)
 
             # smoothed info
 
-            self.assertEquals(info['recorder']['length_'], episode_length)  # constant
+            self.assertEqual(info['recorder']['length_'], episode_length)  # constant
             # buffer runs over at some point
             if episode_num <= env._smoothing: # first reward sum is zero, so first rolling over does not change reward sum
-                self.assertEquals(info['recorder']['r_sum_'], episode_length * (episode_num * (episode_num + 1)) / 4)
-                self.assertEquals(info['recorder']['r_mean_'], episode_length * (episode_num * (episode_num + 1)) / 4 / min(episode_num + 1, env._smoothing))
+                self.assertEqual(info['recorder']['r_sum_'], episode_length * (episode_num * (episode_num + 1)) / 4)
+                self.assertEqual(info['recorder']['r_mean_'], episode_length * (episode_num * (episode_num + 1)) / 4 / min(episode_num + 1, env._smoothing))
                 # upper bound for std (couldn't do the math in my head...)
                 self.assertLessEqual(info['recorder']['r_std_'], episode_length * episode_num / 4)
                 r_std_ = info['recorder']['r_std_']  # but stays the same after buffer runs over
             else:
                 self.assertNotEqual(info['recorder']['r_sum_'], episode_length * (episode_num * (episode_num + 1)) / 4)
                 self.assertNotEqual(info['recorder']['r_mean_'], episode_length * (episode_num * (episode_num + 1)) / 4 / min(episode_num + 1, env._smoothing))
-                self.assertEquals(info['recorder']['r_std_'], r_std_)
+                self.assertEqual(info['recorder']['r_std_'], r_std_)
         env.close()
 
     def test_cartpole(self):
         env = rld.make("CartPole-v1")
         env = rld.Recorder(env)
         rld.seed_everything(42, env)
-        self.assertEquals(env._episode_count, 0)
+        self.assertEqual(env._episode_count, 0)
         env.reset()
-        self.assertEquals(env._episode_count, 0)
+        self.assertEqual(env._episode_count, 0)
 
         for episode_num in range(10):
             obs, info = env.reset()
@@ -121,6 +121,6 @@ class TestTemplate(TestCase):
                 action = env.action_space.sample()
                 obs, reward, terminated, truncated, info = env.step(action)
                 episode_over = terminated or truncated
-                self.assertEquals(env._episode_count, episode_num)
-            self.assertEquals(info['recorder']['idx'], episode_num)
+                self.assertEqual(env._episode_count, episode_num)
+            self.assertEqual(info['recorder']['idx'], episode_num)
         env.close()

@@ -1,10 +1,13 @@
 from typing import Optional, Iterable, Union
 from collections import deque
 from math import sqrt
+import os
 
 import numpy as np
+import pandas as pd
 import lightning as lt
 import gymnasium as gym
+from gymnasium import error, logger
 import matplotlib.pyplot as plt
 from IPython import display as disp
 
@@ -67,28 +70,86 @@ def make(*args, **kwargs):
     return Env(gym.make(*args, **kwargs))
 
 
+class VideoRecorder(gym.wrappers.RecordVideo):
+
+    def __init__(self, *args, name_func, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.name_func = name_func
+
+    def stop_recording(self):
+        # MODIFIED from gym.wrappers.RecordVideo
+        assert self.recording, "stop_recording was called, but no recording was started"
+
+        if len(self.recorded_frames) == 0:
+            logger.warn("Ignored saving a video as there were zero frames to save.")
+        else:
+            try:
+                from moviepy.video.io.ImageSequenceClip import ImageSequenceClip
+            except ImportError as e:
+                raise error.DependencyNotInstalled(
+                    'MoviePy is not installed, run `pip install "gymnasium[other]"`'
+                ) from e
+
+            clip = ImageSequenceClip(self.recorded_frames, fps=self.frames_per_sec)
+            moviepy_logger = None if self.disable_logger else "bar"
+            path = os.path.join(self.video_folder, f"{self.name_prefix}{self.name_func()}.mp4")  # MODIFIED HERE
+            clip.write_videofile(path, logger=moviepy_logger)
+
+        self.recorded_frames = []
+        self.recording = False
+        self._video_name = None
+
+
 class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
     # see RecordEpisodeStatistics for inspiration
 
-    def __init__(self, env, key="recorder", full_stats=False, smoothing=None):
+    def __init__(self, env, info=True, video=False, logs=False, key="recorder",
+                 video_folder="videos", name_prefix="xxxx00-agent-video",
+                 full_stats=False, smoothing=None):
         gym.utils.RecordConstructorArgs.__init__(self)
+        if video:
+            env = VideoRecorder(env,
+                                video_folder=video_folder,
+                                name_prefix=name_prefix,
+                                episode_trigger=self._video_episode_trigger,
+                                name_func=self._video_name_func)
         gym.Wrapper.__init__(self, env)
+
+        # flags to turn functionality on/off
+        self.info = info
+        self.video = video
+        self.logs = logs
+
+        # other settings
         self._key = key
         self._full_stats = full_stats
         self._smoothing = smoothing
 
-        self._episode_count = 0
+        # flag to ignore episodes without any steps taken
         self._episode_started = False
 
+        # episode stats
+        self._episode_count = 0
         self._episode_reward_sum = 0
         self._episode_squared_reward_sum = 0
         self._episode_length = 0
-
+        # logging statistics
+        self._episode_count_log = []
+        self._episode_reward_sum_log = []
+        self._episode_squared_reward_sum_log = []
+        self._episode_length_log = []
+        # windowed stats for smoothing
         if self._smoothing:
             self._episode_reward_sum_queue = deque(maxlen=smoothing)
             self._episode_length_queue = deque(maxlen=smoothing)
-
+        # full stats
         self._episode_full_stats = []
+
+    def _video_episode_trigger(self, episode_id):
+        return self.video
+
+    def _video_name_func(self):
+        return f",episode={self._episode_count},score={self._episode_reward_sum}"
 
     def step(self, action):
         self._episode_started = True
@@ -100,8 +161,9 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
         if self._full_stats:
             self._episode_full_stats.append((obs, reward, terminated, truncated, info))
 
-        if terminated or truncated:
+        if self.info and (terminated or truncated):
             assert self._key not in info
+            # add episode stats
             i = {
                 "idx": self._episode_count,
                 "length": self._episode_length,
@@ -109,6 +171,7 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
                 "r_mean": self._episode_reward_sum / self._episode_length,
                 "r_std": sqrt(self._episode_squared_reward_sum / self._episode_length - (self._episode_reward_sum / self._episode_length) ** 2),
             }
+            # add smoothing stats
             if self._smoothing is not None:
                 self._episode_reward_sum_queue.append(self._episode_reward_sum)
                 self._episode_length_queue.append(self._episode_length)
@@ -129,15 +192,43 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
 
         return obs, reward, terminated, truncated, info
 
-    def reset(self, *, seed=None, options=None):
-        self._episode_reward_sum = 0
-        self._episode_squared_reward_sum = 0
-        self._episode_length = 0
-        self._episode_full_stats = []
+    def _finish_episode(self):
+        # ignore episodes without any steps taken
         if self._episode_started:
-            self._episode_count += 1
             self._episode_started = False
-        return super().reset(seed=seed, options=options)
+            # record logging stats
+            if self.logs:
+                self._episode_count_log.append(self._episode_count)
+                self._episode_reward_sum_log.append(self._episode_reward_sum)
+                self._episode_squared_reward_sum_log.append(self._episode_squared_reward_sum)
+                self._episode_length_log.append(self._episode_length)
+            # reset episode stats
+            self._episode_count += 1
+            self._episode_reward_sum = 0
+            self._episode_squared_reward_sum = 0
+            self._episode_length = 0
+            self._episode_full_stats = []
+
+    def reset(self, *, seed=None, options=None):
+        ret = super().reset(seed=seed, options=options)  # first reset super (e.g. to save video)
+        self._finish_episode()
+        return ret
+
+    def close(self):
+        super().close()
+        self._finish_episode()
+
+    def write_log(self, folder="logs", file="xxxx00-agent-log.txt"):
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        path = os.path.join(folder, file)
+        df = pd.DataFrame({
+            "episode_count": self._episode_count_log,
+            "episode_reward_sum": self._episode_reward_sum_log,
+            "episode_squared_reward_sum": self._episode_squared_reward_sum_log,
+            "episode_length": self._episode_length_log,
+        })
+        df.to_csv(path, index=False, sep='\t')
 
 
 class InfoTracker:
@@ -148,7 +239,9 @@ class InfoTracker:
     def __init__(self):
         self.info = {}
 
-    def track(self, info):
+    def track(self, info, ignore_empty=True):
+        if not info and ignore_empty:
+            return
         if self.info:
             self._update(new_info=info, tracked_info=self.info)
         else:
@@ -176,10 +269,12 @@ class InfoTracker:
                 tracked_info[k].append(new_info[k])
 
 
-def plot_tracked_info(tracked_info, show=True, ax=None, key='recorder',
+def plot_tracked_info(tracked_info, show=True, ax=None, key='recorder', ignore_empty=True,
                       length=False, r_sum=False, r_mean=False, r_std=False,
                       length_=False, r_sum_=False, r_mean_=False, r_std_=False,
                       ):
+    if not tracked_info and ignore_empty:
+        return
     fig = None
     if ax is None:
         fig, ax = plt.subplots(1, 1)
