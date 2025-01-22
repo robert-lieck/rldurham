@@ -61,7 +61,7 @@ class TestTemplate(TestCase):
 
     def test_make_recorder_tracker(self):
         episode_length = 10
-        env = rld.Env(SimpleTestingEnv(episode_length=episode_length))
+        env = rld.RLDurhamEnv(SimpleTestingEnv(episode_length=episode_length))
         env = rld.Recorder(env, smoothing=10)
         rld.seed_everything(42, env)
         self.assertEqual(env._episode_count, 0)

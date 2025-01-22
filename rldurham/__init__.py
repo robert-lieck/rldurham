@@ -2,6 +2,7 @@ from typing import Optional, Iterable, Union
 from collections import deque
 from math import sqrt
 import os
+import time
 
 import numpy as np
 import pandas as pd
@@ -10,6 +11,8 @@ import gymnasium as gym
 from gymnasium import error, logger
 import matplotlib.pyplot as plt
 from IPython import display as disp
+
+import ale_py  # required for atari games in "ALE" namespace to work
 
 
 def seed_everything(seed: Optional[int] = None,
@@ -46,7 +49,15 @@ def seed_everything(seed: Optional[int] = None,
         return seed
 
 
-class Env(gym.Wrapper):
+def render(env, sleep=0):
+    disp.clear_output(wait=True)
+    plt.imshow(env.render())
+    plt.show()
+    if sleep:
+        time.sleep(sleep)
+
+
+class RLDurhamEnv(gym.Wrapper):
 
     def __init__(self, env):
         super().__init__(env)
@@ -67,7 +78,7 @@ class Env(gym.Wrapper):
 
 
 def make(*args, **kwargs):
-    return Env(gym.make(*args, **kwargs))
+    return RLDurhamEnv(gym.make(*args, **kwargs))
 
 
 class VideoRecorder(gym.wrappers.RecordVideo):
@@ -321,7 +332,7 @@ class InfoTracker:
         ax.set_xlabel('episode index')
         ax.legend()
         if show:
-            plt.show()
             disp.clear_output(wait=True)
+            plt.show()
         if fig is not None:
             return fig, ax

@@ -1,4 +1,4 @@
-gymnasium[Box2D,other]
+gymnasium[Box2D,atari,other]
 torch
 numpy
 pandas
