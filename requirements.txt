@@ -1,1 +1,6 @@
-colorama
+IPython
+gymnasium[Box2D,atari,other]
+torch
+numpy
+pandas
+lightning
