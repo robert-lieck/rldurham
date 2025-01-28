@@ -57,6 +57,14 @@ def render(env, sleep=0):
         time.sleep(sleep)
 
 
+def env_info(env):
+    discrete_act = hasattr(env.action_space, 'n')
+    discrete_obs = hasattr(env.observation_space, 'n')
+    act_dim = env.action_space.n if discrete_act else env.action_space.shape[0]
+    obs_dim = env.observation_space.n if discrete_obs else env.observation_space.shape[0]
+    return discrete_act, discrete_obs, act_dim, obs_dim
+
+
 class RLDurhamEnv(gym.Wrapper):
 
     def __init__(self, env):
