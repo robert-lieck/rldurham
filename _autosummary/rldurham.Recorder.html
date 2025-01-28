@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rldurham.Recorder &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rldurham.VideoRecorder" href="rldurham.VideoRecorder.html" />
+    <link rel="prev" title="rldurham.RLDurhamEnv" href="rldurham.RLDurhamEnv.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Reinforcement Learning Durham Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="rldurham.html">rldurham</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rldurham.env_info.html">rldurham.env_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.make.html">rldurham.make</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.render.html">rldurham.render</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.seed_everything.html">rldurham.seed_everything</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.InfoTracker.html">rldurham.InfoTracker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.RLDurhamEnv.html">rldurham.RLDurhamEnv</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">rldurham.Recorder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rldurham.Recorder"><code class="docutils literal notranslate"><span class="pre">Recorder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.VideoRecorder.html">rldurham.VideoRecorder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
+          <li class="breadcrumb-item"><a href="rldurham.html">rldurham</a></li>
+      <li class="breadcrumb-item active">rldurham.Recorder</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rldurham-recorder">
+<h1>rldurham.Recorder<a class="headerlink" href="#rldurham-recorder" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rldurham.Recorder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">Recorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'recorder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'videos'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xxxx00-agent-video'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Wrapper</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RecordConstructorArgs</span></code></p>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder.metadata" title="rldurham.Recorder.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></p></td>
+<td><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.metadata" title="rldurham.Recorder.metadata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">metadata</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.Recorder.render_mode" title="rldurham.Recorder.render_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_mode</span></code></a></p></td>
+<td><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.render_mode" title="rldurham.Recorder.render_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">render_mode</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder.spec" title="rldurham.Recorder.spec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spec</span></code></a></p></td>
+<td><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.spec" title="rldurham.Recorder.spec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spec</span></code></a> attribute with the <cite>WrapperSpec</cite> if the wrapper inherits from <cite>EzPickle</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.Recorder.action_space" title="rldurham.Recorder.action_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">action_space</span></code></a></p></td>
+<td><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.action_space" title="rldurham.Recorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.Recorder.action_space" title="rldurham.Recorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> is used.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder.observation_space" title="rldurham.Recorder.observation_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">observation_space</span></code></a></p></td>
+<td><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.observation_space" title="rldurham.Recorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.Recorder.observation_space" title="rldurham.Recorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> is used.</p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Wrapper</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np_random_seed</span></code></p></td>
+<td><p>Returns the base environment's <a class="reference internal" href="#rldurham.Recorder.np_random_seed" title="rldurham.Recorder.np_random_seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">np_random_seed</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unwrapped</span></code></p></td>
+<td><p>Returns the base environment of the wrapper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spec</span></code></p></td>
+<td><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.spec" title="rldurham.Recorder.spec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spec</span></code></a> attribute with the <cite>WrapperSpec</cite> if the wrapper inherits from <cite>EzPickle</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">action_space</span></code></p></td>
+<td><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.action_space" title="rldurham.Recorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.Recorder.action_space" title="rldurham.Recorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> is used.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">observation_space</span></code></p></td>
+<td><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.observation_space" title="rldurham.Recorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.Recorder.observation_space" title="rldurham.Recorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> is used.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></p></td>
+<td><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.metadata" title="rldurham.Recorder.metadata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">metadata</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_mode</span></code></p></td>
+<td><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.render_mode" title="rldurham.Recorder.render_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">render_mode</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np_random</span></code></p></td>
+<td><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.np_random" title="rldurham.Recorder.np_random"><code class="xref py py-attr docutils literal notranslate"><span class="pre">np_random</span></code></a> attribute.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Env</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_mode</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spec</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unwrapped</span></code></p></td>
+<td><p>Returns the base non-wrapped environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np_random_seed</span></code></p></td>
+<td><p>Returns the environment's internal <a class="reference internal" href="#rldurham.Recorder._np_random_seed" title="rldurham.Recorder._np_random_seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">_np_random_seed</span></code></a> that if not set will first initialise with a random int as seed.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np_random</span></code></p></td>
+<td><p>Returns the environment's internal <a class="reference internal" href="#rldurham.Recorder._np_random" title="rldurham.Recorder._np_random"><code class="xref py py-attr docutils literal notranslate"><span class="pre">_np_random</span></code></a> that if not set will initialise with a random seed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">action_space</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">observation_space</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder.__init__" title="rldurham.Recorder.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(env[, info, video, logs, key, ...])</p></td>
+<td><p>Wraps an environment to allow a modular transformation of the <a class="reference internal" href="#rldurham.Recorder.step" title="rldurham.Recorder.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> and <a class="reference internal" href="#rldurham.Recorder.reset" title="rldurham.Recorder.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> methods.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.Recorder.step" title="rldurham.Recorder.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(action)</p></td>
+<td><p>Uses the <a class="reference internal" href="#rldurham.Recorder.step" title="rldurham.Recorder.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder.reset" title="rldurham.Recorder.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>(*[, seed, options])</p></td>
+<td><p>Uses the <a class="reference internal" href="#rldurham.Recorder.reset" title="rldurham.Recorder.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.Recorder.close" title="rldurham.Recorder.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Closes the wrapper and <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder.write_log" title="rldurham.Recorder.write_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_log</span></code></a>([folder, file])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Wrapper</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(env)</p></td>
+<td><p>Wraps an environment to allow a modular transformation of the <a class="reference internal" href="#rldurham.Recorder.step" title="rldurham.Recorder.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> and <a class="reference internal" href="#rldurham.Recorder.reset" title="rldurham.Recorder.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> methods.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code>(action)</p></td>
+<td><p>Uses the <a class="reference internal" href="#rldurham.Recorder.step" title="rldurham.Recorder.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code>(*[, seed, options])</p></td>
+<td><p>Uses the <a class="reference internal" href="#rldurham.Recorder.reset" title="rldurham.Recorder.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code>()</p></td>
+<td><p>Uses the <a class="reference internal" href="rldurham.render.html#rldurham.render" title="rldurham.render"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code>()</p></td>
+<td><p>Closes the wrapper and <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wrapper_spec</span></code>(**kwargs)</p></td>
+<td><p>Generates a <cite>WrapperSpec</cite> for the wrappers.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_wrapper_attr</span></code>(name)</p></td>
+<td><p>Checks if the given attribute is within the wrapper or its environment.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_wrapper_attr</span></code>(name)</p></td>
+<td><p>Gets an attribute from the wrapper and lower environments if <cite>name</cite> doesn't exist in this object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_wrapper_attr</span></code>(name, value)</p></td>
+<td><p>Sets an attribute on this wrapper or lower environment if <cite>name</cite> is already defined.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__str__</span></code>()</p></td>
+<td><p>Returns the wrapper name and the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> representation string.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code>()</p></td>
+<td><p>Returns the string representation of the wrapper.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class_name</span></code>()</p></td>
+<td><p>Returns the class name of the wrapper.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Env</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code>(action)</p></td>
+<td><p>Run one timestep of the environment's dynamics using the agent actions.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code>(*[, seed, options])</p></td>
+<td><p>Resets the environment to an initial internal state, returning an initial observation and info.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code>()</p></td>
+<td><p>Compute the render frames as specified by <a class="reference internal" href="#rldurham.Recorder.render_mode" title="rldurham.Recorder.render_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">render_mode</span></code></a> during the initialization of the environment.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code>()</p></td>
+<td><p>After the user has finished using the environment, close contains the code necessary to &quot;clean up&quot; the environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__str__</span></code>()</p></td>
+<td><p>Returns a string of the environment with <a class="reference internal" href="#rldurham.Recorder.spec" title="rldurham.Recorder.spec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spec</span></code></a> id's if :attr:<a href="#id1"><span class="problematic" id="id2">`</span></a>spec.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__enter__</span></code>()</p></td>
+<td><p>Support with-statement for the environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__exit__</span></code>(*args)</p></td>
+<td><p>Support with-statement for the environment and closes the environment.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_wrapper_attr</span></code>(name)</p></td>
+<td><p>Checks if the attribute <cite>name</cite> exists in the environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_wrapper_attr</span></code>(name)</p></td>
+<td><p>Gets the attribute <cite>name</cite> from the environment.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_wrapper_attr</span></code>(name, value)</p></td>
+<td><p>Sets the attribute <cite>name</cite> on the environment with <cite>value</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__class_getitem__</span></code></p></td>
+<td><p>Parameterizes a generic class.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init_subclass__</span></code></p></td>
+<td><p>Function to initialize subclasses.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">RecordConstructorArgs</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(*[, _disable_deepcopy])</p></td>
+<td><p>Records all arguments passed to constructor to <cite>_saved_kwargs</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Private Data Attributes:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_action_space</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_observation_space</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_metadata</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_cached_spec</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder._np_random" title="rldurham.Recorder._np_random"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_np_random</span></code></a></p></td>
+<td><p>This code will never be run due to __getattr__ being called prior this.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.Recorder._np_random_seed" title="rldurham.Recorder._np_random_seed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_np_random_seed</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_saved_kwargs</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Wrapper</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_np_random</span></code></p></td>
+<td><p>This code will never be run due to __getattr__ being called prior this.</p></td>
+</tr>
+</tbody>
+</table>
+</details><details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Env</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_np_random</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_np_random_seed</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Private Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder._video_episode_trigger" title="rldurham.Recorder._video_episode_trigger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_video_episode_trigger</span></code></a>(episode_id)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.Recorder._video_name_func" title="rldurham.Recorder._video_name_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_video_name_func</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.Recorder._finish_episode" title="rldurham.Recorder._finish_episode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_finish_episode</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.Recorder.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rldurham.Recorder.__annotations__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.__class_getitem__">
+<span class="sig-name descname"><span class="pre">__class_getitem__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.__class_getitem__" title="Link to this definition"></a></dt>
+<dd><p>Parameterizes a generic class.</p>
+<p>At least, parameterizing a generic class is the <em>main</em> thing this
+method does. For example, for some generic class <cite>Foo</cite>, this is called
+when we do <cite>Foo[int]</cite> - there, with <cite>cls=Foo</cite> and <cite>params=int</cite>.</p>
+<p>However, note that this method is also called when defining generic
+classes in the first place with <cite>class Foo[T]: …</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.Recorder.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rldurham',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder.__init__&gt;,</span> <span class="pre">'_video_episode_trigger':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder._video_episode_trigger&gt;,</span> <span class="pre">'_video_name_func':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder._video_name_func&gt;,</span> <span class="pre">'step':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder.step&gt;,</span> <span class="pre">'_finish_episode':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder._finish_episode&gt;,</span> <span class="pre">'reset':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder.reset&gt;,</span> <span class="pre">'close':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder.close&gt;,</span> <span class="pre">'write_log':</span> <span class="pre">&lt;function</span> <span class="pre">Recorder.write_log&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__parameters__':</span> <span class="pre">(),</span> <span class="pre">'__annotations__':</span> <span class="pre">{'_action_space':</span> <span class="pre">'spaces.Space[WrapperActType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_observation_space':</span> <span class="pre">'spaces.Space[WrapperObsType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_cached_spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]',</span> <span class="pre">'render_mode':</span> <span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'action_space':</span> <span class="pre">'spaces.Space[ActType]',</span> <span class="pre">'observation_space':</span> <span class="pre">'spaces.Space[ObsType]',</span> <span class="pre">'_np_random':</span> <span class="pre">'np.random.Generator</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_np_random_seed':</span> <span class="pre">'int</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_saved_kwargs':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]'}})</span></em><a class="headerlink" href="#rldurham.Recorder.__dict__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.__enter__" title="Link to this definition"></a></dt>
+<dd><p>Support with-statement for the environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.__exit__" title="Link to this definition"></a></dt>
+<dd><p>Support with-statement for the environment and closes the environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'recorder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'videos'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xxxx00-agent-video'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder.__init__" title="Link to this definition"></a></dt>
+<dd><p>Wraps an environment to allow a modular transformation of the <a class="reference internal" href="#rldurham.Recorder.step" title="rldurham.Recorder.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> and <a class="reference internal" href="#rldurham.Recorder.reset" title="rldurham.Recorder.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> methods.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>env: The environment to wrap</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.__init_subclass__">
+<span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.__init_subclass__" title="Link to this definition"></a></dt>
+<dd><p>Function to initialize subclasses.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.Recorder.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rldurham'</span></em><a class="headerlink" href="#rldurham.Recorder.__module__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.Recorder.__orig_bases__">
+<span class="sig-name descname"><span class="pre">__orig_bases__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(gymnasium.core.Env[~WrapperObsType,</span> <span class="pre">~WrapperActType],</span> <span class="pre">typing.Generic[~WrapperObsType,</span> <span class="pre">~WrapperActType,</span> <span class="pre">~ObsType,</span> <span class="pre">~ActType])</span></em><a class="headerlink" href="#rldurham.Recorder.__orig_bases__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.Recorder.__parameters__">
+<span class="sig-name descname"><span class="pre">__parameters__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#rldurham.Recorder.__parameters__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.__repr__" title="Link to this definition"></a></dt>
+<dd><p>Returns the string representation of the wrapper.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.__str__" title="Link to this definition"></a></dt>
+<dd><p>Returns the wrapper name and the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> representation string.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.Recorder.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#rldurham.Recorder.__weakref__" title="Link to this definition"></a></dt>
+<dd><p>list of weak references to the object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder._finish_episode">
+<span class="sig-name descname"><span class="pre">_finish_episode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder._finish_episode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder._finish_episode" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder._np_random">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_np_random</span></span><a class="headerlink" href="#rldurham.Recorder._np_random" title="Link to this definition"></a></dt>
+<dd><p>This code will never be run due to __getattr__ being called prior this.</p>
+<p>It seems that &#64;property overwrites the variable (<cite>_np_random</cite>) meaning that __getattr__ gets called with the missing variable.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.Recorder._np_random_seed">
+<span class="sig-name descname"><span class="pre">_np_random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.Recorder._np_random_seed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder._video_episode_trigger">
+<span class="sig-name descname"><span class="pre">_video_episode_trigger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episode_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder._video_episode_trigger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder._video_episode_trigger" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder._video_name_func">
+<span class="sig-name descname"><span class="pre">_video_name_func</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder._video_name_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder._video_name_func" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.action_space">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">WrapperActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.Recorder.action_space" title="Link to this definition"></a></dt>
+<dd><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.action_space" title="rldurham.Recorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.Recorder.action_space" title="rldurham.Recorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> is used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.class_name">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.class_name" title="Link to this definition"></a></dt>
+<dd><p>Returns the class name of the wrapper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder.close" title="Link to this definition"></a></dt>
+<dd><p>Closes the wrapper and <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.get_wrapper_attr">
+<span class="sig-name descname"><span class="pre">get_wrapper_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.get_wrapper_attr" title="Link to this definition"></a></dt>
+<dd><p>Gets an attribute from the wrapper and lower environments if <cite>name</cite> doesn’t exist in this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name: The variable name to get</p>
+</dd>
+<dt>Returns:</dt><dd><p>The variable with name in wrapper or lower environments</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.has_wrapper_attr">
+<span class="sig-name descname"><span class="pre">has_wrapper_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.has_wrapper_attr" title="Link to this definition"></a></dt>
+<dd><p>Checks if the given attribute is within the wrapper or its environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.metadata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.Recorder.metadata" title="Link to this definition"></a></dt>
+<dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.metadata" title="rldurham.Recorder.metadata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">metadata</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.np_random">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#rldurham.Recorder.np_random" title="Link to this definition"></a></dt>
+<dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.np_random" title="rldurham.Recorder.np_random"><code class="xref py py-attr docutils literal notranslate"><span class="pre">np_random</span></code></a> attribute.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.np_random_seed">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.Recorder.np_random_seed" title="Link to this definition"></a></dt>
+<dd><p>Returns the base environment’s <a class="reference internal" href="#rldurham.Recorder.np_random_seed" title="rldurham.Recorder.np_random_seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">np_random_seed</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.observation_space">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observation_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">WrapperObsType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.Recorder.observation_space" title="Link to this definition"></a></dt>
+<dd><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.observation_space" title="rldurham.Recorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.Recorder.observation_space" title="rldurham.Recorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> is used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.render" title="Link to this definition"></a></dt>
+<dd><p>Uses the <a class="reference internal" href="rldurham.render.html#rldurham.render" title="rldurham.render"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">RenderFrame</span></code>), <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">RenderFrame</span></code>)], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.render_mode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.Recorder.render_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.render_mode" title="rldurham.Recorder.render_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">render_mode</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder.reset" title="Link to this definition"></a></dt>
+<dd><p>Uses the <a class="reference internal" href="#rldurham.Recorder.reset" title="rldurham.Recorder.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.set_wrapper_attr">
+<span class="sig-name descname"><span class="pre">set_wrapper_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.set_wrapper_attr" title="Link to this definition"></a></dt>
+<dd><p>Sets an attribute on this wrapper or lower environment if <cite>name</cite> is already defined.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name: The variable name
+value: The new variable value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EnvSpec</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.Recorder.spec" title="Link to this definition"></a></dt>
+<dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.Recorder.spec" title="rldurham.Recorder.spec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spec</span></code></a> attribute with the <cite>WrapperSpec</cite> if the wrapper inherits from <cite>EzPickle</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder.step" title="Link to this definition"></a></dt>
+<dd><p>Uses the <a class="reference internal" href="#rldurham.Recorder.step" title="rldurham.Recorder.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.Recorder.unwrapped">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrapped</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Env</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.Recorder.unwrapped" title="Link to this definition"></a></dt>
+<dd><p>Returns the base environment of the wrapper.</p>
+<p>This will be the bare <code class="xref py py-class docutils literal notranslate"><span class="pre">gymnasium.Env</span></code> environment, underneath all layers of wrappers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.wrapper_spec">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrapper_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.Recorder.wrapper_spec" title="Link to this definition"></a></dt>
+<dd><p>Generates a <cite>WrapperSpec</cite> for the wrappers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapperSpec</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.Recorder.write_log">
+<span class="sig-name descname"><span class="pre">write_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'logs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xxxx00-agent-log.txt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#Recorder.write_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.Recorder.write_log" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rldurham.RLDurhamEnv.html" class="btn btn-neutral float-left" title="rldurham.RLDurhamEnv" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rldurham.VideoRecorder.html" class="btn btn-neutral float-right" title="rldurham.VideoRecorder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

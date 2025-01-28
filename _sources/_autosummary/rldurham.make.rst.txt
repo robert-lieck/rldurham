@@ -1,0 +1,6 @@
+rldurham.make
+=============
+
+.. currentmodule:: rldurham
+
+.. autofunction:: make

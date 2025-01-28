@@ -1,9 +1,9 @@
-rldurham.myclass.MyClass
-========================
+rldurham.VideoRecorder
+======================
 
-.. currentmodule:: rldurham.myclass
+.. currentmodule:: rldurham
 
-.. autoclass:: MyClass
+.. autoclass:: VideoRecorder
    :members:
    :undoc-members:
    :special-members:

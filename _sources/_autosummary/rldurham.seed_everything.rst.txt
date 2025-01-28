@@ -1,0 +1,6 @@
+rldurham.seed\_everything
+=========================
+
+.. currentmodule:: rldurham
+
+.. autofunction:: seed_everything

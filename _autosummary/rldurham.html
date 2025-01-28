@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
@@ -6,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rldurham &mdash; rldurham  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -14,19 +16,15 @@
       <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="rldurham.myclass" href="rldurham.myclass.html" />
+    <link rel="next" title="rldurham.env_info" href="rldurham.env_info.html" />
     <link rel="prev" title="API Summary" href="../api_summary.html" /> 
 </head>
 
@@ -54,7 +52,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Reinforcement Learning Durham Gallery</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">rldurham</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="rldurham.myclass.html">rldurham.myclass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.env_info.html">rldurham.env_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.make.html">rldurham.make</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.render.html">rldurham.render</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.seed_everything.html">rldurham.seed_everything</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.InfoTracker.html">rldurham.InfoTracker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.RLDurhamEnv.html">rldurham.RLDurhamEnv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.Recorder.html">rldurham.Recorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.VideoRecorder.html">rldurham.VideoRecorder</a></li>
 </ul>
 </li>
 </ul>
@@ -87,10 +92,36 @@
              
   <section id="module-rldurham">
 <span id="rldurham"></span><h1>rldurham<a class="headerlink" href="#module-rldurham" title="Link to this heading"></a></h1>
-<p class="rubric">Modules</p>
+<p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.myclass.html#module-rldurham.myclass" title="rldurham.myclass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">myclass</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.env_info.html#rldurham.env_info" title="rldurham.env_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">env_info</span></code></a>(env)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.make.html#rldurham.make" title="rldurham.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.render.html#rldurham.render" title="rldurham.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code></a>(env[, sleep])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.seed_everything.html#rldurham.seed_everything" title="rldurham.seed_everything"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seed_everything</span></code></a>([seed, env, seed_env, ...])</p></td>
+<td><p>This uses the <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">PyTorch Lightning</a> <code class="docutils literal notranslate"><span class="pre">seed_everything</span></code> method to seed pseudo-random number generators in pytorch, numpy, and python.random.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.InfoTracker.html#rldurham.InfoTracker" title="rldurham.InfoTracker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InfoTracker</span></code></a>()</p></td>
+<td><p>Track info by recursively descending into dict and creating lists of info values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.RLDurhamEnv.html#rldurham.RLDurhamEnv" title="rldurham.RLDurhamEnv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLDurhamEnv</span></code></a>(env)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.Recorder.html#rldurham.Recorder" title="rldurham.Recorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Recorder</span></code></a>(env[, info, video, logs, key, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.VideoRecorder.html#rldurham.VideoRecorder" title="rldurham.VideoRecorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VideoRecorder</span></code></a>(*args, name_func, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -102,7 +133,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../api_summary.html" class="btn btn-neutral float-left" title="API Summary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rldurham.myclass.html" class="btn btn-neutral float-right" title="rldurham.myclass" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="rldurham.env_info.html" class="btn btn-neutral float-right" title="rldurham.env_info" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

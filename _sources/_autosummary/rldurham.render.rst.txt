@@ -1,0 +1,6 @@
+rldurham.render
+===============
+
+.. currentmodule:: rldurham
+
+.. autofunction:: render

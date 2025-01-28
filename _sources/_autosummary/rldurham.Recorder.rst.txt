@@ -1,0 +1,14 @@
+rldurham.Recorder
+=================
+
+.. currentmodule:: rldurham
+
+.. autoclass:: Recorder
+   :members:
+   :undoc-members:
+   :special-members:
+   :private-members:
+   :inherited-members:
+   :show-inheritance:
+
+   .. autoclasstoc::
