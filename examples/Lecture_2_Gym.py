@@ -265,18 +265,18 @@ class Agent(torch.nn.Module):
         if not discrete_act:
             raise RuntimeError("REINFORCE only works for discrete action spaces")
         self.data = []
-        self.fc1 = nn.Linear(obs_dim, 128)
-        self.fc2 = nn.Linear(128, act_dim)
-        self.optimizer = optim.Adam(self.parameters(), lr=0.0002)
+        self.fc1 = torch.nn.Linear(obs_dim, 128)
+        self.fc2 = torch.nn.Linear(128, act_dim)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=0.0002)
 
     def sample_action(self, prob):
-        m = Categorical(prob)
+        m = torch.Categorical(prob)
         a = m.sample()
         return a.item()
 
     def prob_action(self, s):
-        x = F.relu(self.fc1(torch.from_numpy(s).float()))
-        return F.softmax(self.fc2(x), dim=0)
+        x = torch.F.relu(self.fc1(torch.from_numpy(s).float()))
+        return torch.F.softmax(self.fc2(x), dim=0)
 
     def put_data(self, item):
         self.data.append(item)
