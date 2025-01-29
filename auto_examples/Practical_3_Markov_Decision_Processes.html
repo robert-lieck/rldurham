@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practical 3: Markov Decision Processes &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lecture 2: Gym" href="Lecture_2_Gym.html" />
+    <link rel="prev" title="Practical 2: Multi-Armed Bandits" href="Practical_2_Multi-Armed_Bandits.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reinforcement Learning Durham Gallery</a></li>
+      <li class="breadcrumb-item active">Practical 3: Markov Decision Processes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-practical-3-markov-decision-processes-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="practical-3-markov-decision-processes">
+<span id="sphx-glr-auto-examples-practical-3-markov-decision-processes-py"></span><h1>Practical 3: Markov Decision Processes<a class="headerlink" href="#practical-3-markov-decision-processes" title="Link to this heading"></a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Practical 3: Markov Decision Processes</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="c1"># ## Markov Chain</span>
+
+<span class="c1"># Define a transition matrix</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">n_states</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span>
+<span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_states</span><span class="p">))</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_states</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_states</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;normalised: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">transition_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Sample and plot episodes</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>normalised: True
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">):</span>
+    <span class="n">episodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx_episodes</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx_time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">):</span>
+            <span class="n">current_state</span> <span class="o">=</span> <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="n">transition_matrix</span><span class="p">[</span><span class="n">current_state</span><span class="p">]</span>
+            <span class="n">next_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_state</span>
+    <span class="k">return</span> <span class="n">episodes</span>
+
+<span class="n">episodes</span> <span class="o">=</span> <span class="n">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">length_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">episodes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">episodes</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span>
+
+
+<span class="c1"># Plot statistics of state visits</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f96734b2750&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b33e0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b3860&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b2f00&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b3d40&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b2240&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b31d0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f967358e7e0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b2540&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b3e30&gt;]
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">episodes</span> <span class="o">=</span> <span class="n">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">length_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">((</span><span class="n">episodes</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">50</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">episodes</span><span class="p">[:,</span> <span class="mi">50</span><span class="p">:]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()),</span>
+         <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;first 50 steps&quot;</span><span class="p">,</span> <span class="s2">&quot;second 50 steps&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+
+<span class="c1"># Compute the closed-form solution for stationary distribution</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend object at 0x7f96734cb860&gt;
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">transition_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">stationary</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_states</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">eigvals</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">stationary</span> <span class="o">=</span> <span class="n">eigvecs</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+        <span class="n">stationary</span> <span class="o">/=</span> <span class="n">stationary</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is stationary: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">stationary</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">transition_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">stationary</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stationary</span><span class="p">)</span>
+
+
+<span class="c1"># ## Markov Reward Process</span>
+
+<span class="c1"># Add a reward function and estimate the expected reward over time</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Is stationary: True
+[0.47368421 0.05263158 0.05263159 0.05263167 0.05263237 0.05263871
+ 0.05269575 0.05320915 0.05782976 0.0994152 ]
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reward_function</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">):</span>
+    <span class="n">episodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx_episodes</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx_time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">):</span>
+            <span class="n">current_state</span> <span class="o">=</span> <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="n">transition_matrix</span><span class="p">[</span><span class="n">current_state</span><span class="p">]</span>
+            <span class="n">next_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_state</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">reward_function</span><span class="p">(</span><span class="n">next_state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">episodes</span>
+
+<span class="n">episodes</span> <span class="o">=</span> <span class="n">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">length_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">episodes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">episodes</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span>
+
+
+<span class="c1"># Add a discount factor and estimate state values</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f9672f621e0&gt;]
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="n">start_state</span><span class="p">):</span>
+    <span class="n">episodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">episodes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_state</span>
+    <span class="k">for</span> <span class="n">idx_episodes</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx_time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">):</span>
+            <span class="n">current_state</span> <span class="o">=</span> <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="n">transition_matrix</span><span class="p">[</span><span class="n">current_state</span><span class="p">]</span>
+            <span class="n">next_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_state</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">reward_function</span><span class="p">(</span><span class="n">next_state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">episodes</span>
+
+<span class="k">def</span> <span class="nf">estimate_state_values</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">discount</span><span class="p">,</span> <span class="n">start_state_list</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">state_values</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">start_state</span> <span class="ow">in</span> <span class="n">start_state_list</span><span class="p">:</span>
+        <span class="n">episodes</span> <span class="o">=</span> <span class="n">sample_episodes</span><span class="p">(</span><span class="n">start_state</span><span class="o">=</span><span class="n">start_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">discounted_rewards</span> <span class="o">=</span> <span class="n">episodes</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">discount</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">episodes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="n">discounted_rewards</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">state_values</span><span class="p">[</span><span class="n">start_state</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value for state </span><span class="si">{</span><span class="n">start_state</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">state_values</span>
+
+<span class="n">state_values</span> <span class="o">=</span> <span class="n">estimate_state_values</span><span class="p">(</span><span class="n">discount</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                     <span class="n">start_state_list</span><span class="o">=</span><span class="p">[</span><span class="n">n_states</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                                     <span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                     <span class="n">length_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="c1"># Compute the closed-form solution for the state values</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.77923828125
+Value for state 0: 0.73478515625
+Value for state 1: 0.02423828125
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span>
+<span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">transition_matrix</span> <span class="o">@</span> <span class="n">R</span><span class="p">)</span>
+
+
+<span class="c1"># ## MDP</span>
+
+<span class="c1"># Add action to move up/down and update the transition matrix accordingly</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.74105284, 0.09069124, 0.00808578, 0.00789158, 0.01663844,
+       0.03609746, 0.07836786, 0.17013997, 0.36938128, 0.80194284])
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">n_actions</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># up/down</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span>
+<span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_states</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">))</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_states</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_states</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_states</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">transition_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_states</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;normalised: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">transition_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Adapt your sampling routine</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>normalised: True
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="n">start_state</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+    <span class="n">episodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">episodes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_state</span>
+    <span class="k">for</span> <span class="n">idx_episodes</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx_time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">):</span>
+            <span class="n">current_state</span> <span class="o">=</span> <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_actions</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">policy</span><span class="p">[</span><span class="n">current_state</span><span class="p">])</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="n">transition_matrix</span><span class="p">[</span><span class="n">current_state</span><span class="p">,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span>
+            <span class="n">next_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_state</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">reward_function</span><span class="p">(</span><span class="n">next_state</span><span class="p">)</span>
+            <span class="n">episodes</span><span class="p">[</span><span class="n">idx_episodes</span><span class="p">,</span> <span class="n">idx_time</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+    <span class="k">return</span> <span class="n">episodes</span>
+
+
+<span class="c1"># Define a uniform policy and estimate state values</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">policy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">))</span>
+<span class="n">policy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">policy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="n">estimate_state_values</span><span class="p">(</span><span class="n">discount</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                      <span class="n">start_state_list</span><span class="o">=</span><span class="p">[</span><span class="n">n_states</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                      <span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                      <span class="n">length_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                      <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">);</span>
+
+
+<span class="c1"># Change the policy to always go one step up and re-estimate the state values</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.2888671875
+Value for state 0: 0.1545703125
+Value for state 1: 0.32599609375
+
+{9: np.float64(0.2888671875), 0: np.float64(0.1545703125), 1: np.float64(0.32599609375)}
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">policy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">))</span>
+<span class="n">policy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">policy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">estimate_state_values</span><span class="p">(</span><span class="n">discount</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                      <span class="n">start_state_list</span><span class="o">=</span><span class="p">[</span><span class="n">n_states</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                      <span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                      <span class="n">length_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                      <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">);</span>
+
+
+<span class="c1"># Experiment with different policies and try to improve them</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.48166015625
+Value for state 0: 0.033125
+Value for state 1: 0.03845703125
+
+{9: np.float64(0.48166015625), 0: np.float64(0.033125), 1: np.float64(0.03845703125)}
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">policy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">))</span>
+<span class="n">policy</span><span class="p">[:</span><span class="nb">int</span><span class="p">(</span><span class="n">n_states</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">policy</span><span class="p">[:</span><span class="nb">int</span><span class="p">(</span><span class="n">n_states</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">policy</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n_states</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">policy</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n_states</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">estimate_state_values</span><span class="p">(</span><span class="n">discount</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                      <span class="n">start_state_list</span><span class="o">=</span><span class="p">[</span><span class="n">n_states</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                      <span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                      <span class="n">length_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                      <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.59369140625
+Value for state 0: 0.3014453125
+Value for state 1: 0.59521484375
+
+{9: np.float64(0.59369140625), 0: np.float64(0.3014453125), 1: np.float64(0.59521484375)}
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.170 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-practical-3-markov-decision-processes-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/51abfdc6e557cf8caafdd76abc0aac00/Practical_3_Markov_Decision_Processes.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Practical_3_Markov_Decision_Processes.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/8670e8dc318217cb10a2999d7be5bd4d/Practical_3_Markov_Decision_Processes.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Practical_3_Markov_Decision_Processes.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/4986d0acbe56329fb4fc328da27b949a/Practical_3_Markov_Decision_Processes.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">Practical_3_Markov_Decision_Processes.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Practical_2_Multi-Armed_Bandits.html" class="btn btn-neutral float-left" title="Practical 2: Multi-Armed Bandits" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lecture_2_Gym.html" class="btn btn-neutral float-right" title="Lecture 2: Gym" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,558 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecture 2: Gym &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Summary" href="../api_summary.html" />
+    <link rel="prev" title="Practical 3: Markov Decision Processes" href="Practical_3_Markov_Decision_Processes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Lecture 2: Gym</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies-and-setup">Dependencies and setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-environment">Basic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reinforcement-learning-durham">Reinforcement Learning Durham:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#different-environments">Different environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#training-an-agent">Training an agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reinforce-agent-example">REINFORCE agent example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-environments-here-multi-armed-bandits">Custom environments (here: multi-armed bandits)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reinforcement Learning Durham Gallery</a></li>
+      <li class="breadcrumb-item active">Lecture 2: Gym</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-lecture-2-gym-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="lecture-2-gym">
+<span id="sphx-glr-auto-examples-lecture-2-gym-py"></span><h1>Lecture 2: Gym<a class="headerlink" href="#lecture-2-gym" title="Link to this heading"></a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Lecture 2: Gym</span>
+</pre></div>
+</div>
+<section id="dependencies-and-setup">
+<h2>Dependencies and setup<a class="headerlink" href="#dependencies-and-setup" title="Link to this heading"></a></h2>
+<p>(this can take a minute or so…)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install swig</span>
+
+<span class="c1"># !pip install rldurham  # latest release</span>
+<span class="c1"># !pip install git+https://github.com/robert-lieck/rldurham.git@main  # latest main version (typically same as release)</span>
+<span class="c1"># !pip install git+https://github.com/robert-lieck/rldurham.git@dev  # latest dev version</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="nn">gym</span>
+<span class="kn">import</span> <span class="nn">rldurham</span> <span class="k">as</span> <span class="nn">rld</span>  <span class="c1"># Reinforcement Learning Durham package with helper functions</span>
+</pre></div>
+</div>
+</section>
+<section id="basic-environment">
+<h2>Basic environment<a class="headerlink" href="#basic-environment" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;CartPole-v1&#39;</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s2">&quot;human&quot;</span><span class="p">)</span>
+<span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>  <span class="c1"># random action</span>
+        <span class="n">observation</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="reinforcement-learning-durham">
+<h2>Reinforcement Learning Durham:<a class="headerlink" href="#reinforcement-learning-durham" title="Link to this heading"></a></h2>
+<p>_rldurham_ Python package</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;CartPole-v1&#39;</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s2">&quot;rgb_array&quot;</span><span class="p">)</span>  <span class="c1"># drop-in for gym.make</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">Recorder</span><span class="p">(</span>                                     <span class="c1"># record statistics (returned in info) and videos</span>
+    <span class="n">env</span><span class="p">,</span>
+    <span class="n">smoothing</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                      <span class="c1"># rolling averages</span>
+    <span class="n">video</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                        <span class="c1"># record videos</span>
+    <span class="n">video_folder</span><span class="o">=</span><span class="s2">&quot;videos&quot;</span><span class="p">,</span>             <span class="c1"># folder for videos</span>
+    <span class="n">video_prefix</span><span class="o">=</span><span class="s2">&quot;xxxx00-agent-video&quot;</span><span class="p">,</span> <span class="c1"># prefix for videos</span>
+    <span class="n">logs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                         <span class="c1"># keep logs</span>
+<span class="p">)</span>
+<span class="n">seed</span><span class="p">,</span> <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>  <span class="c1"># seed everything (python, numpy, pytorch, env)</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">InfoTracker</span><span class="p">()</span>                             <span class="c1"># track statistics, e.g., for plotting</span>
+
+<span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">):</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>   <span class="c1"># track every other episode</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">video</span> <span class="o">=</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># set before reset! (is checked on reset)</span>
+    <span class="c1">#######################################################################</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>  <span class="c1"># Random action</span>
+        <span class="n">observation</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span>
+    <span class="c1">#######################################################################</span>
+        <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+            <span class="c1"># track and plot statistics</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+            <span class="n">tracker</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+            <span class="n">tracker</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_mean_</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">r_std_</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">length</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">),</span>
+                         <span class="n">r_sum</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># important (e.g. triggers last video save)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;logs&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s2">&quot;xxxx00-agent-log.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_001.png" srcset="../_images/sphx_glr_Lecture_2_Gym_001.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_002.png" srcset="../_images/sphx_glr_Lecture_2_Gym_002.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_003.png" srcset="../_images/sphx_glr_Lecture_2_Gym_003.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_004.png" srcset="../_images/sphx_glr_Lecture_2_Gym_004.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_005.png" srcset="../_images/sphx_glr_Lecture_2_Gym_005.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_006.png" srcset="../_images/sphx_glr_Lecture_2_Gym_006.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_007.png" srcset="../_images/sphx_glr_Lecture_2_Gym_007.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_008.png" srcset="../_images/sphx_glr_Lecture_2_Gym_008.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_009.png" srcset="../_images/sphx_glr_Lecture_2_Gym_009.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_010.png" srcset="../_images/sphx_glr_Lecture_2_Gym_010.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_011.png" srcset="../_images/sphx_glr_Lecture_2_Gym_011.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;recorder&#39;: {&#39;idx&#39;: 0, &#39;length&#39;: 29, &#39;r_sum&#39;: 29.0, &#39;r_mean&#39;: 1.0, &#39;r_std&#39;: 0.0, &#39;length_&#39;: 29.0, &#39;r_sum_&#39;: 29.0, &#39;r_mean_&#39;: 29.0, &#39;r_std_&#39;: 0.0}}
+{}
+
+
+{}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0], &#39;length&#39;: [29], &#39;r_sum&#39;: [29.0], &#39;r_mean&#39;: [1.0], &#39;r_std&#39;: [0.0], &#39;length_&#39;: [29.0], &#39;r_sum_&#39;: [29.0], &#39;r_mean_&#39;: [29.0], &#39;r_std_&#39;: [0.0]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: 2, &#39;length&#39;: 69, &#39;r_sum&#39;: 69.0, &#39;r_mean&#39;: 1.0, &#39;r_std&#39;: 0.0, &#39;length_&#39;: 49.0, &#39;r_sum_&#39;: 98.0, &#39;r_mean_&#39;: 49.0, &#39;r_std_&#39;: 20.0}}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0], &#39;length&#39;: [29], &#39;r_sum&#39;: [29.0], &#39;r_mean&#39;: [1.0], &#39;r_std&#39;: [0.0], &#39;length_&#39;: [29.0], &#39;r_sum_&#39;: [29.0], &#39;r_mean_&#39;: [29.0], &#39;r_std_&#39;: [0.0]}}
+
+
+{}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2], &#39;length&#39;: [29, 69], &#39;r_sum&#39;: [29.0, 69.0], &#39;r_mean&#39;: [1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0], &#39;length_&#39;: [29.0, 49.0], &#39;r_sum_&#39;: [29.0, 98.0], &#39;r_mean_&#39;: [29.0, 49.0], &#39;r_std_&#39;: [0.0, 20.0]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: 4, &#39;length&#39;: 39, &#39;r_sum&#39;: 39.0, &#39;r_mean&#39;: 1.0, &#39;r_std&#39;: 0.0, &#39;length_&#39;: 45.666666666666664, &#39;r_sum_&#39;: 137.0, &#39;r_mean_&#39;: 45.666666666666664, &#39;r_std_&#39;: 16.996731711975958}}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2], &#39;length&#39;: [29, 69], &#39;r_sum&#39;: [29.0, 69.0], &#39;r_mean&#39;: [1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0], &#39;length_&#39;: [29.0, 49.0], &#39;r_sum_&#39;: [29.0, 98.0], &#39;r_mean_&#39;: [29.0, 49.0], &#39;r_std_&#39;: [0.0, 20.0]}}
+
+
+{}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4], &#39;length&#39;: [29, 69, 39], &#39;r_sum&#39;: [29.0, 69.0, 39.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_sum_&#39;: [29.0, 98.0, 137.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: 6, &#39;length&#39;: 14, &#39;r_sum&#39;: 14.0, &#39;r_mean&#39;: 1.0, &#39;r_std&#39;: 0.0, &#39;length_&#39;: 37.75, &#39;r_sum_&#39;: 151.0, &#39;r_mean_&#39;: 37.75, &#39;r_std_&#39;: 20.116846174288852}}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4], &#39;length&#39;: [29, 69, 39], &#39;r_sum&#39;: [29.0, 69.0, 39.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_sum_&#39;: [29.0, 98.0, 137.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958]}}
+
+
+{}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6], &#39;length&#39;: [29, 69, 39, 14], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: 8, &#39;length&#39;: 28, &#39;r_sum&#39;: 28.0, &#39;r_mean&#39;: 1.0, &#39;r_std&#39;: 0.0, &#39;length_&#39;: 35.8, &#39;r_sum_&#39;: 179.0, &#39;r_mean_&#39;: 35.8, &#39;r_std_&#39;: 18.410866356584094}}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6], &#39;length&#39;: [29, 69, 39, 14], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852]}}
+
+
+{}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6, 8], &#39;length&#39;: [29, 69, 39, 14, 28], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0, 28.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0, 179.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852, 18.410866356584094]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: 10, &#39;length&#39;: 25, &#39;r_sum&#39;: 25.0, &#39;r_mean&#39;: 1.0, &#39;r_std&#39;: 0.0, &#39;length_&#39;: 34.0, &#39;r_sum_&#39;: 204.0, &#39;r_mean_&#39;: 34.0, &#39;r_std_&#39;: 17.281975195754296}}
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6, 8], &#39;length&#39;: [29, 69, 39, 14, 28], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0, 28.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0, 179.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852, 18.410866356584094]}}
+</pre></div>
+</div>
+</section>
+<section id="different-environments">
+<h2>Different environments<a class="headerlink" href="#different-environments" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1">## render mode</span>
+<span class="c1"># rm = &quot;human&quot;     # for rendering in separate window</span>
+<span class="n">rm</span> <span class="o">=</span> <span class="s1">&#39;rgb_array&#39;</span> <span class="c1"># for recording videos or rendering in notebook</span>
+<span class="c1"># rm = None        # no rendering</span>
+
+<span class="c1">## select environment</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;CartPole-v1&#39;</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="n">rm</span><span class="p">)</span>              <span class="c1"># easy discrete</span>
+<span class="c1"># env = rld.make(&#39;FrozenLake-v1&#39;, render_mode=rm)            # easy discrete</span>
+<span class="c1"># env = rld.make(&#39;LunarLander-v3&#39;, render_mode=rm)           # discrete</span>
+<span class="c1"># env = rld.make(&#39;ALE/Breakout-v5&#39;, render_mode=rm)          # discrete (atari)</span>
+<span class="c1"># env = rld.make(&#39;Pong-ram-v4&#39;, render_mode=rm)              # discrete (atari)</span>
+<span class="c1"># env = rld.make(&#39;Gravitar-ram-v4&#39;, render_mode=rm)          # hard discrete (atari)</span>
+<span class="c1">#</span>
+<span class="c1"># env = rld.make(&#39;Pendulum-v1&#39;, render_mode=rm)              # easy continuous</span>
+<span class="c1"># env = rld.make(&#39;LunarLanderContinuous-v3&#39;, render_mode=rm) # continuous</span>
+<span class="c1"># env = rld.make(&#39;BipedalWalker-v3&#39;, render_mode=rm)         # continuous</span>
+<span class="c1"># env = rld.make(&#39;BipedalWalkerHardcore-v3&#39;, render_mode=rm) # hard continuous</span>
+
+<span class="c1">## wrap for stats and video recording (requires render_mode=&#39;rgb_array&#39;)</span>
+<span class="c1"># env = rld.Recorder(env, video=True)</span>
+<span class="c1"># env.video = False  # deactivate</span>
+
+<span class="c1"># get some info</span>
+<span class="n">discrete_act</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
+<span class="n">discrete_obs</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
+<span class="n">act_dim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span> <span class="k">if</span> <span class="n">discrete_act</span> <span class="k">else</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">obs_dim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span> <span class="k">if</span> <span class="n">discrete_obs</span> <span class="k">else</span> <span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">discrete_act</span><span class="p">,</span> <span class="n">discrete_obs</span><span class="p">,</span> <span class="n">act_dim</span><span class="p">,</span> <span class="n">obs_dim</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">env_info</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>  <span class="c1"># same</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The environment has &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">act_dim</span><span class="si">}{</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; discrete&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">discrete_act</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;-dimensional continuous&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> actions and &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obs_dim</span><span class="si">}{</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; discrete&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">discrete_obs</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;-dimensional continuous&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> observations.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The maximum timesteps is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">max_episode_steps</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The environment has 2 discrete actions and 4-dimensional continuous observations.
+The maximum timesteps is: 500
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">rld</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>  <span class="c1"># random action</span>
+        <span class="n">observation</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">rld</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span>
+        <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+            <span class="k">break</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Lecture_2_Gym_012.png" srcset="../_images/sphx_glr_Lecture_2_Gym_012.png" alt="Lecture 2 Gym" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+<section id="training-an-agent">
+<h2>Training an agent<a class="headerlink" href="#training-an-agent" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The device is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s1">&#39;cpu&#39;</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;It</span><span class="se">\&#39;</span><span class="s1">s recommended to train on the cpu for this&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The device is: cpu
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Agent</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">discrete_act</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_obs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">act_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_dim</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">env_info</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">prob_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">act_dim</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">act_dim</span>
+
+    <span class="k">def</span> <span class="nf">sample_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_act</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">act_dim</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prob</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">act_dim</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">put_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># init environment</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;CartPole-v1&#39;</span><span class="p">)</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">Recorder</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># seed</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+
+<span class="c1"># init agent</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+<span class="c1"># training procedure</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">InfoTracker</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">201</span><span class="p">):</span>
+    <span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># get episode</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="c1"># select action</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">prob_action</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">sample_action</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+
+        <span class="c1"># take action in environment</span>
+        <span class="n">next_obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">put_data</span><span class="p">((</span><span class="n">reward</span><span class="p">,</span> <span class="n">prob</span><span class="p">[</span><span class="n">action</span><span class="p">]</span> <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">discrete_act</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="n">next_obs</span>
+
+    <span class="c1"># track and plot</span>
+    <span class="n">tracker</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">tracker</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_mean_</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">r_std_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># update agent&#39;s policy</span>
+    <span class="n">agent</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_013.png" srcset="../_images/sphx_glr_Lecture_2_Gym_013.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_014.png" srcset="../_images/sphx_glr_Lecture_2_Gym_014.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_015.png" srcset="../_images/sphx_glr_Lecture_2_Gym_015.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_016.png" srcset="../_images/sphx_glr_Lecture_2_Gym_016.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_017.png" srcset="../_images/sphx_glr_Lecture_2_Gym_017.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_018.png" srcset="../_images/sphx_glr_Lecture_2_Gym_018.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_019.png" srcset="../_images/sphx_glr_Lecture_2_Gym_019.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_020.png" srcset="../_images/sphx_glr_Lecture_2_Gym_020.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_021.png" srcset="../_images/sphx_glr_Lecture_2_Gym_021.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_022.png" srcset="../_images/sphx_glr_Lecture_2_Gym_022.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_023.png" srcset="../_images/sphx_glr_Lecture_2_Gym_023.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_024.png" srcset="../_images/sphx_glr_Lecture_2_Gym_024.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_025.png" srcset="../_images/sphx_glr_Lecture_2_Gym_025.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_026.png" srcset="../_images/sphx_glr_Lecture_2_Gym_026.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_027.png" srcset="../_images/sphx_glr_Lecture_2_Gym_027.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_028.png" srcset="../_images/sphx_glr_Lecture_2_Gym_028.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_029.png" srcset="../_images/sphx_glr_Lecture_2_Gym_029.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_030.png" srcset="../_images/sphx_glr_Lecture_2_Gym_030.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_031.png" srcset="../_images/sphx_glr_Lecture_2_Gym_031.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_032.png" srcset="../_images/sphx_glr_Lecture_2_Gym_032.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_2_Gym_033.png" srcset="../_images/sphx_glr_Lecture_2_Gym_033.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/rldurham/rldurham/rldurham/__init__.py:299: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  fig, ax = plt.subplots(1, 1)
+</pre></div>
+</div>
+</section>
+<section id="reinforce-agent-example">
+<h2>REINFORCE agent example<a class="headerlink" href="#reinforce-agent-example" title="Link to this heading"></a></h2>
+<p>This code is based on: <a class="reference external" href="https://github.com/seungeunrho/minimalRL">https://github.com/seungeunrho/minimalRL</a></p>
+<p>Note: these implementations are good to study, although most are for discrete action spaces</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># this is an implementation of REINFORCE (taught in lecture 8) - one of the simplest classical policy gradient methods</span>
+<span class="c1"># this will only work for simple discrete control problems like cart pole or (slowly) lunar lander discrete</span>
+<span class="n">plot_interval</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">video_every</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">max_episodes</span> <span class="o">=</span> <span class="mi">5000</span>
+
+
+<span class="k">class</span> <span class="nc">Agent</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">discrete_act</span><span class="p">,</span> <span class="n">discrete_obs</span><span class="p">,</span> <span class="n">act_dim</span><span class="p">,</span> <span class="n">obs_dim</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">env_info</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">discrete_act</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;REINFORCE only works for discrete action spaces&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">obs_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">act_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0002</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">sample_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">prob_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">put_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mf">0.98</span> <span class="o">*</span> <span class="n">R</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span> <span class="o">*</span> <span class="n">R</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-environments-here-multi-armed-bandits">
+<h2>Custom environments (here: multi-armed bandits)<a class="headerlink" href="#custom-environments-here-multi-armed-bandits" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># one armed bandits are slot machines where you can win or loose money</span>
+<span class="c1"># some casinos tune them, so some machines are less successful (the probability distribution of winning)</span>
+<span class="c1"># the machines also dish out varying rewards (the reward distribution)</span>
+<span class="c1"># so basically each machine has some probability of dishing out £ reward (p_dist doesn&#39;t need to sum to 1) else it gives £0</span>
+
+<span class="k">class</span> <span class="nc">BanditEnv</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Env</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_dist</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.7</span><span class="p">],</span> <span class="n">r_dist</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">70</span><span class="p">]):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_dist</span> <span class="o">=</span> <span class="n">p_dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r_dist</span> <span class="o">=</span> <span class="n">r_dist</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_bandits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_dist</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_bandits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+        <span class="n">reward</span> <span class="o">=</span> <span class="o">-</span><span class="mi">25</span>
+        <span class="n">terminated</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">truncated</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_dist</span><span class="p">[</span><span class="n">action</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r_dist</span><span class="p">[</span><span class="n">action</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">reward</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_dist</span><span class="p">[</span><span class="n">action</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">reward</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r_dist</span><span class="p">[</span><span class="n">action</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_dist</span><span class="p">[</span><span class="n">action</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">seeding</span><span class="o">.</span><span class="n">np_random</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialise</span>
+<span class="n">discrete</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">BanditEnv</span><span class="p">()</span>
+<span class="n">obs_dim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">act_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">p_dist</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">envs</span><span class="o">.</span><span class="n">registration</span><span class="o">.</span><span class="n">EnvSpec</span><span class="p">(</span><span class="s1">&#39;BanditEnv-v0&#39;</span><span class="p">,</span> <span class="n">max_episode_steps</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">max_episodes</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>  <span class="c1"># random action</span>
+        <span class="n">observation</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">)</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>2 -25
+0 -25
+0 -24
+2 -25
+4 -25
+0 -24
+3 -25
+1 -24.9
+3 -25
+4 -25
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.907 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-lecture-2-gym-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/bc8f68aaffc816fc2df7cfad18ecf7f5/Lecture_2_Gym.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Lecture_2_Gym.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/ed6e70064ce46456fe186ee3a76d89e9/Lecture_2_Gym.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Lecture_2_Gym.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/76c6bc5123ddcaf25de0c73d6996ce14/Lecture_2_Gym.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">Lecture_2_Gym.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Practical_3_Markov_Decision_Processes.html" class="btn btn-neutral float-left" title="Practical 3: Markov Decision Processes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api_summary.html" class="btn btn-neutral float-right" title="API Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
