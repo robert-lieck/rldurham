@@ -166,7 +166,7 @@ class RLDurhamEnv(gym.Wrapper):
 
     def step(self, action):
         obs, reward, terminated, truncated, info = super().step(action)
-        self._unscaled_reward = reward
+        self._unscaled_reward = float(reward)  # convert to float in case it is tensor/array
         return obs, reward, terminated, truncated, info
 
 
@@ -258,10 +258,10 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
 
         # episode stats
         self._episode_count = 0
-        self._episode_reward_sum = 0
-        self._episode_reward_sum_unscaled = 0
-        self._episode_squared_reward_sum = 0
-        self._episode_squared_reward_sum_unscaled = 0
+        self._episode_reward_sum = 0.
+        self._episode_reward_sum_unscaled = 0.
+        self._episode_squared_reward_sum = 0.
+        self._episode_squared_reward_sum_unscaled = 0.
         self._episode_length = 0
         # logging statistics
         self._episode_count_log = []
@@ -285,6 +285,7 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
         self._episode_started = True
         obs, reward, terminated, truncated, info = super().step(action)
 
+        reward = float(reward)  # convert to float in case it is tensor/array
         self._episode_reward_sum += reward
         self._episode_reward_sum_unscaled += getwrappedattr(self, "_unscaled_reward")
         self._episode_squared_reward_sum += reward ** 2

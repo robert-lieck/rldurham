@@ -63,7 +63,7 @@ class Agent(torch.nn.Module):
 
 
 env = rld.make("rldurham/Walker", render_mode="rgb_array")
-# env = rld.make("rldurham/Walker", render_mode="rgb_array", hardcore=True) # only attempt this when your agent has solved WalkerEasy
+# env = rld.make("rldurham/Walker", render_mode="rgb_array", hardcore=True) # only attempt this when your agent has solved the non-hardcore version
 
 # get statistics, logs, and videos
 env = rld.Recorder(
