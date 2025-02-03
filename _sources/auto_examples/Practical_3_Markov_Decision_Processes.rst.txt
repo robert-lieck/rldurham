@@ -125,7 +125,7 @@ Practical 3: Markov Decision Processes
  .. code-block:: none
 
 
-    [<matplotlib.lines.Line2D object at 0x7f8a0d1a0b90>, <matplotlib.lines.Line2D object at 0x7f8a0d1a1ac0>, <matplotlib.lines.Line2D object at 0x7f8a0d1a1b80>, <matplotlib.lines.Line2D object at 0x7f8a0d1a1f70>, <matplotlib.lines.Line2D object at 0x7f8a0d1a2030>, <matplotlib.lines.Line2D object at 0x7f8a0d1a1e50>, <matplotlib.lines.Line2D object at 0x7f8a0d1a21e0>, <matplotlib.lines.Line2D object at 0x7f8a0d1a2060>, <matplotlib.lines.Line2D object at 0x7f8a0d1a2300>, <matplotlib.lines.Line2D object at 0x7f8a0d1a24b0>]
+    [<matplotlib.lines.Line2D object at 0x7fc1360f2150>, <matplotlib.lines.Line2D object at 0x7fc1360f1ee0>, <matplotlib.lines.Line2D object at 0x7fc1360f2060>, <matplotlib.lines.Line2D object at 0x7fc1360f1f10>, <matplotlib.lines.Line2D object at 0x7fc1360f25a0>, <matplotlib.lines.Line2D object at 0x7fc1360f2540>, <matplotlib.lines.Line2D object at 0x7fc1360f2420>, <matplotlib.lines.Line2D object at 0x7fc1360f28d0>, <matplotlib.lines.Line2D object at 0x7fc1360f2720>, <matplotlib.lines.Line2D object at 0x7fc1360f2a20>]
 
 
 
@@ -158,7 +158,7 @@ Practical 3: Markov Decision Processes
  .. code-block:: none
 
 
-    <matplotlib.legend.Legend object at 0x7f8a0d2efaa0>
+    <matplotlib.legend.Legend object at 0x7fc136048ef0>
 
 
 
@@ -238,7 +238,7 @@ Practical 3: Markov Decision Processes
  .. code-block:: none
 
 
-    [<matplotlib.lines.Line2D object at 0x7f8a0ce1caa0>]
+    [<matplotlib.lines.Line2D object at 0x7fc13607ddc0>]
 
 
 
@@ -491,7 +491,7 @@ Practical 3: Markov Decision Processes
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.140 seconds)
+   **Total running time of the script:** (0 minutes 2.113 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Practical_3_Markov_Decision_Processes.py:

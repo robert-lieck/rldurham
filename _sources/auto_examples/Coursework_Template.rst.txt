@@ -128,7 +128,7 @@ Prepare the environment and wrap it to capture statistics, logs, and videos
 
 
     env = rld.make("rldurham/Walker", render_mode="rgb_array")
-    # env = rld.make("rldurham/Walker", render_mode="rgb_array", hardcore=True) # only attempt this when your agent has solved WalkerEasy
+    # env = rld.make("rldurham/Walker", render_mode="rgb_array", hardcore=True) # only attempt this when your agent has solved the non-hardcore version
 
     # get statistics, logs, and videos
     env = rld.Recorder(
@@ -364,7 +364,7 @@ Prepare the environment and wrap it to capture statistics, logs, and videos
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 14.750 seconds)
+   **Total running time of the script:** (1 minutes 14.565 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Coursework_Template.py:

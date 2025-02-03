@@ -453,7 +453,7 @@ Different environments
 
  .. code-block:: none
 
-                                                                                                                                
+                                                                                                                                                        
 
 
 
@@ -727,7 +727,7 @@ Training an agent
 
  .. code-block:: none
 
-                                                                                                                                                                    /home/runner/work/rldurham/rldurham/rldurham/__init__.py:414: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+                                                                                                                                                                    /home/runner/work/rldurham/rldurham/rldurham/__init__.py:415: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
       fig, ax = plt.subplots(1, 1)
         
 
@@ -891,16 +891,16 @@ Custom environments (here: multi-armed bandits)
 
  .. code-block:: none
 
-    5 -25
-    4 -25
-    1 -24.9
+    3 -25
     5 45
+    4 -19
+    5 45
+    0 -25
     3 -25
     4 -25
-    1 -25
+    3 -25
+    3 -25
     2 -25
-    4 -25
-    1 -25
 
 
 
@@ -1282,7 +1282,7 @@ Custom environments (here: multi-armed bandits)
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.234 seconds)
+   **Total running time of the script:** (0 minutes 6.948 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Lecture_2_Gym.py:
