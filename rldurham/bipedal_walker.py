@@ -35,14 +35,16 @@ if TYPE_CHECKING:
 FPS = 50
 SCALE = 30.0  # affects how fast-paced the game is, forces should be adjusted as well
 
-MOTORS_TORQUE = 80
-SPEED_HIP = 4
-SPEED_KNEE = 6
+MOTORS_TORQUE = 60  # default: 80
+SPEED_HIP = 6  # default: 4
+SPEED_KNEE = 8  # default: 6
 LIDAR_RANGE = 160 / SCALE
 
 INITIAL_RANDOM = 5
 
-HULL_POLY = [(-30, +9), (+6, +9), (+34, +1), (+34, -8), (-30, -8)]
+# HULL_POLY = [(-30, +9), (+6, +9), (+34, +1), (+34, -8), (-30, -8)]
+HULL_POLY = [(-28, +8), (-6, +11), (+6, +11), (+38, +1), (+38, -1), (-6, -11), (+6, -11), (-28, -8)]
+
 LEG_DOWN = -8 / SCALE
 LEG_W, LEG_H = 8 / SCALE, 34 / SCALE
 
@@ -454,8 +456,8 @@ class BipedalWalker(gym.Env, EzPickle):
         self.hull = self.world.CreateDynamicBody(
             position=(init_x, init_y), fixtures=HULL_FD
         )
-        self.hull.color1 = (127, 51, 229)
-        self.hull.color2 = (76, 76, 127)
+        self.hull.color1 = (200, 50, 50)  # default: (127, 51, 229)
+        self.hull.color2 = (50, 50, 50)  # default: (76, 76, 127)
         self.hull.ApplyForceToCenter(
             (self.np_random.uniform(-INITIAL_RANDOM, INITIAL_RANDOM), 0), True
         )
@@ -468,8 +470,8 @@ class BipedalWalker(gym.Env, EzPickle):
                 angle=(i * 0.05),
                 fixtures=LEG_FD,
             )
-            leg.color1 = (153 - i * 25, 76 - i * 25, 127 - i * 25)
-            leg.color2 = (102 - i * 25, 51 - i * 25, 76 - i * 25)
+            leg.color1 = (100 - i * 15, 100 - i * 15, 100 - i * 15)  # default: (153 - i * 25, 76 - i * 25, 127 - i * 25)
+            leg.color2 = (50 - i * 15, 50 - i * 15, 50 - i * 15)  # default: (102 - i * 25, 51 - i * 25, 76 - i * 25)
             rjd = revoluteJointDef(
                 bodyA=self.hull,
                 bodyB=leg,
@@ -490,8 +492,8 @@ class BipedalWalker(gym.Env, EzPickle):
                 angle=(i * 0.05),
                 fixtures=LOWER_FD,
             )
-            lower.color1 = (153 - i * 25, 76 - i * 25, 127 - i * 25)
-            lower.color2 = (102 - i * 25, 51 - i * 25, 76 - i * 25)
+            lower.color1 = (100 - i * 15, 100 - i * 15, 100 - i * 15)  # default: (153 - i * 25, 76 - i * 25, 127 - i * 25)
+            lower.color2 = (50 - i * 15, 50 - i * 15, 50 - i * 15)  # default: (102 - i * 25, 51 - i * 25, 76 - i * 25)
             rjd = revoluteJointDef(
                 bodyA=leg,
                 bodyB=lower,
