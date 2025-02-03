@@ -46,8 +46,11 @@ class Agent(torch.nn.Module):
     def sample_action(self, s):
         return torch.rand(act_dim) * 2 - 1 # unifrom random in [-1, 1]
 
+    def put_data(self, action, observation, reward):
+        pass
+
     def train(self):
-        return
+        pass
 
 
 # %%
@@ -119,6 +122,9 @@ for episode in range(max_episodes):
         # take action in the environment
         observation, reward, terminated, truncated, info = env.step(action)
 
+        # remember
+        agent.put_data(action, observation, reward)
+
         # check whether done
         done = terminated or truncated
 
@@ -140,52 +146,32 @@ env.close()
 env.write_log(folder="logs", file="xxxx00-agent-log.txt")  # replace xxxx00 with your username
 
 
-# A small demo with a predefined heuristic that is suboptimal and has no notion of balance...
+# A small demo with a predefined heuristic that is suboptimal and has no notion of balance (and is designed for the orignal BipedalWalker environment)...
 
 # %%
 
 
 from gymnasium.envs.box2d.bipedal_walker import BipedalWalkerHeuristics
 
-env = rld.make("rldurham/Walker", render_mode="human")
-# env = rld.make("rldurham/Walker", render_mode="human", hardcore=True)
+env = rld.make(
+    "rldurham/Walker",
+    # "BipedalWalker-v3",
+    render_mode="human",
+    # render_mode="rgb_array",
+    hardcore=False,
+    # hardcore=True,
+)
+_, obs, info = rld.seed_everything(42, env)
 
 heuristics = BipedalWalkerHeuristics()
 
-obs, info = env.reset(seed=0)
 act = heuristics.step_heuristic(obs)
-for _ in range(1000):
+for _ in range(500):
     obs, rew, terminated, truncated, info = env.step(act)
     act = heuristics.step_heuristic(obs)
     if terminated or truncated:
         break
+    if env.render_mode == "rgb_array":
+        rld.render(env, clear=True)
 env.close()
-
-
-# In[ ]:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

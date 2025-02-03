@@ -50,8 +50,8 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rldurham_basics.html">Basics of the RLDurham package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
@@ -140,7 +140,7 @@ to download the full example code.</p>
 <span class="c1"># Plot statistics of state visits</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f315803d940&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803dca0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803dd90&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803deb0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e120&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803df70&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e330&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803db80&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e270&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e4e0&gt;]
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f8a0d1a0b90&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a1ac0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a1b80&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a1f70&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a2030&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a1e50&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a21e0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a2060&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a2300&gt;, &lt;matplotlib.lines.Line2D object at 0x7f8a0d1a24b0&gt;]
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">episodes</span> <span class="o">=</span> <span class="n">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">length_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -153,7 +153,7 @@ to download the full example code.</p>
 <span class="c1"># Compute the closed-form solution for stationary distribution</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend object at 0x7f3158271010&gt;
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend object at 0x7f8a0d2efaa0&gt;
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">transition_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -198,7 +198,7 @@ to download the full example code.</p>
 <span class="c1"># Add a discount factor and estimate state values</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f3157e7f320&gt;]
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f8a0ce1caa0&gt;]
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="n">start_state</span><span class="p">):</span>
@@ -348,7 +348,7 @@ Value for state 1: 0.587109375
 {9: np.float64(0.60015625), 0: np.float64(0.299765625), 1: np.float64(0.587109375)}
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.164 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.140 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-practical-3-markov-decision-processes-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/51abfdc6e557cf8caafdd76abc0aac00/Practical_3_Markov_Decision_Processes.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Practical_3_Markov_Decision_Processes.ipynb</span></code></a></p>

@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**02:07.304** total execution time for 7 files **from auto_examples**:
+**01:35.509** total execution time for 7 files **from auto_examples**:
 
 .. container::
 
@@ -33,23 +33,23 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_Coursework_Template.py` (``Coursework_Template.py``)
-     - 01:44.091
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_Lecture_2_Gym.py` (``Lecture_2_Gym.py``)
-     - 00:09.378
+     - 01:14.750
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Lecture_4_Dynamic_Programming.py` (``Lecture_4_Dynamic_Programming.py``)
-     - 00:08.879
+     - 00:08.602
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Lecture_2_Gym.py` (``Lecture_2_Gym.py``)
+     - 00:07.234
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Practical_3_Markov_Decision_Processes.py` (``Practical_3_Markov_Decision_Processes.py``)
-     - 00:02.164
+     - 00:02.140
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Practical_4_Dynamic_Programming.py` (``Practical_4_Dynamic_Programming.py``)
-     - 00:01.563
+     - 00:01.552
      - 0.0
    * - :ref:`sphx_glr_auto_examples_rldurham_basics.py` (``rldurham_basics.py``)
-     - 00:01.203
+     - 00:01.206
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Practical_2_Multi-Armed_Bandits.py` (``Practical_2_Multi-Armed_Bandits.py``)
-     - 00:00.026
+     - 00:00.024
      - 0.0

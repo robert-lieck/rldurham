@@ -14,23 +14,6 @@ Reinforcement Learning Durham Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Coursework Template">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Coursework_Template_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_Coursework_Template.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Coursework Template</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Practical 4: DynamicProgramming">
 
 .. only:: html
@@ -43,6 +26,23 @@ Reinforcement Learning Durham Gallery
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Practical 4: DynamicProgramming</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Coursework Template">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_Coursework_Template_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Coursework_Template.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Coursework Template</div>
     </div>
 
 
@@ -141,8 +141,8 @@ Reinforcement Learning Durham Gallery
 .. toctree::
    :hidden:
 
-   /auto_examples/Coursework_Template
    /auto_examples/Practical_4_Dynamic_Programming
+   /auto_examples/Coursework_Template
    /auto_examples/rldurham_basics
    /auto_examples/Practical_2_Multi-Armed_Bandits
    /auto_examples/Lecture_4_Dynamic_Programming
