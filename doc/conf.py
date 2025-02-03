@@ -64,9 +64,7 @@ intersphinx_mapping = {}
 # report broken links
 nitpicky = False
 
-sphinx_gallery_conf = {}
-sphinx_gallery_conf["filename_pattern"] = ''
-sphinx_gallery_conf["ignore_pattern"] = '__init__\\.py'
+sphinx_gallery_conf = {"filename_pattern": ''}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

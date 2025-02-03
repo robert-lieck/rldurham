@@ -1,12 +1,19 @@
+"""
+Convert all notebooks (files ending with .ipynb) in this folder to Python scripts, do some reformatting and move to
+examples folder (overwriting existing files). This way, notebooks are available in the gallery (even though not with
+perfect formatting) and are included in the tests.
+"""
+
 import os
 import subprocess
 import shutil
 from pathlib import Path
 import re
 
-fix_header = True
-replace_input_cells = True
-replace_bold_comments = True
+# Do some reformatting
+fix_header = True  # this is required for inclusion in gallery
+replace_input_cells = True  # this breaks up the code by making input cells visible
+replace_bold_comments = True  # this replaces bold comments (lines with # **XXX***) with headings
 
 # Define source and destination folders
 source_folder = Path(__file__).parent.resolve()  # Use the folder of the script
@@ -18,7 +25,9 @@ destination_folder.mkdir(parents=True, exist_ok=True)
 # Iterate over files in the source folder
 for filename in os.listdir(source_folder):
     # Check if the file is a Jupyter notebook and starts with "Lecture_" or "Practical_"
-    if filename.endswith(".ipynb") and (filename.startswith("Lecture_") or filename.startswith("Practical_")):
+    if filename.endswith(".ipynb") and (filename.startswith("Lecture_") or
+                                        filename.startswith("Practical_") or
+                                        filename.startswith("Coursework")):
         source_file = source_folder / filename
 
         # Convert the notebook to a Python script

@@ -61,22 +61,33 @@ env.close()
 # %%
 
 
-env = rld.make('CartPole-v1', render_mode="rgb_array")  # drop-in for gym.make
-env = rld.Recorder(                                     # record statistics (returned in info) and videos
-    env, 
-    smoothing=10,                      # rolling averages
-    video=True,                        # record videos
-    video_folder="videos",             # folder for videos
-    video_prefix="xxxx00-agent-video", # prefix for videos
-    logs=True,                         # keep logs
-)
-seed, observation, info = rld.seed_everything(42, env)  # seed everything (python, numpy, pytorch, env)
-tracker = rld.InfoTracker()                             # track statistics, e.g., for plotting
+# drop-in for gym.make that enables logging (use render_mode="rgb_array" to enable video rendering)
+env = rld.make('CartPole-v1', render_mode="rgb_array")
 
+# record statistics (returned in info) and videos
+env = rld.Recorder(
+    env,
+    smoothing=10,                       # track rolling averages (not required for coursework)
+    video=True,                         # enable recording videos
+    video_folder="videos",              # folder for videos
+    video_prefix="xxxx00-agent-video",  # prefix for videos
+    logs=True,                          # keep logs
+)
+
+# make reproducible by seeding everything (python, numpy, pytorch, env)
+# this also calls env.reset
+seed, observation, info = rld.seed_everything(42, env)
+
+# optionally track statistics for plotting
+tracker = rld.InfoTracker()
+
+# run episodes
 for episode in range(11):
-    env.info = episode % 2 == 0   # track every other episode
-    env.video = episode % 4 == 0  # set before reset! (is checked on reset)
+    # recording statistics and video can be switched on and off (video recording is slow!)
+    env.info = episode % 2 == 0   # track every other episode (usually tracking every episode is fine)
+    env.video = episode % 4 == 0  # you only want to record videos every x episodes (set BEFORE calling reset!)
     #######################################################################
+    # this is the same as above
     observation, info = env.reset()
     done = False
     while not done:
@@ -85,16 +96,55 @@ for episode in range(11):
         done = terminated or truncated
     #######################################################################
         if done:
-            # track and plot statistics
-            print(info)
-            print(tracker.info)
+            # per-episode statistics are returned by Recorder wrapper in info
+            #     'idx': index/count of the episode
+            #     'length': length of the episode
+            #     'r_sum': sum of rewards in episode
+            #     'r_mean': mean of rewards in episode
+            #     'r_std': standard deviation of rewards in episode
+            #     'length_': average `length' over smoothing window
+            #     'r_sum_': reward sum over smoothing window (not the average)
+            #     'r_mean_': average reward sum per episode over smoothing window (i.e. average of `r_sum')
+            #     'r_std_': standard deviation of reward sum per episode over smoothing window
+
+            # InfoTracker turns these into arrays over time
             tracker.track(info)
-            tracker.plot(r_mean_=True, r_std_=True, 
+            print(tracker.info)
+
+            # some plotting functionality is provided (this will refresh in notebooks)
+            #  - combinations of ``r_mean`` and ``r_std`` or ``r_mean_`` and ``r_std_`` are most insightful
+            #  - for `CartPole`, ``length`` and ``r_sum`` are the same as there is a unit reward for each
+            #    time step of successful balancing
+            tracker.plot(r_mean_=True, r_std_=True,
                          length=dict(linestyle='--', marker='o'),
                          r_sum=dict(linestyle='', marker='x'))
 
-env.close()  # important (e.g. triggers last video save)
+# don't forget to close environment (e.g. triggers last video save)
+env.close()
+
+# write log file (for coursework)
 env.write_log(folder="logs", file="xxxx00-agent-log.txt")
+
+
+# %%
+
+
+# print log file
+import pandas as pd
+log_file = "logs/xxxx00-agent-log.txt"
+print(f"log file: {log_file}")
+print(pd.read_csv(log_file, sep="\t").head())
+
+
+# %%
+
+
+# show video
+import os, re
+from ipywidgets import Video
+video_file = "videos/" + sorted(f for f in os.listdir("videos") if re.match(r".+episode=4.+\.mp4", f))[0]
+print(f"video file: {video_file}")
+Video.from_file(video_file)
 
 
 # %%
@@ -128,6 +178,9 @@ env = rld.make('CartPole-v1', render_mode=rm)              # easy discrete
 # env = rld.Recorder(env, video=True)
 # env.video = False  # deactivate
 
+## there are many more!
+# gym.pprint_registry()
+
 # get some info
 discrete_act = hasattr(env.action_space, 'n')
 discrete_obs = hasattr(env.observation_space, 'n')
@@ -145,12 +198,12 @@ print('The maximum timesteps is: {}'.format(env.spec.max_episode_steps))
 
 for episode in range(1):
     observation, info = env.reset()
-    rld.render(env)
+    rld.render(env, clear=True)
     done = False
     for step in range(200):
         action = env.action_space.sample()  # random action
         observation, reward, terminated, truncated, info = env.step(action)
-        rld.render(env)
+        rld.render(env, clear=True)
         done = terminated or truncated
         if done:
             break
@@ -362,4 +415,11 @@ for episode in range(10):
         done = terminated or truncated
 
 env.close()
+
+
+# %%
+
+
+gym.register(id="BanditEnv-v0", entry_point=BanditEnv)
+gym.pprint_registry()
 

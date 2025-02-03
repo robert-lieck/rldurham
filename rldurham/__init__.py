@@ -4,6 +4,7 @@ from math import sqrt
 import os
 import time
 
+import torch
 import numpy as np
 import pandas as pd
 import lightning as lt
@@ -12,8 +13,17 @@ from gymnasium import error, logger
 import matplotlib.pyplot as plt
 from IPython import display as disp
 
-import ale_py  # required for atari games in "ALE" namespace to work
+# required for atari games in "ALE" namespace to work
+import ale_py
 
+# check for most up-to-date version
+import rldurham.version_check
+
+# register the custom BipedalWalker environment for coursework
+gym.register(
+    id="rldurham/Walker",
+    entry_point="rldurham.bipedal_walker:BipedalWalker",
+)
 
 def seed_everything(seed: Optional[int] = None,
                     env: Optional[gym.Env] = None,
@@ -49,43 +59,142 @@ def seed_everything(seed: Optional[int] = None,
         return seed
 
 
-def render(env, sleep=0):
-    disp.clear_output(wait=True)
+def render(env, clear=False, axis_off=True, show=True, sleep=0):
+    if clear:
+        disp.clear_output(wait=True)
     plt.imshow(env.render())
-    plt.show()
+    if axis_off:
+        plt.axis('off')
+    if show:
+        plt.show()
     if sleep:
         time.sleep(sleep)
 
 
-def env_info(env):
+# helper function to draw the frozen lake
+def plot_frozenlake(env, v=None, policy=None, col_ramp=1, dpi=175, draw_vals=False, mark_ice=True):
+    # set up plot
+    plt.rcParams['figure.dpi'] = dpi
+    plt.rcParams.update({'axes.edgecolor': (0.32, 0.36, 0.38)})
+    plt.rcParams.update({'font.size': 4 if env.nrow == 8 else 7})
+    gray = np.array((0.32, 0.36, 0.38))
+    plt.figure(figsize=(3, 3))
+    ax = plt.gca()
+    ax.set_xticks(np.arange(env.ncol) - .5)
+    ax.set_yticks(np.arange(env.nrow) - .5)
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    plt.grid(color=(0.42, 0.46, 0.48), linestyle=':')
+    ax.set_axisbelow(True)
+    ax.tick_params(color=(0.42, 0.46, 0.48), which='both', top='off', left='off', right='off', bottom='off')
+    # use zero value as dummy if not provided
+    if v is None:
+        v = np.zeros(env.observation_space.n)
+    # plot values
+    plt.imshow(1 - v.reshape(env.nrow, env.ncol) ** col_ramp, cmap='gray', interpolation='none', clim=(0, 1), zorder=-1)
+    # function for plotting policy
+    def plot_arrow(x, y, dx, dy, v, scale=0.4):
+        plt.arrow(x, y, scale * float(dx), scale * float(dy), color=gray + 0.2 * (1 - v), head_width=0.1, head_length=0.1, zorder=1)
+    # go through states
+    for s in range(env.observation_space.n):
+        x, y = s % env.nrow, s // env.ncol
+        # print numeric values
+        if draw_vals and v[s] > 0:
+            vstr = '{0:.1e}'.format(v[s]) if env.nrow == 8 else '{0:.6f}'.format(v[s])
+            plt.text(x - 0.45, y + 0.45, vstr, color=(0.2, 0.8, 0.2), fontname='Sans')
+        # mark ice, start, goal
+        if env.desc.tolist()[y][x] == b'F':
+            plt.text(x-0.45,y-0.3, 'ice', color=(0.5, 0.6, 1), fontname='Sans')
+            if mark_ice:
+                ax.add_patch(plt.Circle((x, y), 0.2, color=(0.7, 0.8, 1), zorder=0))
+        elif env.desc.tolist()[y][x] == b'S':
+            plt.text(x-0.45,y-0.3, 'start',color=(0.2,0.5,0.5), fontname='Sans',
+                     weight='bold')
+        elif env.desc.tolist()[y][x] == b'G':
+            plt.text(x-0.45,y-0.3, 'goal', color=(0.7,0.2,0.2), fontname='Sans',
+                     weight='bold')
+            continue # don't plot policy for goal state
+        else:
+            continue # don't plot policy for holes
+        if policy is not None:
+            a = policy[s]
+            if a[0] > 0.0: plot_arrow(x, y, -a[0],    0., v[s])  # left
+            if a[1] > 0.0: plot_arrow(x, y,    0.,  a[1], v[s])  # down
+            if a[2] > 0.0: plot_arrow(x, y,  a[2],    0., v[s])  # right
+            if a[3] > 0.0: plot_arrow(x, y,    0., -a[3], v[s])  # up
+    plt.show()
+
+
+def env_info(env, print_out=False):
     discrete_act = hasattr(env.action_space, 'n')
     discrete_obs = hasattr(env.observation_space, 'n')
     act_dim = env.action_space.n if discrete_act else env.action_space.shape[0]
     obs_dim = env.observation_space.n if discrete_obs else env.observation_space.shape[0]
+    if print_out:
+        print(f"actions are {'discrete' if discrete_act else 'continuous'} with {act_dim} dimensions/#actions")
+        print(f"observations are {'discrete' if discrete_obs else 'continuous'} with {obs_dim} dimensions/#observations")
+        print(f"maximum timesteps is: {env.spec.max_episode_steps}")
     return discrete_act, discrete_obs, act_dim, obs_dim
 
 
-class RLDurhamEnv(gym.Wrapper):
+def check_device():
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    print(f'The device is: {device} ', end='')
+    if device.type == 'cpu':
+        print("(as recommended)")
+    else:
+        print("(train on the cpu is recommended instead)")
+    return device
 
-    def __init__(self, env):
+
+class RLDurhamEnv(gym.Wrapper):
+    """
+    Light-weight environment wrapper to enable logging.
+    """
+
+    def __init__(self, env, unwrap=True):
         super().__init__(env)
-        self._rldurham_obs = None
-        self._rldurham_reward = None
-        self._rldurham_terminated = None
-        self._rldurham_truncated = None
-        self._rldurham_info = None
+        self.unwrap = unwrap
+        self._unscaled_reward = None
+
+    def __getattr__(self, item):
+        if self.unwrap:
+            return getwrappedattr(self.env, item)
+        else:
+            raise AttributeError(f"Has no attribute '{item}' "
+                                 f"(set unwrap=True to attempt unwrapping the enclosed environments)")
 
     def step(self, action):
         obs, reward, terminated, truncated, info = super().step(action)
-        (self._rldurham_obs,
-         self._rldurham_reward,
-         self._rldurham_terminated,
-         self._rldurham_truncated,
-         self._rldurham_info) = (obs, reward, terminated, truncated, info)
+        self._unscaled_reward = reward
         return obs, reward, terminated, truncated, info
 
 
+def getwrappedattr(env, attr, depth=None):
+    # try to get the attribute
+    try:
+        return getattr(env, attr)
+    except AttributeError:
+        # stop if max depth reached, otherwise, count down depth
+        if depth is not None:
+            if depth <= 0:
+                raise AttributeError("Maximum unwrapping depth reached")
+            else:
+                depth = depth - 1
+    # try to get the wrapped environment
+    try:
+        env = env.env
+    except AttributeError:
+        raise AttributeError(f"Attribute '{attr}' not found and cannot further unwrap "
+                             f"(no 'env' attribute found, probably not a wrapper)")
+    # recursively unwrap
+    return getwrappedattr(env, attr, depth)
+
+
 def make(*args, **kwargs):
+    """
+    Drop-in replacement for ``gym.make`` to enable logging.
+    """
     return RLDurhamEnv(gym.make(*args, **kwargs))
 
 
@@ -150,7 +259,9 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
         # episode stats
         self._episode_count = 0
         self._episode_reward_sum = 0
+        self._episode_reward_sum_unscaled = 0
         self._episode_squared_reward_sum = 0
+        self._episode_squared_reward_sum_unscaled = 0
         self._episode_length = 0
         # logging statistics
         self._episode_count_log = []
@@ -168,14 +279,16 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
         return self.video
 
     def _video_name_func(self):
-        return f",episode={self._episode_count},score={self._episode_reward_sum}"
+        return f",episode={self._episode_count},score={self._episode_reward_sum_unscaled}"
 
     def step(self, action):
         self._episode_started = True
         obs, reward, terminated, truncated, info = super().step(action)
 
         self._episode_reward_sum += reward
+        self._episode_reward_sum_unscaled += getwrappedattr(self, "_unscaled_reward")
         self._episode_squared_reward_sum += reward ** 2
+        self._episode_squared_reward_sum_unscaled += getwrappedattr(self, "_unscaled_reward") ** 2
         self._episode_length += 1
         if self._full_stats:
             self._episode_full_stats.append((obs, reward, terminated, truncated, info))
@@ -218,13 +331,15 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
             # record logging stats
             if self.logs:
                 self._episode_count_log.append(self._episode_count)
-                self._episode_reward_sum_log.append(self._episode_reward_sum)
-                self._episode_squared_reward_sum_log.append(self._episode_squared_reward_sum)
+                self._episode_reward_sum_log.append(self._episode_reward_sum_unscaled)
+                self._episode_squared_reward_sum_log.append(self._episode_squared_reward_sum_unscaled)
                 self._episode_length_log.append(self._episode_length)
             # reset episode stats
             self._episode_count += 1
             self._episode_reward_sum = 0
+            self._episode_reward_sum_unscaled = 0
             self._episode_squared_reward_sum = 0
+            self._episode_squared_reward_sum_unscaled = 0
             self._episode_length = 0
             self._episode_full_stats = []
 

@@ -1,6 +1,9 @@
 IPython
+ipywidgets
+requests
 gymnasium[Box2D,atari,other]
 torch
 numpy
+scipy
 pandas
 lightning

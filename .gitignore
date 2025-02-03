@@ -1,3 +1,9 @@
+# doc
+examples/logs
+examples/videos
+notebooks/logs
+notebooks/videos
+
 # PyCharm
 .idea/
 

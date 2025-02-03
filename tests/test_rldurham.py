@@ -62,7 +62,7 @@ class TestTemplate(TestCase):
     def test_make_recorder_tracker(self):
         episode_length = 10
         env = rld.RLDurhamEnv(SimpleTestingEnv(episode_length=episode_length))
-        env = rld.Recorder(env, smoothing=10)
+        env = rld.Recorder(env, smoothing=10, logs=True)
         rld.seed_everything(42, env)
         self.assertEqual(env._episode_count, 0)
         env.reset()
@@ -105,6 +105,47 @@ class TestTemplate(TestCase):
                 self.assertNotEqual(info['recorder']['r_mean_'], episode_length * (episode_num * (episode_num + 1)) / 4 / min(episode_num + 1, env._smoothing))
                 self.assertEqual(info['recorder']['r_std_'], r_std_)
         env.close()
+
+    def test_logging(self):
+        for transform in [False, True]:
+            # create environment
+            env = rld.RLDurhamEnv(SimpleTestingEnv(episode_length=10))
+
+            # transform reward (before wrapping in recorder)
+            if transform:
+                reward_scale = 2
+                env = gym.wrappers.TransformReward(env, lambda reward: reward_scale * reward)
+            else:
+                reward_scale = 1
+
+            #  add wrapper to record stats (after rescaling rewards)
+            env = rld.Recorder(env, logs=True)
+
+            rld.seed_everything(42, env)
+            for episode_num in range(15):
+                rsum = 0
+                while True:
+                    obs, rew, terminated, truncated, _ = env.step(action=episode_num + 1)
+                    rsum += rew
+                    if terminated or truncated:
+                        # get current episode statistics
+                        episode_count = rld.getwrappedattr(env, "_episode_count")
+                        episode_reward_sum = rld.getwrappedattr(env, "_episode_reward_sum")
+                        episode_squared_reward_sum = rld.getwrappedattr(env, "_episode_squared_reward_sum")
+                        episode_length = rld.getwrappedattr(env, "_episode_length")
+                        # upon reset the log statistics are updated
+                        env.reset()
+                        # episode count and length should always be equal
+                        self.assertEqual(episode_count, rld.getwrappedattr(env, "_episode_count_log")[-1])
+                        self.assertEqual(episode_length, rld.getwrappedattr(env, "_episode_length_log")[-1])
+                        # reward statistics should be scaled by reward_scale
+                        self.assertEqual(rsum, episode_reward_sum)
+                        self.assertEqual(episode_reward_sum / reward_scale, rld.getwrappedattr(env, "_episode_reward_sum_log")[-1])
+                        self.assertEqual(episode_squared_reward_sum / reward_scale ** 2, rld.getwrappedattr(env, "_episode_squared_reward_sum_log")[-1])
+
+                        break
+
+            env.close()
 
     def test_cartpole(self):
         env = rld.make("CartPole-v1")
