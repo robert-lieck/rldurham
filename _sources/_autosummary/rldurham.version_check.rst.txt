@@ -1,0 +1,30 @@
+rldurham.version\_check
+=======================
+
+.. automodule:: rldurham.version_check
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      check_for_update
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -52,8 +52,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Reinforcement Learning Durham Gallery</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="rldurham.html">rldurham</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rldurham.check_device.html">rldurham.check_device</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.env_info.html">rldurham.env_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.getwrappedattr.html">rldurham.getwrappedattr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.make.html">rldurham.make</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.plot_frozenlake.html">rldurham.plot_frozenlake</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.render.html">rldurham.render</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.seed_everything.html">rldurham.seed_everything</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.InfoTracker.html">rldurham.InfoTracker</a></li>
@@ -63,6 +66,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.Recorder.html">rldurham.Recorder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.VideoRecorder.html">rldurham.VideoRecorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.bipedal_walker.html">rldurham.bipedal_walker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.version_check.html">rldurham.version_check</a></li>
 </ul>
 </li>
 </ul>
@@ -98,8 +103,9 @@
 <h1>rldurham.RLDurhamEnv<a class="headerlink" href="#rldurham-rldurhamenv" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rldurham.RLDurhamEnv">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">RLDurhamEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#RLDurhamEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.RLDurhamEnv" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">RLDurhamEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unwrap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#RLDurhamEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.RLDurhamEnv" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Wrapper</span></code></p>
+<p>Light-weight environment wrapper to enable logging.</p>
 <div class="autoclasstoc docutils container">
 <p class="rubric">Public Data Attributes:</p>
 <table class="autosummary longtable docutils align-default">
@@ -182,10 +188,13 @@
 <p class="rubric">Public Methods:</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.RLDurhamEnv.__init__" title="rldurham.RLDurhamEnv.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(env)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.RLDurhamEnv.__init__" title="rldurham.RLDurhamEnv.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(env[, unwrap])</p></td>
 <td><p>Wraps an environment to allow a modular transformation of the <a class="reference internal" href="#rldurham.RLDurhamEnv.step" title="rldurham.RLDurhamEnv.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> and <a class="reference internal" href="#rldurham.RLDurhamEnv.reset" title="rldurham.RLDurhamEnv.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> methods.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.RLDurhamEnv.step" title="rldurham.RLDurhamEnv.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(action)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.RLDurhamEnv.__getattr__" title="rldurham.RLDurhamEnv.__getattr__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getattr__</span></code></a>(item)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.RLDurhamEnv.step" title="rldurham.RLDurhamEnv.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(action)</p></td>
 <td><p>Uses the <a class="reference internal" href="#rldurham.RLDurhamEnv.step" title="rldurham.RLDurhamEnv.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">env</span></code> that can be overwritten to change the returned data.</p></td>
 </tr>
 </tbody>
@@ -336,7 +345,7 @@ classes in the first place with <cite>class Foo[T]: …</cite>.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rldurham.RLDurhamEnv.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rldurham',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">RLDurhamEnv.__init__&gt;,</span> <span class="pre">'step':</span> <span class="pre">&lt;function</span> <span class="pre">RLDurhamEnv.step&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__parameters__':</span> <span class="pre">(),</span> <span class="pre">'__annotations__':</span> <span class="pre">{'_action_space':</span> <span class="pre">'spaces.Space[WrapperActType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_observation_space':</span> <span class="pre">'spaces.Space[WrapperObsType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_cached_spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]',</span> <span class="pre">'render_mode':</span> <span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'action_space':</span> <span class="pre">'spaces.Space[ActType]',</span> <span class="pre">'observation_space':</span> <span class="pre">'spaces.Space[ObsType]',</span> <span class="pre">'_np_random':</span> <span class="pre">'np.random.Generator</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_np_random_seed':</span> <span class="pre">'int</span> <span class="pre">|</span> <span class="pre">None'}})</span></em><a class="headerlink" href="#rldurham.RLDurhamEnv.__dict__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rldurham',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Light-weight</span> <span class="pre">environment</span> <span class="pre">wrapper</span> <span class="pre">to</span> <span class="pre">enable</span> <span class="pre">logging.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">RLDurhamEnv.__init__&gt;,</span> <span class="pre">'__getattr__':</span> <span class="pre">&lt;function</span> <span class="pre">RLDurhamEnv.__getattr__&gt;,</span> <span class="pre">'step':</span> <span class="pre">&lt;function</span> <span class="pre">RLDurhamEnv.step&gt;,</span> <span class="pre">'__parameters__':</span> <span class="pre">(),</span> <span class="pre">'__annotations__':</span> <span class="pre">{'_action_space':</span> <span class="pre">'spaces.Space[WrapperActType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_observation_space':</span> <span class="pre">'spaces.Space[WrapperObsType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_cached_spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]',</span> <span class="pre">'render_mode':</span> <span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'action_space':</span> <span class="pre">'spaces.Space[ActType]',</span> <span class="pre">'observation_space':</span> <span class="pre">'spaces.Space[ObsType]',</span> <span class="pre">'_np_random':</span> <span class="pre">'np.random.Generator</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_np_random_seed':</span> <span class="pre">'int</span> <span class="pre">|</span> <span class="pre">None'}})</span></em><a class="headerlink" href="#rldurham.RLDurhamEnv.__dict__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -352,8 +361,13 @@ classes in the first place with <cite>class Foo[T]: …</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="rldurham.RLDurhamEnv.__getattr__">
+<span class="sig-name descname"><span class="pre">__getattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#RLDurhamEnv.__getattr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.RLDurhamEnv.__getattr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rldurham.RLDurhamEnv.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#RLDurhamEnv.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.RLDurhamEnv.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unwrap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#RLDurhamEnv.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.RLDurhamEnv.__init__" title="Link to this definition"></a></dt>
 <dd><p>Wraps an environment to allow a modular transformation of the <a class="reference internal" href="#rldurham.RLDurhamEnv.step" title="rldurham.RLDurhamEnv.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> and <a class="reference internal" href="#rldurham.RLDurhamEnv.reset" title="rldurham.RLDurhamEnv.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> methods.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>env: The environment to wrap</p>

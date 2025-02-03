@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:10.103** total execution time for 3 files **from all galleries**:
+**02:07.304** total execution time for 7 files **from all galleries**:
 
 .. container::
 
@@ -32,11 +32,23 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
+   * - :ref:`sphx_glr_auto_examples_Coursework_Template.py` (``../examples/Coursework_Template.py``)
+     - 01:44.091
+     - 0.0
    * - :ref:`sphx_glr_auto_examples_Lecture_2_Gym.py` (``../examples/Lecture_2_Gym.py``)
-     - 00:07.907
+     - 00:09.378
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Lecture_4_Dynamic_Programming.py` (``../examples/Lecture_4_Dynamic_Programming.py``)
+     - 00:08.879
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Practical_3_Markov_Decision_Processes.py` (``../examples/Practical_3_Markov_Decision_Processes.py``)
-     - 00:02.170
+     - 00:02.164
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Practical_4_Dynamic_Programming.py` (``../examples/Practical_4_Dynamic_Programming.py``)
+     - 00:01.563
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_rldurham_basics.py` (``../examples/rldurham_basics.py``)
+     - 00:01.203
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Practical_2_Multi-Armed_Bandits.py` (``../examples/Practical_2_Multi-Armed_Bandits.py``)
      - 00:00.026

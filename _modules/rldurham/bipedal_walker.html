@@ -1,0 +1,1039 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rldurham.bipedal_walker &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Reinforcement Learning Durham Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../rldurham.html">rldurham</a></li>
+      <li class="breadcrumb-item active">rldurham.bipedal_walker</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for rldurham.bipedal_walker</h1><div class="highlight"><pre>
+<span></span><span class="c1">## modified version of the included environment</span>
+
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Andrea PIERRÉ&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="nn">gym</span>
+<span class="kn">from</span> <span class="nn">gymnasium</span> <span class="kn">import</span> <span class="n">error</span><span class="p">,</span> <span class="n">spaces</span>
+<span class="kn">from</span> <span class="nn">gymnasium.error</span> <span class="kn">import</span> <span class="n">DependencyNotInstalled</span>
+<span class="kn">from</span> <span class="nn">gymnasium.utils</span> <span class="kn">import</span> <span class="n">EzPickle</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">Box2D</span>
+    <span class="kn">from</span> <span class="nn">Box2D.b2</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">circleShape</span><span class="p">,</span>
+        <span class="n">contactListener</span><span class="p">,</span>
+        <span class="n">edgeShape</span><span class="p">,</span>
+        <span class="n">fixtureDef</span><span class="p">,</span>
+        <span class="n">polygonShape</span><span class="p">,</span>
+        <span class="n">revoluteJointDef</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">DependencyNotInstalled</span><span class="p">(</span>
+        <span class="s1">&#39;Box2D is not installed, you can install it by run `pip install swig` followed by `pip install &quot;gymnasium[box2d]&quot;`&#39;</span>
+    <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">FPS</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">SCALE</span> <span class="o">=</span> <span class="mf">30.0</span>  <span class="c1"># affects how fast-paced the game is, forces should be adjusted as well</span>
+
+<span class="n">MOTORS_TORQUE</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">SPEED_HIP</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">SPEED_KNEE</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">LIDAR_RANGE</span> <span class="o">=</span> <span class="mi">160</span> <span class="o">/</span> <span class="n">SCALE</span>
+
+<span class="n">INITIAL_RANDOM</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">HULL_POLY</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="o">+</span><span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">6</span><span class="p">,</span> <span class="o">+</span><span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">34</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">34</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">LEG_DOWN</span> <span class="o">=</span> <span class="o">-</span><span class="mi">8</span> <span class="o">/</span> <span class="n">SCALE</span>
+<span class="n">LEG_W</span><span class="p">,</span> <span class="n">LEG_H</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">,</span> <span class="mi">34</span> <span class="o">/</span> <span class="n">SCALE</span>
+
+<span class="n">VIEWPORT_W</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="n">VIEWPORT_H</span> <span class="o">=</span> <span class="mi">400</span>
+
+<span class="n">TERRAIN_STEP</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">/</span> <span class="n">SCALE</span>
+<span class="n">TERRAIN_LENGTH</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># in steps</span>
+<span class="n">TERRAIN_HEIGHT</span> <span class="o">=</span> <span class="n">VIEWPORT_H</span> <span class="o">/</span> <span class="n">SCALE</span> <span class="o">/</span> <span class="mi">4</span>
+<span class="n">TERRAIN_GRASS</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># low long are grass spots, in steps</span>
+<span class="n">TERRAIN_STARTPAD</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># in steps</span>
+<span class="n">FRICTION</span> <span class="o">=</span> <span class="mf">2.5</span>
+
+<span class="n">HULL_FD</span> <span class="o">=</span> <span class="n">fixtureDef</span><span class="p">(</span>
+    <span class="n">shape</span><span class="o">=</span><span class="n">polygonShape</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[(</span><span class="n">x</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">y</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">HULL_POLY</span><span class="p">]),</span>
+    <span class="n">density</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">friction</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">categoryBits</span><span class="o">=</span><span class="mh">0x0020</span><span class="p">,</span>
+    <span class="n">maskBits</span><span class="o">=</span><span class="mh">0x001</span><span class="p">,</span>  <span class="c1"># collide only with ground</span>
+    <span class="n">restitution</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># 0.99 bouncy</span>
+
+<span class="n">LEG_FD</span> <span class="o">=</span> <span class="n">fixtureDef</span><span class="p">(</span>
+    <span class="n">shape</span><span class="o">=</span><span class="n">polygonShape</span><span class="p">(</span><span class="n">box</span><span class="o">=</span><span class="p">(</span><span class="n">LEG_W</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">LEG_H</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span>
+    <span class="n">density</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">restitution</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">categoryBits</span><span class="o">=</span><span class="mh">0x0020</span><span class="p">,</span>
+    <span class="n">maskBits</span><span class="o">=</span><span class="mh">0x001</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">LOWER_FD</span> <span class="o">=</span> <span class="n">fixtureDef</span><span class="p">(</span>
+    <span class="n">shape</span><span class="o">=</span><span class="n">polygonShape</span><span class="p">(</span><span class="n">box</span><span class="o">=</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">LEG_W</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">LEG_H</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span>
+    <span class="n">density</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">restitution</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">categoryBits</span><span class="o">=</span><span class="mh">0x0020</span><span class="p">,</span>
+    <span class="n">maskBits</span><span class="o">=</span><span class="mh">0x001</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="ContactDetector">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.ContactDetector.html#rldurham.bipedal_walker.ContactDetector">[docs]</a>
+<span class="k">class</span> <span class="nc">ContactDetector</span><span class="p">(</span><span class="n">contactListener</span><span class="p">):</span>
+<div class="viewcode-block" id="ContactDetector.__init__">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.ContactDetector.html#rldurham.bipedal_walker.ContactDetector.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">):</span>
+        <span class="n">contactListener</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span></div>
+
+
+<div class="viewcode-block" id="ContactDetector.BeginContact">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.ContactDetector.html#rldurham.bipedal_walker.ContactDetector.BeginContact">[docs]</a>
+    <span class="k">def</span> <span class="nf">BeginContact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">hull</span> <span class="o">==</span> <span class="n">contact</span><span class="o">.</span><span class="n">fixtureA</span><span class="o">.</span><span class="n">body</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">hull</span> <span class="o">==</span> <span class="n">contact</span><span class="o">.</span><span class="n">fixtureB</span><span class="o">.</span><span class="n">body</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">game_over</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">leg</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">legs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">legs</span><span class="p">[</span><span class="mi">3</span><span class="p">]]:</span>
+            <span class="k">if</span> <span class="n">leg</span> <span class="ow">in</span> <span class="p">[</span><span class="n">contact</span><span class="o">.</span><span class="n">fixtureA</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">contact</span><span class="o">.</span><span class="n">fixtureB</span><span class="o">.</span><span class="n">body</span><span class="p">]:</span>
+                <span class="n">leg</span><span class="o">.</span><span class="n">ground_contact</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="ContactDetector.EndContact">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.ContactDetector.html#rldurham.bipedal_walker.ContactDetector.EndContact">[docs]</a>
+    <span class="k">def</span> <span class="nf">EndContact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">leg</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">legs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">legs</span><span class="p">[</span><span class="mi">3</span><span class="p">]]:</span>
+            <span class="k">if</span> <span class="n">leg</span> <span class="ow">in</span> <span class="p">[</span><span class="n">contact</span><span class="o">.</span><span class="n">fixtureA</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">contact</span><span class="o">.</span><span class="n">fixtureB</span><span class="o">.</span><span class="n">body</span><span class="p">]:</span>
+                <span class="n">leg</span><span class="o">.</span><span class="n">ground_contact</span> <span class="o">=</span> <span class="kc">False</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BipedalWalker">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker">[docs]</a>
+<span class="k">class</span> <span class="nc">BipedalWalker</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Env</span><span class="p">,</span> <span class="n">EzPickle</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ## Description</span>
+<span class="sd">    This is a simple 4-joint walker robot environment.</span>
+<span class="sd">    There are two versions:</span>
+<span class="sd">    - Normal, with slightly uneven terrain.</span>
+<span class="sd">    - Hardcore, with ladders, stumps, pitfalls.</span>
+
+<span class="sd">    To solve the normal version, you need to get 300 points in 1600 time steps.</span>
+<span class="sd">    To solve the hardcore version, you need 300 points in 2000 time steps.</span>
+
+<span class="sd">    A heuristic is provided for testing. It&#39;s also useful to get demonstrations</span>
+<span class="sd">    to learn from. To run the heuristic:</span>
+<span class="sd">    ```</span>
+<span class="sd">    python gymnasium/envs/box2d/bipedal_walker.py</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    ## Action Space</span>
+<span class="sd">    Actions are motor speed values in the [-1, 1] range for each of the</span>
+<span class="sd">    4 joints at both hips and knees.</span>
+
+<span class="sd">    ## Observation Space</span>
+<span class="sd">    State consists of hull angle speed, angular velocity, horizontal speed,</span>
+<span class="sd">    vertical speed, position of joints and joints angular speed, legs contact</span>
+<span class="sd">    with ground, and 10 lidar rangefinder measurements. There are no coordinates</span>
+<span class="sd">    in the state vector.</span>
+
+<span class="sd">    ## Rewards</span>
+<span class="sd">    Reward is given for moving forward, totaling 300+ points up to the far end.</span>
+<span class="sd">    If the robot falls, it gets -100. Applying motor torque costs a small</span>
+<span class="sd">    amount of points. A more optimal agent will get a better score.</span>
+
+<span class="sd">    ## Starting State</span>
+<span class="sd">    The walker starts standing at the left end of the terrain with the hull</span>
+<span class="sd">    horizontal, and both legs in the same position with a slight knee angle.</span>
+
+<span class="sd">    ## Episode Termination</span>
+<span class="sd">    The episode will terminate if the hull gets in contact with the ground or</span>
+<span class="sd">    if the walker exceeds the right end of the terrain length.</span>
+
+<span class="sd">    ## Arguments</span>
+
+<span class="sd">    To use the _hardcore_ environment, you need to specify the `hardcore=True`:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    &gt;&gt;&gt; import gymnasium as gym</span>
+<span class="sd">    &gt;&gt;&gt; env = gym.make(&quot;BipedalWalker-v3&quot;, hardcore=True, render_mode=&quot;rgb_array&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; env</span>
+<span class="sd">    &lt;TimeLimit&lt;OrderEnforcing&lt;PassiveEnvChecker&lt;BipedalWalker&lt;BipedalWalker-v3&gt;&gt;&gt;&gt;&gt;</span>
+
+<span class="sd">    ```</span>
+
+<span class="sd">    ## Version History</span>
+<span class="sd">    - v3: Returns the closest lidar trace instead of furthest;</span>
+<span class="sd">        faster video recording</span>
+<span class="sd">    - v2: Count energy spent</span>
+<span class="sd">    - v1: Legs now report contact with ground; motors have higher torque and</span>
+<span class="sd">        speed; ground has higher friction; lidar rendered less nervously.</span>
+<span class="sd">    - v0: Initial version</span>
+
+
+<span class="sd">    &lt;!-- ## References --&gt;</span>
+
+<span class="sd">    ## Credits</span>
+<span class="sd">    Created by Oleg Klimov</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;render_modes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;rgb_array&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;render_fps&quot;</span><span class="p">:</span> <span class="n">FPS</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="BipedalWalker.__init__">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">render_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">hardcore</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">EzPickle</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">render_mode</span><span class="p">,</span> <span class="n">hardcore</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isopen</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span> <span class="o">=</span> <span class="n">Box2D</span><span class="o">.</span><span class="n">b2World</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Box2D</span><span class="o">.</span><span class="n">b2Body</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Box2D</span><span class="o">.</span><span class="n">b2Body</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev_shaping</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hardcore</span> <span class="o">=</span> <span class="n">hardcore</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span> <span class="o">=</span> <span class="n">fixtureDef</span><span class="p">(</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">polygonShape</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]),</span>
+            <span class="n">friction</span><span class="o">=</span><span class="n">FRICTION</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fd_edge</span> <span class="o">=</span> <span class="n">fixtureDef</span><span class="p">(</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">edgeShape</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]),</span>
+            <span class="n">friction</span><span class="o">=</span><span class="n">FRICTION</span><span class="p">,</span>
+            <span class="n">categoryBits</span><span class="o">=</span><span class="mh">0x0001</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># we use 5.0 to represent the joints moving at maximum</span>
+        <span class="c1"># 5 x the rated speed due to impulses from ground contact etc.</span>
+        <span class="n">low</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+                <span class="o">-</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="o">+</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="o">+</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
+
+        <span class="c1"># state = [</span>
+        <span class="c1">#     self.hull.angle,  # Normal angles up to 0.5 here, but sure more is possible.</span>
+        <span class="c1">#     2.0 * self.hull.angularVelocity / FPS,</span>
+        <span class="c1">#     0.3 * vel.x * (VIEWPORT_W / SCALE) / FPS,  # Normalized to get -1..1 range</span>
+        <span class="c1">#     0.3 * vel.y * (VIEWPORT_H / SCALE) / FPS,</span>
+        <span class="c1">#     self.joints[</span>
+        <span class="c1">#         0</span>
+        <span class="c1">#     ].angle,  # This will give 1.1 on high up, but it&#39;s still OK (and there should be spikes on hitting the ground, that&#39;s normal too)</span>
+        <span class="c1">#     self.joints[0].speed / SPEED_HIP,</span>
+        <span class="c1">#     self.joints[1].angle + 1.0,</span>
+        <span class="c1">#     self.joints[1].speed / SPEED_KNEE,</span>
+        <span class="c1">#     1.0 if self.legs[1].ground_contact else 0.0,</span>
+        <span class="c1">#     self.joints[2].angle,</span>
+        <span class="c1">#     self.joints[2].speed / SPEED_HIP,</span>
+        <span class="c1">#     self.joints[3].angle + 1.0,</span>
+        <span class="c1">#     self.joints[3].speed / SPEED_KNEE,</span>
+        <span class="c1">#     1.0 if self.legs[3].ground_contact else 0.0,</span>
+        <span class="c1"># ]</span>
+        <span class="c1"># state += [l.fraction for l in self.lidar]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">render_mode</span> <span class="o">=</span> <span class="n">render_mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BipedalWalker._destroy">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker._destroy">[docs]</a>
+    <span class="k">def</span> <span class="nf">_destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">contactListener</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">DestroyBody</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">DestroyBody</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hull</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">leg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">legs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">DestroyBody</span><span class="p">(</span><span class="n">leg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">legs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joints</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="BipedalWalker._generate_terrain">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker._generate_terrain">[docs]</a>
+    <span class="k">def</span> <span class="nf">_generate_terrain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hardcore</span><span class="p">):</span>
+        <span class="n">GRASS</span><span class="p">,</span> <span class="n">STUMP</span><span class="p">,</span> <span class="n">STAIRS</span><span class="p">,</span> <span class="n">PIT</span><span class="p">,</span> <span class="n">_STATES_</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">GRASS</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">TERRAIN_HEIGHT</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">TERRAIN_STARTPAD</span>
+        <span class="n">oneshot</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain_x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain_y</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">stair_steps</span><span class="p">,</span> <span class="n">stair_width</span><span class="p">,</span> <span class="n">stair_height</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">original_y</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TERRAIN_LENGTH</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terrain_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">GRASS</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">oneshot</span><span class="p">:</span>
+                <span class="n">velocity</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">velocity</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">TERRAIN_HEIGHT</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">TERRAIN_STARTPAD</span><span class="p">:</span>
+                    <span class="n">velocity</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">SCALE</span>  <span class="c1"># 1</span>
+                <span class="n">y</span> <span class="o">+=</span> <span class="n">velocity</span>
+
+            <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">PIT</span> <span class="ow">and</span> <span class="n">oneshot</span><span class="p">:</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+                <span class="n">poly</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">),</span>
+                <span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">poly</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateStaticBody</span><span class="p">(</span><span class="n">fixtures</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="p">)</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">TERRAIN_STEP</span> <span class="o">*</span> <span class="n">counter</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span>
+                <span class="p">]</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateStaticBody</span><span class="p">(</span><span class="n">fixtures</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="p">)</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">2</span>
+                <span class="n">original_y</span> <span class="o">=</span> <span class="n">y</span>
+
+            <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">PIT</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">oneshot</span><span class="p">:</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">original_y</span>
+                <span class="k">if</span> <span class="n">counter</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">y</span> <span class="o">-=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span>
+
+            <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">STUMP</span> <span class="ow">and</span> <span class="n">oneshot</span><span class="p">:</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+                <span class="n">poly</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">counter</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">counter</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">counter</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">counter</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">),</span>
+                <span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">poly</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateStaticBody</span><span class="p">(</span><span class="n">fixtures</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="p">)</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">STAIRS</span> <span class="ow">and</span> <span class="n">oneshot</span><span class="p">:</span>
+                <span class="n">stair_height</span> <span class="o">=</span> <span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">stair_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+                <span class="n">stair_steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+                <span class="n">original_y</span> <span class="o">=</span> <span class="n">y</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stair_steps</span><span class="p">):</span>
+                    <span class="n">poly</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="p">(</span>
+                            <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">stair_width</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                            <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">stair_height</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                        <span class="p">),</span>
+                        <span class="p">(</span>
+                            <span class="n">x</span> <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">stair_width</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                            <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">stair_height</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                        <span class="p">),</span>
+                        <span class="p">(</span>
+                            <span class="n">x</span> <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">stair_width</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                            <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">stair_height</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                        <span class="p">),</span>
+                        <span class="p">(</span>
+                            <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">stair_width</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                            <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">stair_height</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">,</span>
+                        <span class="p">),</span>
+                    <span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">poly</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateStaticBody</span><span class="p">(</span><span class="n">fixtures</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fd_polygon</span><span class="p">)</span>
+                    <span class="n">t</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">153</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="n">stair_steps</span> <span class="o">*</span> <span class="n">stair_width</span>
+
+            <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">STAIRS</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">oneshot</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">stair_steps</span> <span class="o">*</span> <span class="n">stair_width</span> <span class="o">-</span> <span class="n">counter</span> <span class="o">-</span> <span class="n">stair_height</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="n">stair_width</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">original_y</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">stair_height</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span>
+
+            <span class="n">oneshot</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terrain_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">counter</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">TERRAIN_GRASS</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">TERRAIN_GRASS</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">GRASS</span> <span class="ow">and</span> <span class="n">hardcore</span><span class="p">:</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_STATES_</span><span class="p">)</span>
+                    <span class="n">oneshot</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="n">GRASS</span>
+                    <span class="n">oneshot</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain_poly</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TERRAIN_LENGTH</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">terrain_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain_y</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">terrain_x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain_y</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]),</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fd_edge</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">poly</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateStaticBody</span><span class="p">(</span><span class="n">fixtures</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fd_edge</span><span class="p">)</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">76</span><span class="p">,</span> <span class="mi">255</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">204</span><span class="p">,</span> <span class="mi">76</span><span class="p">)</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">color1</span> <span class="o">=</span> <span class="n">color</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="n">color</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">102</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">76</span><span class="p">)</span>
+            <span class="n">poly</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terrain_poly</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">poly</span><span class="p">,</span> <span class="n">color</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BipedalWalker._generate_clouds">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker._generate_clouds">[docs]</a>
+    <span class="k">def</span> <span class="nf">_generate_clouds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Sorry for the clouds, couldn&#39;t resist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cloud_poly</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TERRAIN_LENGTH</span> <span class="o">//</span> <span class="mi">20</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">TERRAIN_LENGTH</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">VIEWPORT_H</span> <span class="o">/</span> <span class="n">SCALE</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span>
+                    <span class="n">x</span>
+                    <span class="o">+</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">3.14</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">),</span>
+                    <span class="n">y</span>
+                    <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">3.14</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">)</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cloud_poly</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">poly</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BipedalWalker.reset">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker.reset">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_destroy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">contactListener_bug_workaround</span> <span class="o">=</span> <span class="n">ContactDetector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">contactListener</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">contactListener_bug_workaround</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_over</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev_shaping</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lidar_render</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_terrain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hardcore</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_clouds</span><span class="p">()</span>
+
+        <span class="n">init_x</span> <span class="o">=</span> <span class="n">TERRAIN_STEP</span> <span class="o">*</span> <span class="n">TERRAIN_STARTPAD</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">init_y</span> <span class="o">=</span> <span class="n">TERRAIN_HEIGHT</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">LEG_H</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hull</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateDynamicBody</span><span class="p">(</span>
+            <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">init_x</span><span class="p">,</span> <span class="n">init_y</span><span class="p">),</span> <span class="n">fixtures</span><span class="o">=</span><span class="n">HULL_FD</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="o">.</span><span class="n">color1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">127</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">229</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">76</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">127</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="o">.</span><span class="n">ApplyForceToCenter</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">INITIAL_RANDOM</span><span class="p">,</span> <span class="n">INITIAL_RANDOM</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span> <span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">legs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Box2D</span><span class="o">.</span><span class="n">b2Body</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Box2D</span><span class="o">.</span><span class="n">b2RevoluteJoint</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">leg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateDynamicBody</span><span class="p">(</span>
+                <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">init_x</span><span class="p">,</span> <span class="n">init_y</span> <span class="o">-</span> <span class="n">LEG_H</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">LEG_DOWN</span><span class="p">),</span>
+                <span class="n">angle</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">),</span>
+                <span class="n">fixtures</span><span class="o">=</span><span class="n">LEG_FD</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">leg</span><span class="o">.</span><span class="n">color1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">153</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">76</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">127</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
+            <span class="n">leg</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">102</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">51</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">76</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
+            <span class="n">rjd</span> <span class="o">=</span> <span class="n">revoluteJointDef</span><span class="p">(</span>
+                <span class="n">bodyA</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="p">,</span>
+                <span class="n">bodyB</span><span class="o">=</span><span class="n">leg</span><span class="p">,</span>
+                <span class="n">localAnchorA</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">LEG_DOWN</span><span class="p">),</span>
+                <span class="n">localAnchorB</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">LEG_H</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="n">enableMotor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">enableLimit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">maxMotorTorque</span><span class="o">=</span><span class="n">MOTORS_TORQUE</span><span class="p">,</span>
+                <span class="n">motorSpeed</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                <span class="n">lowerAngle</span><span class="o">=-</span><span class="mf">0.8</span><span class="p">,</span>
+                <span class="n">upperAngle</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">legs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">leg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateJoint</span><span class="p">(</span><span class="n">rjd</span><span class="p">))</span>
+
+            <span class="n">lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateDynamicBody</span><span class="p">(</span>
+                <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">init_x</span><span class="p">,</span> <span class="n">init_y</span> <span class="o">-</span> <span class="n">LEG_H</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">LEG_DOWN</span><span class="p">),</span>
+                <span class="n">angle</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">),</span>
+                <span class="n">fixtures</span><span class="o">=</span><span class="n">LOWER_FD</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">lower</span><span class="o">.</span><span class="n">color1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">153</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">76</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">127</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
+            <span class="n">lower</span><span class="o">.</span><span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">102</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">51</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">76</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
+            <span class="n">rjd</span> <span class="o">=</span> <span class="n">revoluteJointDef</span><span class="p">(</span>
+                <span class="n">bodyA</span><span class="o">=</span><span class="n">leg</span><span class="p">,</span>
+                <span class="n">bodyB</span><span class="o">=</span><span class="n">lower</span><span class="p">,</span>
+                <span class="n">localAnchorA</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">LEG_H</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="n">localAnchorB</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">LEG_H</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="n">enableMotor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">enableLimit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">maxMotorTorque</span><span class="o">=</span><span class="n">MOTORS_TORQUE</span><span class="p">,</span>
+                <span class="n">motorSpeed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">lowerAngle</span><span class="o">=-</span><span class="mf">1.6</span><span class="p">,</span>
+                <span class="n">upperAngle</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">lower</span><span class="o">.</span><span class="n">ground_contact</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">legs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lower</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">CreateJoint</span><span class="p">(</span><span class="n">rjd</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">drawlist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">legs</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="p">]</span>
+
+        <span class="k">class</span> <span class="nc">LidarCallback</span><span class="p">(</span><span class="n">Box2D</span><span class="o">.</span><span class="n">b2</span><span class="o">.</span><span class="n">rayCastCallback</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">ReportFixture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fixture</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">fraction</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="n">filterData</span><span class="o">.</span><span class="n">categoryBits</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">=</span> <span class="n">point</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fraction</span> <span class="o">=</span> <span class="n">fraction</span>
+                <span class="k">return</span> <span class="n">fraction</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span> <span class="o">=</span> <span class="p">[</span><span class="n">LidarCallback</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_mode</span> <span class="o">==</span> <span class="s2">&quot;human&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="BipedalWalker.step">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker.step">[docs]</a>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">hull</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="c1"># self.hull.ApplyForceToCenter((0, 20), True) -- Uncomment this to receive a bit of stability help</span>
+        <span class="n">control_speed</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Should be easier as well</span>
+        <span class="k">if</span> <span class="n">control_speed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_HIP</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_KNEE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_HIP</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_KNEE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_HIP</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">maxMotorTorque</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                <span class="n">MOTORS_TORQUE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_KNEE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">maxMotorTorque</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                <span class="n">MOTORS_TORQUE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_HIP</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">maxMotorTorque</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                <span class="n">MOTORS_TORQUE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">motorSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SPEED_KNEE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">maxMotorTorque</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                <span class="n">MOTORS_TORQUE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">FPS</span><span class="p">,</span> <span class="mi">6</span> <span class="o">*</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="o">.</span><span class="n">linearVelocity</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fraction</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">pos</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">LIDAR_RANGE</span><span class="p">,</span>
+                <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">LIDAR_RANGE</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">RayCast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">p1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">p2</span><span class="p">)</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span>  <span class="c1"># Normal angles up to 0.5 here, but sure more is possible.</span>
+            <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">hull</span><span class="o">.</span><span class="n">angularVelocity</span> <span class="o">/</span> <span class="n">FPS</span><span class="p">,</span>
+            <span class="mf">0.3</span> <span class="o">*</span> <span class="n">vel</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">VIEWPORT_W</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">)</span> <span class="o">/</span> <span class="n">FPS</span><span class="p">,</span>  <span class="c1"># Normalized to get -1..1 range</span>
+            <span class="mf">0.3</span> <span class="o">*</span> <span class="n">vel</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">VIEWPORT_H</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">)</span> <span class="o">/</span> <span class="n">FPS</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span>
+            <span class="c1"># This will give 1.1 on high up, but it&#39;s still OK (and there should be spikes on hitting the ground, that&#39;s normal too)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">speed</span> <span class="o">/</span> <span class="n">SPEED_HIP</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">angle</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">speed</span> <span class="o">/</span> <span class="n">SPEED_KNEE</span><span class="p">,</span>
+            <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">legs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ground_contact</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">speed</span> <span class="o">/</span> <span class="n">SPEED_HIP</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">angle</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">speed</span> <span class="o">/</span> <span class="n">SPEED_KNEE</span><span class="p">,</span>
+            <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">legs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">ground_contact</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">state</span> <span class="o">+=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">fraction</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="mi">24</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">VIEWPORT_W</span> <span class="o">/</span> <span class="n">SCALE</span> <span class="o">/</span> <span class="mi">5</span>
+
+        <span class="n">shaping</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">130</span> <span class="o">*</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">SCALE</span>
+        <span class="p">)</span>  <span class="c1"># moving forward is a way to receive reward (normalized to get 300 on completion)</span>
+        <span class="n">shaping</span> <span class="o">-=</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span>
+            <span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>  <span class="c1"># keep head straight, other than that and falling, any behavior is unpunished</span>
+
+        <span class="n">reward</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev_shaping</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">reward</span> <span class="o">=</span> <span class="n">shaping</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev_shaping</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev_shaping</span> <span class="o">=</span> <span class="n">shaping</span>
+
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">action</span><span class="p">:</span>
+            <span class="n">reward</span> <span class="o">-=</span> <span class="mf">0.00035</span> <span class="o">*</span> <span class="n">MOTORS_TORQUE</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># normalized to about -50.0 using heuristic, more optimal agent should spend less</span>
+
+        <span class="n">terminated</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_over</span> <span class="ow">or</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">reward</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
+            <span class="n">terminated</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">TERRAIN_LENGTH</span> <span class="o">-</span> <span class="n">TERRAIN_GRASS</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_STEP</span><span class="p">:</span>
+            <span class="n">terminated</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_mode</span> <span class="o">==</span> <span class="s2">&quot;human&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+        <span class="c1"># truncation=False as the time limit is handled by the `TimeLimit` wrapper added during `make`</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="BipedalWalker.render">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker.render">[docs]</a>
+    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="n">gym</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;You are calling render method without specifying any render mode. &quot;</span>
+                <span class="s2">&quot;You can specify the render_mode at initialization, &quot;</span>
+                <span class="sa">f</span><span class="s1">&#39;e.g. gym.make(&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">&quot;, render_mode=&quot;rgb_array&quot;)&#39;</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pygame</span>
+            <span class="kn">from</span> <span class="nn">pygame</span> <span class="kn">import</span> <span class="n">gfxdraw</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DependencyNotInstalled</span><span class="p">(</span>
+                <span class="s1">&#39;pygame is not installed, run `pip install &quot;gymnasium[box2d]&quot;`&#39;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_mode</span> <span class="o">==</span> <span class="s2">&quot;human&quot;</span><span class="p">:</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="n">VIEWPORT_W</span><span class="p">,</span> <span class="n">VIEWPORT_H</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">surf</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">VIEWPORT_W</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span><span class="p">)</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">VIEWPORT_H</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="p">(</span><span class="n">SCALE</span><span class="p">,</span> <span class="n">SCALE</span><span class="p">))</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">215</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+            <span class="n">points</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="o">+</span> <span class="n">VIEWPORT_W</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="o">+</span> <span class="n">VIEWPORT_W</span><span class="p">,</span> <span class="n">VIEWPORT_H</span><span class="p">),</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">VIEWPORT_H</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">poly</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cloud_poly</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">VIEWPORT_W</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+                <span class="n">points</span><span class="o">=</span><span class="p">[</span>
+                    <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">gfxdraw</span><span class="o">.</span><span class="n">aapolygon</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span>
+                <span class="p">[(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">],</span>
+                <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">poly</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain_poly</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">+</span> <span class="n">VIEWPORT_W</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">scaled_poly</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">:</span>
+                <span class="n">scaled_poly</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">])</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">scaled_poly</span><span class="p">)</span>
+            <span class="n">gfxdraw</span><span class="o">.</span><span class="n">aapolygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">scaled_poly</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lidar_render</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidar_render</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidar_render</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">):</span>
+            <span class="n">single_lidar</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">)</span>
+                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidar</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">single_lidar</span><span class="p">,</span> <span class="s2">&quot;p1&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">single_lidar</span><span class="p">,</span> <span class="s2">&quot;p2&quot;</span><span class="p">):</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                    <span class="n">start_pos</span><span class="o">=</span><span class="p">(</span><span class="n">single_lidar</span><span class="o">.</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">single_lidar</span><span class="o">.</span><span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">),</span>
+                    <span class="n">end_pos</span><span class="o">=</span><span class="p">(</span><span class="n">single_lidar</span><span class="o">.</span><span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">single_lidar</span><span class="o">.</span><span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">),</span>
+                    <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawlist</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">fixtures</span><span class="p">:</span>
+                <span class="n">trans</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">transform</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="ow">is</span> <span class="n">circleShape</span><span class="p">:</span>
+                    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span>
+                        <span class="n">center</span><span class="o">=</span><span class="n">trans</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">pos</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span>
+                        <span class="n">radius</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">radius</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">color2</span><span class="p">,</span>
+                        <span class="n">center</span><span class="o">=</span><span class="n">trans</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">pos</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span>
+                        <span class="n">radius</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">radius</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">trans</span> <span class="o">*</span> <span class="n">v</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">vertices</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+                        <span class="n">gfxdraw</span><span class="o">.</span><span class="n">aapolygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">color1</span><span class="p">)</span>
+                        <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">color2</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span>
+                        <span class="p">)</span>
+                        <span class="n">gfxdraw</span><span class="o">.</span><span class="n">aapolygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">color2</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">aaline</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span>
+                            <span class="n">start_pos</span><span class="o">=</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">end_pos</span><span class="o">=</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">color</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span>
+                        <span class="p">)</span>
+
+        <span class="n">flagy1</span> <span class="o">=</span> <span class="n">TERRAIN_HEIGHT</span> <span class="o">*</span> <span class="n">SCALE</span>
+        <span class="n">flagy2</span> <span class="o">=</span> <span class="n">flagy1</span> <span class="o">+</span> <span class="mi">50</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">TERRAIN_STEP</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">SCALE</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">aaline</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">start_pos</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">flagy1</span><span class="p">),</span> <span class="n">end_pos</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">flagy2</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">flagy2</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">flagy2</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">25</span><span class="p">,</span> <span class="n">flagy2</span> <span class="o">-</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">points</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">points</span><span class="o">=</span><span class="n">f</span> <span class="o">+</span> <span class="p">[</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">surf</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_mode</span> <span class="o">==</span> <span class="s2">&quot;human&quot;</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">scroll</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">pump</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;render_fps&quot;</span><span class="p">])</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_mode</span> <span class="o">==</span> <span class="s2">&quot;rgb_array&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">surfarray</span><span class="o">.</span><span class="n">pixels3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surf</span><span class="p">)),</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="p">)[:,</span> <span class="o">-</span><span class="n">VIEWPORT_W</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="BipedalWalker.close">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalker.html#rldurham.bipedal_walker.BipedalWalker.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pygame</span>
+
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">isopen</span> <span class="o">=</span> <span class="kc">False</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BipedalWalkerHardcore">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalkerHardcore.html#rldurham.bipedal_walker.BipedalWalkerHardcore">[docs]</a>
+<span class="k">class</span> <span class="nc">BipedalWalkerHardcore</span><span class="p">:</span>
+<div class="viewcode-block" id="BipedalWalkerHardcore.__init__">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalkerHardcore.html#rldurham.bipedal_walker.BipedalWalkerHardcore.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">error</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
+            <span class="s2">&quot;Error initializing BipedalWalkerHardcore Environment.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Currently, we do not support initializing this mode of environment by calling the class directly.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;To use this environment, instead create it by specifying the hardcore keyword in gym.make, i.e.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s1">&#39;gym.make(&quot;BipedalWalker-v3&quot;, hardcore=True)&#39;</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BipedalWalkerHeuristics">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalkerHeuristics.html#rldurham.bipedal_walker.BipedalWalkerHeuristics">[docs]</a>
+<span class="k">class</span> <span class="nc">BipedalWalkerHeuristics</span><span class="p">:</span>
+    <span class="n">STAY_ON_ONE_LEG</span><span class="p">,</span> <span class="n">PUT_OTHER_DOWN</span><span class="p">,</span> <span class="n">PUSH_OFF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+    <span class="n">SPEED</span> <span class="o">=</span> <span class="mf">0.29</span>  <span class="c1"># Will fall forward on higher speed</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">STAY_ON_ONE_LEG</span>
+    <span class="n">moving_leg</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">supporting_leg</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">moving_leg</span>
+    <span class="n">SUPPORT_KNEE_ANGLE</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.1</span>
+    <span class="n">supporting_knee_angle</span> <span class="o">=</span> <span class="n">SUPPORT_KNEE_ANGLE</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="BipedalWalkerHeuristics.step_heuristic">
+<a class="viewcode-back" href="../../_autosummary/rldurham.bipedal_walker.BipedalWalkerHeuristics.html#rldurham.bipedal_walker.BipedalWalkerHeuristics.step_heuristic">[docs]</a>
+    <span class="k">def</span> <span class="nf">step_heuristic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="n">moving_s_base</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span>
+        <span class="n">supporting_s_base</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">supporting_leg</span>
+
+        <span class="n">hip_targ</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># -0.8 .. +1.1</span>
+        <span class="n">knee_targ</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># -0.6 .. +0.9</span>
+        <span class="n">hip_todo</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="n">knee_todo</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">STAY_ON_ONE_LEG</span><span class="p">:</span>
+            <span class="n">hip_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.1</span>
+            <span class="n">knee_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.6</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span> <span class="o">+=</span> <span class="mf">0.03</span>
+            <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">SPEED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span> <span class="o">+=</span> <span class="mf">0.03</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SUPPORT_KNEE_ANGLE</span>
+            <span class="p">)</span>
+            <span class="n">knee_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">supporting_leg</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span>
+            <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">supporting_s_base</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.10</span><span class="p">:</span>  <span class="c1"># supporting leg is behind</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PUT_OTHER_DOWN</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">PUT_OTHER_DOWN</span><span class="p">:</span>
+            <span class="n">hip_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.1</span>
+            <span class="n">knee_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SUPPORT_KNEE_ANGLE</span>
+            <span class="n">knee_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">supporting_leg</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span>
+            <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">moving_s_base</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PUSH_OFF</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                    <span class="n">s</span><span class="p">[</span><span class="n">moving_s_base</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">SUPPORT_KNEE_ANGLE</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">PUSH_OFF</span><span class="p">:</span>
+            <span class="n">knee_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">supporting_knee_angle</span>
+            <span class="n">knee_targ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">supporting_leg</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0</span>
+            <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">supporting_s_base</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.88</span> <span class="ow">or</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">SPEED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">STAY_ON_ONE_LEG</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">supporting_leg</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving_leg</span>
+
+        <span class="k">if</span> <span class="n">hip_targ</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">hip_todo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="p">(</span><span class="n">hip_targ</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">-</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">hip_targ</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">hip_todo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="p">(</span><span class="n">hip_targ</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span> <span class="o">-</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">knee_targ</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">knee_todo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">knee_targ</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span> <span class="o">-</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">knee_targ</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">knee_todo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">knee_targ</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="mi">11</span><span class="p">])</span> <span class="o">-</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+
+        <span class="n">hip_todo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># PID to keep head strait</span>
+        <span class="n">hip_todo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">knee_todo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">15.0</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># vertical speed, to damp oscillations</span>
+        <span class="n">knee_todo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">15.0</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">hip_todo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">knee_todo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">hip_todo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">knee_todo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span></div>
+</div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">BipedalWalker</span><span class="p">(</span><span class="n">render_mode</span><span class="o">=</span><span class="s2">&quot;human&quot;</span><span class="p">)</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_reward</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="c1"># Heurisic: suboptimal, have no notion of balance.</span>
+    <span class="n">heuristics</span> <span class="o">=</span> <span class="n">BipedalWalkerHeuristics</span><span class="p">()</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">total_reward</span> <span class="o">+=</span> <span class="n">r</span>
+        <span class="k">if</span> <span class="n">steps</span> <span class="o">%</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">action &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">+0.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;step </span><span class="si">{</span><span class="n">steps</span><span class="si">}</span><span class="s2"> total_reward </span><span class="si">{</span><span class="n">total_reward</span><span class="si">:</span><span class="s2">+0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hull &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">+0.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;leg0 &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">+0.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">9</span><span class="p">]]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;leg1 &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">+0.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">14</span><span class="p">]]))</span>
+        <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="n">heuristics</span><span class="o">.</span><span class="n">step_heuristic</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span><span class="p">:</span>
+            <span class="k">break</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

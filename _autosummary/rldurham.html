@@ -24,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="rldurham.env_info" href="rldurham.env_info.html" />
+    <link rel="next" title="rldurham.check_device" href="rldurham.check_device.html" />
     <link rel="prev" title="API Summary" href="../api_summary.html" /> 
 </head>
 
@@ -52,14 +52,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Reinforcement Learning Durham Gallery</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">rldurham</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.check_device.html">rldurham.check_device</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.env_info.html">rldurham.env_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.getwrappedattr.html">rldurham.getwrappedattr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.make.html">rldurham.make</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.plot_frozenlake.html">rldurham.plot_frozenlake</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.render.html">rldurham.render</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.seed_everything.html">rldurham.seed_everything</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.InfoTracker.html">rldurham.InfoTracker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.RLDurhamEnv.html">rldurham.RLDurhamEnv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.Recorder.html">rldurham.Recorder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.VideoRecorder.html">rldurham.VideoRecorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.bipedal_walker.html">rldurham.bipedal_walker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.version_check.html">rldurham.version_check</a></li>
 </ul>
 </li>
 </ul>
@@ -95,16 +100,25 @@
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.env_info.html#rldurham.env_info" title="rldurham.env_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">env_info</span></code></a>(env)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.check_device.html#rldurham.check_device" title="rldurham.check_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_device</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.env_info.html#rldurham.env_info" title="rldurham.env_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">env_info</span></code></a>(env[, print_out])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.getwrappedattr.html#rldurham.getwrappedattr" title="rldurham.getwrappedattr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getwrappedattr</span></code></a>(env, attr[, depth])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.make.html#rldurham.make" title="rldurham.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Drop-in replacement for <code class="docutils literal notranslate"><span class="pre">gym.make</span></code> to enable logging.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.plot_frozenlake.html#rldurham.plot_frozenlake" title="rldurham.plot_frozenlake"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frozenlake</span></code></a>(env[, v, policy, col_ramp, ...])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.render.html#rldurham.render" title="rldurham.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code></a>(env[, sleep])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.render.html#rldurham.render" title="rldurham.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code></a>(env[, clear, axis_off, show, sleep])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rldurham.seed_everything.html#rldurham.seed_everything" title="rldurham.seed_everything"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seed_everything</span></code></a>([seed, env, seed_env, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.seed_everything.html#rldurham.seed_everything" title="rldurham.seed_everything"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seed_everything</span></code></a>([seed, env, seed_env, ...])</p></td>
 <td><p>This uses the <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">PyTorch Lightning</a> <code class="docutils literal notranslate"><span class="pre">seed_everything</span></code> method to seed pseudo-random number generators in pytorch, numpy, and python.random.</p></td>
 </tr>
 </tbody>
@@ -115,13 +129,24 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="rldurham.InfoTracker.html#rldurham.InfoTracker" title="rldurham.InfoTracker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InfoTracker</span></code></a>()</p></td>
 <td><p>Track info by recursively descending into dict and creating lists of info values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rldurham.RLDurhamEnv.html#rldurham.RLDurhamEnv" title="rldurham.RLDurhamEnv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLDurhamEnv</span></code></a>(env)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.RLDurhamEnv.html#rldurham.RLDurhamEnv" title="rldurham.RLDurhamEnv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLDurhamEnv</span></code></a>(env[, unwrap])</p></td>
+<td><p>Light-weight environment wrapper to enable logging.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="rldurham.Recorder.html#rldurham.Recorder" title="rldurham.Recorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Recorder</span></code></a>(env[, info, video, logs, key, ...])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.VideoRecorder.html#rldurham.VideoRecorder" title="rldurham.VideoRecorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VideoRecorder</span></code></a>(*args, name_func, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Modules</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.bipedal_walker.html#module-rldurham.bipedal_walker" title="rldurham.bipedal_walker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bipedal_walker</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rldurham.version_check.html#module-rldurham.version_check" title="rldurham.version_check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version_check</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -133,7 +158,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../api_summary.html" class="btn btn-neutral float-left" title="API Summary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rldurham.env_info.html" class="btn btn-neutral float-right" title="rldurham.env_info" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="rldurham.check_device.html" class="btn btn-neutral float-right" title="rldurham.check_device" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rldurham.bipedal_walker.ContactDetector &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rldurham.version_check" href="rldurham.version_check.html" />
+    <link rel="prev" title="rldurham.bipedal_walker.BipedalWalkerHeuristics" href="rldurham.bipedal_walker.BipedalWalkerHeuristics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Reinforcement Learning Durham Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="rldurham.html">rldurham</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rldurham.check_device.html">rldurham.check_device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.env_info.html">rldurham.env_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.getwrappedattr.html">rldurham.getwrappedattr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.make.html">rldurham.make</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.plot_frozenlake.html">rldurham.plot_frozenlake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.render.html">rldurham.render</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.seed_everything.html">rldurham.seed_everything</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.InfoTracker.html">rldurham.InfoTracker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.RLDurhamEnv.html">rldurham.RLDurhamEnv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.Recorder.html">rldurham.Recorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.VideoRecorder.html">rldurham.VideoRecorder</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="rldurham.bipedal_walker.html">rldurham.bipedal_walker</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="rldurham.bipedal_walker.BipedalWalker.html">rldurham.bipedal_walker.BipedalWalker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rldurham.bipedal_walker.BipedalWalkerHardcore.html">rldurham.bipedal_walker.BipedalWalkerHardcore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rldurham.bipedal_walker.BipedalWalkerHeuristics.html">rldurham.bipedal_walker.BipedalWalkerHeuristics</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">rldurham.bipedal_walker.ContactDetector</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.version_check.html">rldurham.version_check</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
+          <li class="breadcrumb-item"><a href="rldurham.html">rldurham</a></li>
+          <li class="breadcrumb-item"><a href="rldurham.bipedal_walker.html">rldurham.bipedal_walker</a></li>
+      <li class="breadcrumb-item active">rldurham.bipedal_walker.ContactDetector</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rldurham-bipedal-walker-contactdetector">
+<h1>rldurham.bipedal_walker.ContactDetector<a class="headerlink" href="#rldurham-bipedal-walker-contactdetector" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.bipedal_walker.</span></span><span class="sig-name descname"><span class="pre">ContactDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#ContactDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">b2ContactListener</span></code></p>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">b2ContactListener</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">thisown</span></code></p></td>
+<td><p>The membership flag</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.bipedal_walker.ContactDetector.__init__" title="rldurham.bipedal_walker.ContactDetector.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(env)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rldurham.bipedal_walker.ContactDetector.BeginContact" title="rldurham.bipedal_walker.ContactDetector.BeginContact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeginContact</span></code></a>(b2ContactListener self, ...)</p></td>
+<td><p>Called when two fixtures begin to touch.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.bipedal_walker.ContactDetector.EndContact" title="rldurham.bipedal_walker.ContactDetector.EndContact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EndContact</span></code></a>(b2ContactListener self, ...)</p></td>
+<td><p>Called when two fixtures cease to touch.</p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">b2ContactListener</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code>()</p></td>
+<td><p>Return repr(self).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeginContact</span></code>(b2ContactListener self, ...)</p></td>
+<td><p>Called when two fixtures begin to touch.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EndContact</span></code>(b2ContactListener self, ...)</p></td>
+<td><p>Called when two fixtures cease to touch.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PreSolve</span></code>(b2ContactListener self, ...)</p></td>
+<td><p>This is called after a contact is updated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PostSolve</span></code>(b2ContactListener self, ...)</p></td>
+<td><p>This lets you inspect a contact after the solver is finished.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__dir__</span></code>()</p></td>
+<td><p>Using introspection, mimic dir() by adding up all of the __dicts__ for the current class and all base classes (type(self).__mro__ returns all of the classes that make it up) Basically filters by:     __x__ OK     __x bad     _classname bad</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__hash__</span></code>(b2ContactListener self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__disown__</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.BeginContact">
+<span class="sig-name descname"><span class="pre">BeginContact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b2ContactListener</span> <span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2Contact</span> <span class="pre">contact</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#ContactDetector.BeginContact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.BeginContact" title="Link to this definition"></a></dt>
+<dd><p>Called when two fixtures begin to touch.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.EndContact">
+<span class="sig-name descname"><span class="pre">EndContact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b2ContactListener</span> <span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2Contact</span> <span class="pre">contact</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#ContactDetector.EndContact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.EndContact" title="Link to this definition"></a></dt>
+<dd><p>Called when two fixtures cease to touch.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.PostSolve">
+<span class="sig-name descname"><span class="pre">PostSolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b2ContactListener</span> <span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2Contact</span> <span class="pre">contact</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2ContactImpulse</span> <span class="pre">impulse</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.PostSolve" title="Link to this definition"></a></dt>
+<dd><p>This lets you inspect a contact after the solver is finished. This is useful for inspecting impulses. Note: the contact manifold does not include time of impact impulses, which can be arbitrarily large if the sub-step is small. Hence the impulse is provided explicitly in a separate data structure. Note: this is only called for contacts that are touching, solid, and awake.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.PreSolve">
+<span class="sig-name descname"><span class="pre">PreSolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b2ContactListener</span> <span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2Contact</span> <span class="pre">contact</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2Manifold</span> <span class="pre">oldManifold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.PreSolve" title="Link to this definition"></a></dt>
+<dd><p>This is called after a contact is updated. This allows you to inspect a contact before it goes to the solver. If you are careful, you can modify the contact manifold (e.g. disable contact). A copy of the old manifold is provided so that you can detect changes. Note: this is called only for awake bodies. Note: this is called even when the number of contact points is zero. Note: this is not called for sensors. Note: if you set the number of contact points to zero, you will not get an EndContact callback. However, you may get a BeginContact callback the next step.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__annotations__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rldurham.bipedal_walker',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">ContactDetector.__init__&gt;,</span> <span class="pre">'BeginContact':</span> <span class="pre">&lt;function</span> <span class="pre">ContactDetector.BeginContact&gt;,</span> <span class="pre">'EndContact':</span> <span class="pre">&lt;function</span> <span class="pre">ContactDetector.EndContact&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__dict__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__dir__">
+<span class="sig-name descname"><span class="pre">__dir__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__dir__" title="Link to this definition"></a></dt>
+<dd><p>Using introspection, mimic dir() by adding up all of the __dicts__
+for the current class and all base classes (type(self).__mro__ returns
+all of the classes that make it up)
+Basically filters by:</p>
+<blockquote>
+<div><p>__x__ OK
+__x bad
+_classname bad</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__disown__">
+<span class="sig-name descname"><span class="pre">__disown__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__disown__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b2ContactListener</span> <span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">long</span></span></span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__hash__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#ContactDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rldurham.bipedal_walker'</span></em><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__module__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__repr__" title="Link to this definition"></a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__swig_destroy__">
+<span class="sig-name descname"><span class="pre">__swig_destroy__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__swig_destroy__" title="Link to this definition"></a></dt>
+<dd><p>delete_b2ContactListener(b2ContactListener self)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.__weakref__" title="Link to this definition"></a></dt>
+<dd><p>list of weak references to the object</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rldurham.bipedal_walker.ContactDetector.thisown">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thisown</span></span><a class="headerlink" href="#rldurham.bipedal_walker.ContactDetector.thisown" title="Link to this definition"></a></dt>
+<dd><p>The membership flag</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rldurham.bipedal_walker.BipedalWalkerHeuristics.html" class="btn btn-neutral float-left" title="rldurham.bipedal_walker.BipedalWalkerHeuristics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rldurham.version_check.html" class="btn btn-neutral float-right" title="rldurham.version_check" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

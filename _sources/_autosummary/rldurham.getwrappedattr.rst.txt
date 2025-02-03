@@ -1,0 +1,6 @@
+rldurham.getwrappedattr
+=======================
+
+.. currentmodule:: rldurham
+
+.. autofunction:: getwrappedattr

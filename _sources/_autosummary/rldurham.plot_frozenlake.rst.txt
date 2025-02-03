@@ -1,0 +1,6 @@
+rldurham.plot\_frozenlake
+=========================
+
+.. currentmodule:: rldurham
+
+.. autofunction:: plot_frozenlake

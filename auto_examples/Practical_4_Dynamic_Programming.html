@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practical 4: DynamicProgramming &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Basics of the RLDurham package" href="rldurham_basics.html" />
+    <link rel="prev" title="Coursework Template" href="Coursework_Template.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rldurham_basics.html">Basics of the RLDurham package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reinforcement Learning Durham Gallery</a></li>
+      <li class="breadcrumb-item active">Practical 4: DynamicProgramming</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-practical-4-dynamic-programming-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="practical-4-dynamicprogramming">
+<span id="sphx-glr-auto-examples-practical-4-dynamic-programming-py"></span><h1>Practical 4: DynamicProgramming<a class="headerlink" href="#practical-4-dynamicprogramming" title="Link to this heading"></a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Practical 4: DynamicProgramming</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">rldurham</span> <span class="k">as</span> <span class="nn">rld</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;FrozenLake-v1&#39;</span>  <span class="c1"># small version</span>
+<span class="c1"># name = &#39;FrozenLake8x8-v1&#39;  # larger version</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">is_slippery</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="n">LEFT</span><span class="p">,</span> <span class="n">DOWN</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">UP</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;action space: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reward range: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">reward_range</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;observation space: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="p">))</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_001.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_001.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>action space: Discrete(4)
+reward range: (0, 1)
+observation space: Discrete(16)
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">))</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_002.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_002.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_eval_step</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">v_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">v_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s_from</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">pi</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s_from</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s_to</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">done</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="n">s_from</span><span class="p">][</span><span class="n">a</span><span class="p">]:</span>
+                <span class="n">v</span><span class="p">[</span><span class="n">s_from</span><span class="p">]</span> <span class="o">+=</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">v_init</span><span class="p">[</span><span class="n">s_to</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">policy_eval_step</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">),</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_003.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_003.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_eval_step_inplace</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">v_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">v_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v_init</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># opearate on copy in-place</span>
+    <span class="k">for</span> <span class="n">s_from</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)):</span>  <span class="c1"># reverse order of states</span>
+        <span class="n">v_s_from</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># compute value for this state</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">pi</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s_from</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s_to</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">done</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="n">s_from</span><span class="p">][</span><span class="n">a</span><span class="p">]:</span>
+                <span class="n">v_s_from</span> <span class="o">+=</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">v</span><span class="p">[</span><span class="n">s_to</span><span class="p">])</span>  <span class="c1"># use the values we also update</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">s_from</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_s_from</span>  <span class="c1"># update</span>
+    <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">print_iter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">v_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">v_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v_init</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">new_v</span> <span class="o">=</span> <span class="n">policy_eval_step</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">new_v</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">new_v</span>
+    <span class="k">if</span> <span class="n">print_iter</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">q_from_v</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s_to</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">done</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]:</span>
+            <span class="n">q</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">+=</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">v</span><span class="p">[</span><span class="n">s_to</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">q</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">deterministic</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">policy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">])</span> <span class="o">/</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q_from_v</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">deterministic</span><span class="p">:</span>
+            <span class="c1"># deterministic policy</span>
+            <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># stochastic policy with equal probability on maximizing actions</span>
+            <span class="n">best_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">q</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">q</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">best_a</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">policy</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;FrozenLake8x8-v1&#39;</span><span class="p">,</span> <span class="n">is_slippery</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_004.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_004.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">new_policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">new_policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_005.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_005.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">new_policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">new_policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">new_policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">new_policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1"># In[ ]:</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_006.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_006.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_007.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_007.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 0. 0. 1. 1. 1. 0. 1.
+ 1. 0. 1. 1. 0. 1. 0. 1. 1. 1. 1. 0. 1. 1. 1. 0.]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.563 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-practical-4-dynamic-programming-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/1ba16bf1760069d61dffcee94b1e1873/Practical_4_Dynamic_Programming.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Practical_4_Dynamic_Programming.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/92f0a8e605725b27bc0a7036e99c7f94/Practical_4_Dynamic_Programming.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Practical_4_Dynamic_Programming.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/805b9f38a7c295615a7076de9b2bf145/Practical_4_Dynamic_Programming.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">Practical_4_Dynamic_Programming.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Coursework_Template.html" class="btn btn-neutral float-left" title="Coursework Template" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rldurham_basics.html" class="btn btn-neutral float-right" title="Basics of the RLDurham package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

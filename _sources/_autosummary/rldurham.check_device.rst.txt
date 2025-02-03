@@ -1,0 +1,6 @@
+rldurham.check\_device
+======================
+
+.. currentmodule:: rldurham
+
+.. autofunction:: check_device

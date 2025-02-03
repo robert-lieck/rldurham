@@ -1,0 +1,6 @@
+rldurham.version\_check.check\_for\_update
+==========================================
+
+.. currentmodule:: rldurham.version_check
+
+.. autofunction:: check_for_update

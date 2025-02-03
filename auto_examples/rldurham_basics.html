@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basics of the RLDurham package &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Practical 2: Multi-Armed Bandits" href="Practical_2_Multi-Armed_Bandits.html" />
+    <link rel="prev" title="Practical 4: DynamicProgramming" href="Practical_4_Dynamic_Programming.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Basics of the RLDurham package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#imports">Imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-gym-workflow">Simple gym workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rldurham-workflow">RLDurham workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-helper-functions">Other Helper Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reinforcement Learning Durham Gallery</a></li>
+      <li class="breadcrumb-item active">Basics of the RLDurham package</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-rldurham-basics-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="basics-of-the-rldurham-package">
+<span id="sphx-glr-auto-examples-rldurham-basics-py"></span><h1>Basics of the RLDurham package<a class="headerlink" href="#basics-of-the-rldurham-package" title="Link to this heading"></a></h1>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="nn">gym</span>
+<span class="kn">import</span> <span class="nn">rldurham</span> <span class="k">as</span> <span class="nn">rld</span>  <span class="c1"># Reinforcement Learning Durham package with helper functions</span>
+</pre></div>
+</div>
+</section>
+<section id="simple-gym-workflow">
+<h2>Simple gym workflow<a class="headerlink" href="#simple-gym-workflow" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialise environment</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;CartPole-v1&#39;</span><span class="p">)</span>
+<span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># run episodes</span>
+<span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>  <span class="c1"># random action</span>
+        <span class="n">observation</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span>
+
+<span class="c1"># close environment</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="rldurham-workflow">
+<h2>RLDurham workflow<a class="headerlink" href="#rldurham-workflow" title="Link to this heading"></a></h2>
+<p>This is the workflow required for the coursework to ensure correct logging</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># drop-in for gym.make that enables logging (use render_mode=&quot;rgb_array&quot; to enable video rendering)</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;CartPole-v1&#39;</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s2">&quot;rgb_array&quot;</span><span class="p">)</span>
+
+<span class="c1"># record statistics (returned in info) and videos</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">Recorder</span><span class="p">(</span>
+    <span class="n">env</span><span class="p">,</span>
+    <span class="n">smoothing</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                       <span class="c1"># track rolling averages (not required for coursework)</span>
+    <span class="n">video</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                         <span class="c1"># enable recording videos</span>
+    <span class="n">video_folder</span><span class="o">=</span><span class="s2">&quot;videos&quot;</span><span class="p">,</span>              <span class="c1"># folder for videos</span>
+    <span class="n">video_prefix</span><span class="o">=</span><span class="s2">&quot;xxxx00-agent-video&quot;</span><span class="p">,</span>  <span class="c1"># prefix for videos</span>
+    <span class="n">logs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                          <span class="c1"># keep logs</span>
+<span class="p">)</span>
+
+<span class="c1"># make reproducible by seeding everything (python, numpy, pytorch, env)</span>
+<span class="c1"># this also calls env.reset</span>
+<span class="n">seed</span><span class="p">,</span> <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+
+<span class="c1"># optionally track statistics for plotting</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">InfoTracker</span><span class="p">()</span>
+
+<span class="c1"># run episodes</span>
+<span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">):</span>
+    <span class="c1"># recording statistics and video can be switched on and off (video recording is slow!)</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>   <span class="c1"># track every other episode (usually tracking every episode is fine)</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">video</span> <span class="o">=</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># you only want to record videos every x episodes (set BEFORE calling reset!)</span>
+    <span class="c1">#######################################################################</span>
+    <span class="c1"># this is the same as above</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>  <span class="c1"># Random action</span>
+        <span class="n">observation</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span>
+    <span class="c1">#######################################################################</span>
+        <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+            <span class="c1"># per-episode statistics are returned by Recorder wrapper in info</span>
+            <span class="c1">#     &#39;idx&#39;: index/count of the episode</span>
+            <span class="c1">#     &#39;length&#39;: length of the episode</span>
+            <span class="c1">#     &#39;r_sum&#39;: sum of rewards in episode</span>
+            <span class="c1">#     &#39;r_mean&#39;: mean of rewards in episode</span>
+            <span class="c1">#     &#39;r_std&#39;: standard deviation of rewards in episode</span>
+            <span class="c1">#     &#39;length_&#39;: average `length&#39; over smoothing window</span>
+            <span class="c1">#     &#39;r_sum_&#39;: reward sum over smoothing window (not the average)</span>
+            <span class="c1">#     &#39;r_mean_&#39;: average reward sum per episode over smoothing window (i.e. average of `r_sum&#39;)</span>
+            <span class="c1">#     &#39;r_std_&#39;: standard deviation of reward sum per episode over smoothing window</span>
+
+            <span class="c1"># InfoTracker turns these into arrays over time</span>
+            <span class="n">tracker</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+
+            <span class="c1"># some plotting functionality is provided (this will refresh in notebooks)</span>
+            <span class="c1">#  - combinations of ``r_mean`` and ``r_std`` or ``r_mean_`` and ``r_std_`` are most insightful</span>
+            <span class="c1">#  - for `CartPole`, ``length`` and ``r_sum`` are the same as there is a unit reward for each</span>
+            <span class="c1">#    time step of successful balancing</span>
+            <span class="n">tracker</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_mean_</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">r_std_</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">length</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">),</span>
+                         <span class="n">r_sum</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+
+<span class="c1"># don&#39;t forget to close environment (e.g. triggers last video save)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># write log file (for coursework)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;logs&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s2">&quot;xxxx00-agent-log.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_rldurham_basics_001.png" srcset="../_images/sphx_glr_rldurham_basics_001.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_002.png" srcset="../_images/sphx_glr_rldurham_basics_002.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_003.png" srcset="../_images/sphx_glr_rldurham_basics_003.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_004.png" srcset="../_images/sphx_glr_rldurham_basics_004.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_005.png" srcset="../_images/sphx_glr_rldurham_basics_005.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_006.png" srcset="../_images/sphx_glr_rldurham_basics_006.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_007.png" srcset="../_images/sphx_glr_rldurham_basics_007.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_008.png" srcset="../_images/sphx_glr_rldurham_basics_008.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_009.png" srcset="../_images/sphx_glr_rldurham_basics_009.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_010.png" srcset="../_images/sphx_glr_rldurham_basics_010.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_rldurham_basics_011.png" srcset="../_images/sphx_glr_rldurham_basics_011.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/.local/lib/python3.12/site-packages/gymnasium/wrappers/rendering.py:283: UserWarning: WARN: Overwriting existing videos at /home/runner/work/rldurham/rldurham/examples/videos folder (try specifying a different `video_folder` for the `RecordVideo` wrapper if this is not desired)
+  logger.warn(
+{&#39;recorder&#39;: {&#39;idx&#39;: [0], &#39;length&#39;: [29], &#39;r_sum&#39;: [29.0], &#39;r_mean&#39;: [1.0], &#39;r_std&#39;: [0.0], &#39;length_&#39;: [29.0], &#39;r_sum_&#39;: [29.0], &#39;r_mean_&#39;: [29.0], &#39;r_std_&#39;: [0.0]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0], &#39;length&#39;: [29], &#39;r_sum&#39;: [29.0], &#39;r_mean&#39;: [1.0], &#39;r_std&#39;: [0.0], &#39;length_&#39;: [29.0], &#39;r_sum_&#39;: [29.0], &#39;r_mean_&#39;: [29.0], &#39;r_std_&#39;: [0.0]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2], &#39;length&#39;: [29, 69], &#39;r_sum&#39;: [29.0, 69.0], &#39;r_mean&#39;: [1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0], &#39;length_&#39;: [29.0, 49.0], &#39;r_sum_&#39;: [29.0, 98.0], &#39;r_mean_&#39;: [29.0, 49.0], &#39;r_std_&#39;: [0.0, 20.0]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2], &#39;length&#39;: [29, 69], &#39;r_sum&#39;: [29.0, 69.0], &#39;r_mean&#39;: [1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0], &#39;length_&#39;: [29.0, 49.0], &#39;r_sum_&#39;: [29.0, 98.0], &#39;r_mean_&#39;: [29.0, 49.0], &#39;r_std_&#39;: [0.0, 20.0]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4], &#39;length&#39;: [29, 69, 39], &#39;r_sum&#39;: [29.0, 69.0, 39.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_sum_&#39;: [29.0, 98.0, 137.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4], &#39;length&#39;: [29, 69, 39], &#39;r_sum&#39;: [29.0, 69.0, 39.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_sum_&#39;: [29.0, 98.0, 137.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6], &#39;length&#39;: [29, 69, 39, 14], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6], &#39;length&#39;: [29, 69, 39, 14], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6, 8], &#39;length&#39;: [29, 69, 39, 14, 28], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0, 28.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0, 179.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852, 18.410866356584094]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6, 8], &#39;length&#39;: [29, 69, 39, 14, 28], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0, 28.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0, 179.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852, 18.410866356584094]}}
+
+
+{&#39;recorder&#39;: {&#39;idx&#39;: [0, 2, 4, 6, 8, 10], &#39;length&#39;: [29, 69, 39, 14, 28, 25], &#39;r_sum&#39;: [29.0, 69.0, 39.0, 14.0, 28.0, 25.0], &#39;r_mean&#39;: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0], &#39;r_std&#39;: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], &#39;length_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8, 34.0], &#39;r_sum_&#39;: [29.0, 98.0, 137.0, 151.0, 179.0, 204.0], &#39;r_mean_&#39;: [29.0, 49.0, 45.666666666666664, 37.75, 35.8, 34.0], &#39;r_std_&#39;: [0.0, 20.0, 16.996731711975958, 20.116846174288852, 18.410866356584094, 17.281975195754296]}}
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># print log file</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">log_file</span> <span class="o">=</span> <span class="s2">&quot;logs/xxxx00-agent-log.txt&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;log file: </span><span class="si">{</span><span class="n">log_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">log_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>log file: logs/xxxx00-agent-log.txt
+   count  reward_sum  squared_reward_sum  length
+0      0        29.0                29.0      29
+1      1        17.0                17.0      17
+2      2        69.0                69.0      69
+3      3        15.0                15.0      15
+4      4        39.0                39.0      39
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># show video</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">Video</span>
+<span class="n">video_file</span> <span class="o">=</span> <span class="s2">&quot;videos/&quot;</span> <span class="o">+</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&quot;videos&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.+episode=4.+\.mp4&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;video file: </span><span class="si">{</span><span class="n">video_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">Video</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">video_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>video file: videos/xxxx00-agent-video,episode=4,score=39.0.mp4
+
+Video(value=b&#39;\x00\x00\x00 ftypisom\x00\x00\x02\x00isomiso2avc1mp41\x00\x00\x00\x08free...&#39;)
+</pre></div>
+</div>
+</section>
+<section id="other-helper-functions">
+<h2>Other Helper Functions<a class="headerlink" href="#other-helper-functions" title="Link to this heading"></a></h2>
+<p>This is automatically run on package import to check for updates</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rld</span><span class="o">.</span><span class="n">version_check</span><span class="o">.</span><span class="n">check_for_update</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Get information about simple action and observation spaces (only works for simple environments)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">discrete_act</span><span class="p">,</span> <span class="n">discrete_obs</span><span class="p">,</span> <span class="n">act_dim</span><span class="p">,</span> <span class="n">obs_dim</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">env_info</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">print_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>actions are discrete with 2 dimensions/#actions
+observations are continuous with 4 dimensions/#observations
+maximum timesteps is: 500
+</pre></div>
+</div>
+<p>Render the environment with matplotlib (essentially a single video frame; requires <code class="docutils literal notranslate"><span class="pre">render_mode=&quot;rgb_array&quot;</span></code>)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rld</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_rldurham_basics_012.png" srcset="../_images/sphx_glr_rldurham_basics_012.png" alt="rldurham basics" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.203 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-rldurham-basics-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/737fd82cba2663f68b5dbde1a0d6a917/rldurham_basics.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">rldurham_basics.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/e6fe5f6c1491bfa8f3da3c8e9fb1fb2c/rldurham_basics.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">rldurham_basics.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/d28530d240daf6b6c64c084dc148da37/rldurham_basics.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">rldurham_basics.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Practical_4_Dynamic_Programming.html" class="btn btn-neutral float-left" title="Practical 4: DynamicProgramming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Practical_2_Multi-Armed_Bandits.html" class="btn btn-neutral float-right" title="Practical 2: Multi-Armed Bandits" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

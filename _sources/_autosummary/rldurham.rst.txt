@@ -14,8 +14,11 @@
    .. autosummary::
       :toctree:
    
+      check_device
       env_info
+      getwrappedattr
       make
+      plot_frozenlake
       render
       seed_everything
    
@@ -41,4 +44,14 @@
    
 
 
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :template: custom-module-template.rst
+   :recursive:
+
+   bipedal_walker
+   version_check
 

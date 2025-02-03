@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Lecture 2: Gym" href="Lecture_2_Gym.html" />
-    <link rel="prev" title="Practical 2: Multi-Armed Bandits" href="Practical_2_Multi-Armed_Bandits.html" /> 
+    <link rel="prev" title="Lecture 4: Dynamic Programming" href="Lecture_4_Dynamic_Programming.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,7 +50,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rldurham_basics.html">Basics of the RLDurham package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Practical 3: Markov Decision Processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
 </ul>
@@ -136,7 +140,7 @@ to download the full example code.</p>
 <span class="c1"># Plot statistics of state visits</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f96734b2750&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b33e0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b3860&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b2f00&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b3d40&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b2240&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b31d0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f967358e7e0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b2540&gt;, &lt;matplotlib.lines.Line2D object at 0x7f96734b3e30&gt;]
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f315803d940&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803dca0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803dd90&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803deb0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e120&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803df70&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e330&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803db80&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e270&gt;, &lt;matplotlib.lines.Line2D object at 0x7f315803e4e0&gt;]
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">episodes</span> <span class="o">=</span> <span class="n">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">length_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -149,7 +153,7 @@ to download the full example code.</p>
 <span class="c1"># Compute the closed-form solution for stationary distribution</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend object at 0x7f96734cb860&gt;
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend object at 0x7f3158271010&gt;
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">transition_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -194,7 +198,7 @@ to download the full example code.</p>
 <span class="c1"># Add a discount factor and estimate state values</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f9672f621e0&gt;]
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f3157e7f320&gt;]
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="n">start_state</span><span class="p">):</span>
@@ -229,9 +233,9 @@ to download the full example code.</p>
 <span class="c1"># Compute the closed-form solution for the state values</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.77923828125
-Value for state 0: 0.73478515625
-Value for state 1: 0.02423828125
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.82705078125
+Value for state 0: 0.72212890625
+Value for state 1: 0.0823828125
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span>
@@ -296,11 +300,11 @@ Value for state 1: 0.02423828125
 <span class="c1"># Change the policy to always go one step up and re-estimate the state values</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.2888671875
-Value for state 0: 0.1545703125
-Value for state 1: 0.32599609375
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.30796875
+Value for state 0: 0.153515625
+Value for state 1: 0.3164453125
 
-{9: np.float64(0.2888671875), 0: np.float64(0.1545703125), 1: np.float64(0.32599609375)}
+{9: np.float64(0.30796875), 0: np.float64(0.153515625), 1: np.float64(0.3164453125)}
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">policy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">))</span>
@@ -317,11 +321,11 @@ Value for state 1: 0.32599609375
 <span class="c1"># Experiment with different policies and try to improve them</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.48166015625
-Value for state 0: 0.033125
-Value for state 1: 0.03845703125
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.478203125
+Value for state 0: 0.0597265625
+Value for state 1: 0.0657421875
 
-{9: np.float64(0.48166015625), 0: np.float64(0.033125), 1: np.float64(0.03845703125)}
+{9: np.float64(0.478203125), 0: np.float64(0.0597265625), 1: np.float64(0.0657421875)}
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">policy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">))</span>
@@ -337,14 +341,14 @@ Value for state 1: 0.03845703125
                       <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.59369140625
-Value for state 0: 0.3014453125
-Value for state 1: 0.59521484375
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Value for state 9: 0.60015625
+Value for state 0: 0.299765625
+Value for state 1: 0.587109375
 
-{9: np.float64(0.59369140625), 0: np.float64(0.3014453125), 1: np.float64(0.59521484375)}
+{9: np.float64(0.60015625), 0: np.float64(0.299765625), 1: np.float64(0.587109375)}
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.170 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.164 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-practical-3-markov-decision-processes-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/51abfdc6e557cf8caafdd76abc0aac00/Practical_3_Markov_Decision_Processes.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Practical_3_Markov_Decision_Processes.ipynb</span></code></a></p>
@@ -363,7 +367,7 @@ Value for state 1: 0.59521484375
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Practical_2_Multi-Armed_Bandits.html" class="btn btn-neutral float-left" title="Practical 2: Multi-Armed Bandits" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lecture_4_Dynamic_Programming.html" class="btn btn-neutral float-left" title="Lecture 4: Dynamic Programming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Lecture_2_Gym.html" class="btn btn-neutral float-right" title="Lecture 2: Gym" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
