@@ -71,14 +71,11 @@ def render(env, clear=False, axis_off=True, show=True, sleep=0):
         time.sleep(sleep)
 
 
-# helper function to draw the frozen lake
-def plot_frozenlake(env, v=None, policy=None, col_ramp=1, dpi=175, draw_vals=False, mark_ice=True):
+def plot_frozenlake(env, v=None, policy=None, col_ramp=1, draw_vals=False, mark_ice=True):
+    """helper function to draw the frozen lake"""
     # set up plot
-    plt.rcParams['figure.dpi'] = dpi
-    plt.rcParams.update({'axes.edgecolor': (0.32, 0.36, 0.38)})
-    plt.rcParams.update({'font.size': 4 if env.nrow == 8 else 7})
     gray = np.array((0.32, 0.36, 0.38))
-    plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(5, 5))
     ax = plt.gca()
     ax.set_xticks(np.arange(env.ncol) - .5)
     ax.set_yticks(np.arange(env.nrow) - .5)
@@ -131,8 +128,12 @@ def env_info(env, print_out=False):
     act_dim = env.action_space.n if discrete_act else env.action_space.shape[0]
     obs_dim = env.observation_space.n if discrete_obs else env.observation_space.shape[0]
     if print_out:
-        print(f"actions are {'discrete' if discrete_act else 'continuous'} with {act_dim} dimensions/#actions")
-        print(f"observations are {'discrete' if discrete_obs else 'continuous'} with {obs_dim} dimensions/#observations")
+        print(f"actions are {'discrete' if discrete_act else 'continuous'} "
+              f"with {act_dim} dimensions/#actions "
+              f"(action space: {env.action_space})")
+        print(f"observations are {'discrete' if discrete_obs else 'continuous'} "
+              f"with {obs_dim} dimensions/#observations "
+              f"(observation space: {env.observation_space})")
         print(f"maximum timesteps is: {env.spec.max_episode_steps}")
     return discrete_act, discrete_obs, act_dim, obs_dim
 
