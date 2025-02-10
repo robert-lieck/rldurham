@@ -213,3 +213,47 @@ print(v)
 policy = policy_improvement(env, v, gamma=gamma)
 rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=True)
 
+
+# %%
+
+
+env = rld.make(
+    'FrozenLake-v1',
+    desc=[
+        "FFF",
+        "FHF",
+        "SFG",
+        "FHF",
+    ],
+    is_slippery=True,
+    render_mode='rgb_array',
+)
+rld.seed_everything(42, env)
+rld.render(env)
+
+
+# `gamma = 1`: Preference for longer but low-risk paths
+
+# %%
+
+
+gamma = 1
+policy = uniform_policy(env)
+for _ in range(10):
+    v = policy_evaluation(env, policy, gamma=gamma)
+    policy = policy_improvement(env, v, gamma=gamma)
+    rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=False, clear=True)
+
+
+# `gamma < 1`: Preference for shorter but potentially riskier paths
+
+# %%
+
+
+gamma = 0.5
+policy = uniform_policy(env)
+for _ in range(10):
+    v = policy_evaluation(env, policy, gamma=gamma)
+    policy = policy_improvement(env, v, gamma=gamma)
+    rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=False, clear=True)
+

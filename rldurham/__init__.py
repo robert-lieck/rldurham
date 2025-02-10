@@ -62,7 +62,11 @@ def seed_everything(seed: Optional[int] = None,
 def render(env, clear=False, axis_off=True, show=True, sleep=0):
     if clear:
         disp.clear_output(wait=True)
-    plt.imshow(env.render())
+    try:
+        plt.imshow(env.render())
+    except TypeError:
+        raise RuntimeError('Could not render environment due to TypeError, please make sure you have specified '
+                           'render_mode="rgb_array" when initialising the environment')
     if axis_off:
         plt.axis('off')
     if show:
@@ -71,7 +75,7 @@ def render(env, clear=False, axis_off=True, show=True, sleep=0):
         time.sleep(sleep)
 
 
-def plot_frozenlake(env, v=None, policy=None, col_ramp=1, draw_vals=False, mark_ice=True):
+def plot_frozenlake(env, v=None, policy=None, trajectory=None, col_ramp=1, draw_vals=False, clear=False):
     """helper function to draw the frozen lake"""
     # set up plot
     gray = np.array((0.32, 0.36, 0.38))
@@ -89,12 +93,15 @@ def plot_frozenlake(env, v=None, policy=None, col_ramp=1, draw_vals=False, mark_
         v = np.zeros(env.observation_space.n)
     # plot values
     plt.imshow(1 - v.reshape(env.nrow, env.ncol) ** col_ramp, cmap='gray', interpolation='none', clim=(0, 1), zorder=-1)
+    # function to get x and y from state index
+    def xy_from_state(s):
+        return s % env.ncol, s // env.ncol
     # function for plotting policy
     def plot_arrow(x, y, dx, dy, v, scale=0.4):
         plt.arrow(x, y, scale * float(dx), scale * float(dy), color=gray + 0.2 * (1 - v), head_width=0.1, head_length=0.1, zorder=1)
     # go through states
     for s in range(env.observation_space.n):
-        x, y = s % env.nrow, s // env.ncol
+        x, y = xy_from_state(s)
         # print numeric values
         if draw_vals and v[s] > 0:
             vstr = '{0:.1e}'.format(v[s]) if env.nrow == 8 else '{0:.6f}'.format(v[s])
@@ -102,16 +109,16 @@ def plot_frozenlake(env, v=None, policy=None, col_ramp=1, draw_vals=False, mark_
         # mark ice, start, goal
         if env.desc.tolist()[y][x] == b'F':
             plt.text(x-0.45,y-0.3, 'ice', color=(0.5, 0.6, 1), fontname='Sans')
-            if mark_ice:
-                ax.add_patch(plt.Circle((x, y), 0.2, color=(0.7, 0.8, 1), zorder=0))
+            ax.add_patch(plt.Circle((x, y), 0.2, color=(0.7, 0.8, 1), zorder=0))
         elif env.desc.tolist()[y][x] == b'S':
-            plt.text(x-0.45,y-0.3, 'start',color=(0.2,0.5,0.5), fontname='Sans',
-                     weight='bold')
+            plt.text(x - 0.45, y - 0.3, 'start', color=(0.2, 0.5, 0.5), fontname='Sans', weight='bold')
+            ax.add_patch(plt.Circle((x, y), 0.2, color=(0.2, 0.5, 0.5), zorder=0))
         elif env.desc.tolist()[y][x] == b'G':
-            plt.text(x-0.45,y-0.3, 'goal', color=(0.7,0.2,0.2), fontname='Sans',
-                     weight='bold')
+            plt.text(x - 0.45, y - 0.3, 'goal', color=(0.7, 0.2, 0.2), fontname='Sans', weight='bold')
+            ax.add_patch(plt.Circle((x, y), 0.2, color=(0.7, 0.2, 0.2), zorder=0))
             continue # don't plot policy for goal state
         else:
+            ax.add_patch(plt.Circle((x, y), 0.1, color=(0.2, 0.1, 1), zorder=0))
             continue # don't plot policy for holes
         if policy is not None:
             a = policy[s]
@@ -119,6 +126,12 @@ def plot_frozenlake(env, v=None, policy=None, col_ramp=1, draw_vals=False, mark_
             if a[1] > 0.0: plot_arrow(x, y,    0.,  a[1], v[s])  # down
             if a[2] > 0.0: plot_arrow(x, y,  a[2],    0., v[s])  # right
             if a[3] > 0.0: plot_arrow(x, y,    0., -a[3], v[s])  # up
+    # plot trace if provided
+    if trajectory:
+        x, y = xy_from_state(np.array([s for s, a, r in trajectory]))
+        plt.plot(x, y, c=(0.6, 0.2, 0.2))
+    if clear:
+        disp.clear_output(wait=True)
     plt.show()
 
 
@@ -129,11 +142,9 @@ def env_info(env, print_out=False):
     obs_dim = env.observation_space.n if discrete_obs else env.observation_space.shape[0]
     if print_out:
         print(f"actions are {'discrete' if discrete_act else 'continuous'} "
-              f"with {act_dim} dimensions/#actions "
-              f"(action space: {env.action_space})")
+              f"with {act_dim} dimensions/#actions")
         print(f"observations are {'discrete' if discrete_obs else 'continuous'} "
-              f"with {obs_dim} dimensions/#observations "
-              f"(observation space: {env.observation_space})")
+              f"with {obs_dim} dimensions/#observations")
         print(f"maximum timesteps is: {env.spec.max_episode_steps}")
     return discrete_act, discrete_obs, act_dim, obs_dim
 
@@ -148,22 +159,39 @@ def check_device():
     return device
 
 
+def transparent_wrapper(cls):
+    def __getattr__(self, item):
+        # do not try to unwrap "special" attributes used below or in getwrappedattr (--> infinite recursion)
+        if item in ["unwrap", "env"]:
+            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{item}'")
+        else:
+            # allow to switch unwrapping off by setting "unwrap" attribute to False
+            try:
+                unwrap = self.unwrap
+            except AttributeError:
+                unwrap = True
+            # unwrap or raise
+            if unwrap:
+                # unwrap (don't try getattr first, which would just call this function again)
+                return getwrappedattr(self, item, try_getattr=False)
+            else:
+                raise AttributeError(f"'{self.__class__.__name__}' has no attribute '{item}' "
+                                     f"(set unwrap=True to attempt unwrapping the enclosed environments)")
+
+    cls.__getattr__ = __getattr__
+
+    return cls
+
+
+@transparent_wrapper
 class RLDurhamEnv(gym.Wrapper):
     """
     Light-weight environment wrapper to enable logging.
     """
 
-    def __init__(self, env, unwrap=True):
+    def __init__(self, env):
         super().__init__(env)
-        self.unwrap = unwrap
         self._unscaled_reward = None
-
-    def __getattr__(self, item):
-        if self.unwrap:
-            return getwrappedattr(self.env, item)
-        else:
-            raise AttributeError(f"Has no attribute '{item}' "
-                                 f"(set unwrap=True to attempt unwrapping the enclosed environments)")
 
     def step(self, action):
         obs, reward, terminated, truncated, info = super().step(action)
@@ -171,22 +199,26 @@ class RLDurhamEnv(gym.Wrapper):
         return obs, reward, terminated, truncated, info
 
 
-def getwrappedattr(env, attr, depth=None):
+def getwrappedattr(env, attr, depth=None, try_getattr=True):
     # try to get the attribute
-    try:
-        return getattr(env, attr)
-    except AttributeError:
-        # stop if max depth reached, otherwise, count down depth
-        if depth is not None:
-            if depth <= 0:
-                raise AttributeError("Maximum unwrapping depth reached")
-            else:
-                depth = depth - 1
+    if try_getattr:
+        try:
+            return getattr(env, attr)
+        except AttributeError:
+            # go on and unwrap
+            pass
+    # stop if max depth reached, otherwise, count down depth
+    if depth is not None:
+        if depth <= 0:
+            raise AttributeError("Maximum unwrapping depth reached")
+        else:
+            depth = depth - 1
     # try to get the wrapped environment
     try:
         env = env.env
     except AttributeError:
-        raise AttributeError(f"Attribute '{attr}' not found and cannot further unwrap "
+        raise AttributeError(f"'{env.__class__.__name__}' has no attribute '{attr}' "
+                             f"and cannot be further unwrapped "
                              f"(no 'env' attribute found, probably not a wrapper)")
     # recursively unwrap
     return getwrappedattr(env, attr, depth)
@@ -229,6 +261,7 @@ class VideoRecorder(gym.wrappers.RecordVideo):
         self._video_name = None
 
 
+@transparent_wrapper
 class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
     # see RecordEpisodeStatistics for inspiration
 
@@ -237,11 +270,12 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
                  full_stats=False, smoothing=None):
         gym.utils.RecordConstructorArgs.__init__(self)
         if video:
-            env = VideoRecorder(env,
-                                video_folder=video_folder,
-                                name_prefix=video_prefix,
-                                episode_trigger=self._video_episode_trigger,
-                                name_func=self._video_name_func)
+            env = transparent_wrapper(VideoRecorder)(
+                env,
+                video_folder=video_folder,
+                name_prefix=video_prefix,
+                episode_trigger=self._video_episode_trigger,
+                name_func=self._video_name_func)
         gym.Wrapper.__init__(self, env)
 
         # flags to turn functionality on/off
@@ -405,7 +439,7 @@ class InfoTracker:
                 tracked_info[k].append(new_info[k])
 
     def plot(
-            self, show=True, ax=None, key='recorder', ignore_empty=True,
+            self, show=True, ax=None, key='recorder', ignore_empty=True, clear=True,
             length=False, r_sum=False, r_mean=False, r_std=False,
             length_=False, r_sum_=False, r_mean_=False, r_std_=False
     ):
@@ -457,7 +491,8 @@ class InfoTracker:
         ax.set_xlabel('episode index')
         ax.legend()
         if show:
-            disp.clear_output(wait=True)
+            if clear:
+                disp.clear_output(wait=True)
             plt.show()
         if fig is not None:
             return fig, ax

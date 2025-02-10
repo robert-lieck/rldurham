@@ -71,7 +71,7 @@ def policy_evaluation(env, policy, gamma=1, theta=1e-8, draw=False):
             delta = max(delta, np.abs(V[s]-Vs))
             V[s] = Vs
         if draw:
-            rld.plot_frozenlake(env=env, v=V, policy=policy, draw_vals=True)
+            rld.plot_frozenlake(env=env, v=V, policy=policy, draw_vals=True, clear=True)
         if delta < theta:
             break
     return V
