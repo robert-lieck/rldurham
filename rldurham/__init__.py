@@ -218,8 +218,8 @@ def getwrappedattr(env, attr, depth=None, try_getattr=True):
         env = env.env
     except AttributeError:
         raise AttributeError(f"'{env.__class__.__name__}' has no attribute '{attr}' "
-                             f"and cannot be further unwrapped "
-                             f"(no 'env' attribute found, probably not a wrapper)")
+                             f"(unwrapped as much as possible but no more 'env' attribute found, "
+                             f"probably reached base environment)")
     # recursively unwrap
     return getwrappedattr(env, attr, depth)
 
