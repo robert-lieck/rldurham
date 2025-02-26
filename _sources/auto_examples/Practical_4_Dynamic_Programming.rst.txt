@@ -35,7 +35,7 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-16
+.. GENERATED FROM PYTHON SOURCE LINES 10-18
 
 .. code-block:: Python
 
@@ -45,6 +45,7 @@ Practical 4: DynamicProgramming
     import rldurham as rld
 
 
+    # ## Frozen Lake Environment
 
 
 
@@ -52,15 +53,21 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-26
+
+.. GENERATED FROM PYTHON SOURCE LINES 19-33
 
 .. code-block:: Python
 
 
 
-    name = 'FrozenLake-v1'  # small version
-    # name = 'FrozenLake8x8-v1'  # larger version
-    env = rld.make(name, is_slippery=False)
+    env = rld.make(
+        'FrozenLake-v1',         # small version
+        # 'FrozenLake8x8-v1',    # larger version
+        # desc=["GFFS", "FHFH", "FFFH", "HFFG"],  # custom map
+        render_mode="rgb_array", # for rendering as image/video
+        is_slippery=False,       # warning: slippery=True results in complex dynamics
+    )
+    rld.env_info(env, print_out=True)
     rld.seed_everything(42, env)
     LEFT, DOWN, RIGHT, UP = 0, 1, 2, 3
 
@@ -69,19 +76,25 @@ Practical 4: DynamicProgramming
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    actions are discrete with 4 dimensions/#actions
+    observations are discrete with 16 dimensions/#observations
+    maximum timesteps is: 100
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-35
+
+.. GENERATED FROM PYTHON SOURCE LINES 34-40
 
 .. code-block:: Python
 
 
 
-    print('action space: ' + str(env.action_space))
-    print('reward range: ' + str(env.reward_range))
-    print('observation space: ' + str(env.observation_space))
-    rld.plot_frozenlake(env=env)
+    # render the environment (requires render_mode="rgb_array")
+    rld.render(env)
 
 
 
@@ -93,26 +106,20 @@ Practical 4: DynamicProgramming
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    action space: Discrete(4)
-    reward range: (0, 1)
-    observation space: Discrete(16)
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 36-43
+.. GENERATED FROM PYTHON SOURCE LINES 41-50
 
 .. code-block:: Python
 
 
 
-    def uniform_policy(env):
-        return np.ones((env.observation_space.n, env.action_space.n)) / env.action_space.n
-    rld.plot_frozenlake(env=env, policy=uniform_policy(env))
+    # helper function that can also plot policies and value functions
+    rld.plot_frozenlake(env=env,
+                        v=np.random.uniform(0, 1, 16),
+                        policy=np.random.uniform(0, 1, (16, 4)), 
+                        draw_vals=True)
 
 
 
@@ -127,7 +134,32 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-58
+.. GENERATED FROM PYTHON SOURCE LINES 51-60
+
+.. code-block:: Python
+
+
+
+    def uniform_policy(env):
+        return np.ones((env.observation_space.n, env.action_space.n)) / env.action_space.n
+    rld.plot_frozenlake(env=env, policy=uniform_policy(env))
+
+
+    # ## Policy Evaluation
+
+
+
+
+.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_003.png
+   :alt: Practical 4 Dynamic Programming
+   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_003.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 61-75
 
 .. code-block:: Python
 
@@ -152,7 +184,7 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-64
+.. GENERATED FROM PYTHON SOURCE LINES 76-81
 
 .. code-block:: Python
 
@@ -168,7 +200,7 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-71
+.. GENERATED FROM PYTHON SOURCE LINES 82-88
 
 .. code-block:: Python
 
@@ -181,16 +213,16 @@ Practical 4: DynamicProgramming
 
 
 
-.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_003.png
+.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_004.png
    :alt: Practical 4 Dynamic Programming
-   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_003.png
+   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_004.png
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-88
+.. GENERATED FROM PYTHON SOURCE LINES 89-105
 
 .. code-block:: Python
 
@@ -217,19 +249,57 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-106
+.. GENERATED FROM PYTHON SOURCE LINES 106-111
 
 .. code-block:: Python
 
 
 
-    def policy_evaluation(env, policy, gamma, v_init=None,
-                          print_iter=False, atol=1e-8, max_iter=10**10):
+    v = np.zeros(env.observation_space.n)
+
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 112-118
+
+.. code-block:: Python
+
+
+
+    v = policy_eval_step_inplace(env, uniform_policy(env), 1, v)
+    rld.plot_frozenlake(env, v, uniform_policy(env), draw_vals=True)
+
+
+
+
+
+.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_005.png
+   :alt: Practical 4 Dynamic Programming
+   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_005.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 119-136
+
+.. code-block:: Python
+
+
+
+    def policy_evaluation(env, policy, gamma, v_init=None, print_iter=False, atol=1e-8, max_iter=10**10):
         if v_init is None:
             v_init = np.zeros(env.observation_space.n)
         v = v_init
         for i in range(1, max_iter + 1):
             new_v = policy_eval_step(env, policy, gamma, v)
+            # new_v = policy_eval_step_inplace(env, policy, gamma, v)
             if np.allclose(v, new_v, atol=atol):
                 break
             v = new_v
@@ -245,7 +315,37 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-117
+.. GENERATED FROM PYTHON SOURCE LINES 137-145
+
+.. code-block:: Python
+
+
+
+    v = policy_evaluation(env, uniform_policy(env), 1, print_iter=True)
+    rld.plot_frozenlake(env, v, uniform_policy(env), draw_vals=True)
+
+
+    # ## Policy Improvement
+
+
+
+
+.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_006.png
+   :alt: Practical 4 Dynamic Programming
+   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_006.png
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    60 iterations
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 146-156
 
 .. code-block:: Python
 
@@ -266,7 +366,7 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-134
+.. GENERATED FROM PYTHON SOURCE LINES 157-173
 
 .. code-block:: Python
 
@@ -293,7 +393,72 @@ Practical 4: DynamicProgramming
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-144
+.. GENERATED FROM PYTHON SOURCE LINES 174-182
+
+.. code-block:: Python
+
+
+
+    env = rld.make('FrozenLake8x8-v1', is_slippery=False)
+    rld.seed_everything(42, env)
+    gamma = 1
+    policy = uniform_policy(env)
+
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 183-189
+
+.. code-block:: Python
+
+
+
+    v = policy_evaluation(env, policy, gamma=gamma)
+    rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=True)
+
+
+
+
+
+.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_007.png
+   :alt: Practical 4 Dynamic Programming
+   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_007.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 190-198
+
+.. code-block:: Python
+
+
+
+    policy = policy_improvement(env, v, gamma=gamma)
+    rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=True)
+
+
+    # ## Policy Iteration
+
+
+
+
+.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_008.png
+   :alt: Practical 4 Dynamic Programming
+   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_008.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 199-207
 
 .. code-block:: Python
 
@@ -302,61 +467,27 @@ Practical 4: DynamicProgramming
     env = rld.make('FrozenLake8x8-v1', is_slippery=False)
     rld.seed_everything(42, env)
     policy = uniform_policy(env)
-    v = policy_evaluation(env, policy, gamma=1)
-    rld.plot_frozenlake(env, v, policy, draw_vals=True)
-
-
-
-
-
-.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_004.png
-   :alt: Practical 4 Dynamic Programming
-   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_004.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 145-151
-
-.. code-block:: Python
-
-
-
-    new_policy = policy_improvement(env, v, gamma=1)
-    rld.plot_frozenlake(env, v, new_policy, draw_vals=True)
-
-
-
-
-
-.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_005.png
-   :alt: Practical 4 Dynamic Programming
-   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_005.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 152-167
-
-.. code-block:: Python
-
-
-
     gamma = 1
-    v = policy_evaluation(env, new_policy, gamma=gamma)
-    rld.plot_frozenlake(env, v=v, policy=new_policy, draw_vals=True)
+
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 208-217
+
+.. code-block:: Python
+
+
+
+    v = policy_evaluation(env, policy, gamma=gamma)
+    rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=True)
     print(v)
-    new_policy = policy_improvement(env, v, gamma=gamma)
-    rld.plot_frozenlake(env, v=v, policy=new_policy, draw_vals=True)
-
-
-    # In[ ]:
-
-
+    policy = policy_improvement(env, v, gamma=gamma)
+    rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=True)
 
 
 
@@ -367,16 +498,16 @@ Practical 4: DynamicProgramming
 
     *
 
-      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_006.png
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_009.png
          :alt: Practical 4 Dynamic Programming
-         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_006.png
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_009.png
          :class: sphx-glr-multi-img
 
     *
 
-      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_007.png
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_010.png
          :alt: Practical 4 Dynamic Programming
-         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_007.png
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_010.png
          :class: sphx-glr-multi-img
 
 
@@ -384,17 +515,264 @@ Practical 4: DynamicProgramming
 
  .. code-block:: none
 
-    [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 0. 0. 1. 1. 1. 0. 1.
-     1. 0. 1. 1. 0. 1. 0. 1. 1. 1. 1. 0. 1. 1. 1. 0.]
+    [1.90305548e-03 2.16927106e-03 2.81470378e-03 4.12015600e-03
+     6.54735001e-03 9.80286246e-03 1.34473983e-02 1.59696876e-02
+     1.63695191e-03 1.79015872e-03 2.15477757e-03 2.99849785e-03
+     5.71911640e-03 9.41393023e-03 1.45697438e-02 1.84920808e-02
+     1.21774169e-03 1.19972568e-03 1.01582543e-03 0.00000000e+00
+     3.91675258e-03 7.56407249e-03 1.69256504e-02 2.49369022e-02
+     8.16627609e-04 7.75246174e-04 7.08844457e-04 7.73171495e-04
+     2.38385304e-03 0.00000000e+00 2.06319427e-02 3.93930442e-02
+     4.56952350e-04 3.75834825e-04 2.71166118e-04 0.00000000e+00
+     4.84550082e-03 1.15941715e-02 2.62091075e-02 7.26103323e-02
+     1.78428991e-04 0.00000000e+00 0.00000000e+00 1.44835445e-03
+     5.40398429e-03 1.53220842e-02 0.00000000e+00 1.52228870e-01
+     7.83491898e-05 0.00000000e+00 1.09382492e-04 3.89434175e-04
+     0.00000000e+00 4.42901833e-02 0.00000000e+00 3.84076289e-01
+     5.66254312e-05 3.49065027e-05 4.80960655e-05 0.00000000e+00
+     5.39462166e-02 1.61838650e-01 3.87279550e-01 0.00000000e+00]
 
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 218-237
+
+.. code-block:: Python
+
+
+
+    env = rld.make(
+        'FrozenLake-v1',
+        desc=[
+            "FFF",
+            "FHF",
+            "SFG",
+            "FHF",
+        ],
+        is_slippery=True,
+        render_mode='rgb_array',
+    )
+    rld.seed_everything(42, env)
+    rld.render(env)
+
+
+    # `gamma = 1`: Preference for longer but low-risk paths
+
+
+
+
+.. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_011.png
+   :alt: Practical 4 Dynamic Programming
+   :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_011.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 238-250
+
+.. code-block:: Python
+
+
+
+    gamma = 1
+    policy = uniform_policy(env)
+    for _ in range(10):
+        v = policy_evaluation(env, policy, gamma=gamma)
+        policy = policy_improvement(env, v, gamma=gamma)
+        rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=False, clear=True)
+
+
+    # `gamma < 1`: Preference for shorter but potentially riskier paths
+
+
+
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_012.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_012.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_013.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_013.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_014.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_014.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_015.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_015.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_016.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_016.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_017.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_017.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_018.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_018.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_019.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_019.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_020.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_020.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_021.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_021.png
+         :class: sphx-glr-multi-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+                                                                                
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 251-260
+
+.. code-block:: Python
+
+
+
+    gamma = 0.5
+    policy = uniform_policy(env)
+    for _ in range(10):
+        v = policy_evaluation(env, policy, gamma=gamma)
+        policy = policy_improvement(env, v, gamma=gamma)
+        rld.plot_frozenlake(env, v=v, policy=policy, draw_vals=False, clear=True)
+
+
+
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_022.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_022.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_023.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_023.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_024.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_024.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_025.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_025.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_026.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_026.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_027.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_027.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_028.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_028.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_029.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_029.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_030.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_030.png
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_031.png
+         :alt: Practical 4 Dynamic Programming
+         :srcset: /auto_examples/images/sphx_glr_Practical_4_Dynamic_Programming_031.png
+         :class: sphx-glr-multi-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+                                                                                
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.622 seconds)
+   **Total running time of the script:** (0 minutes 4.235 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Practical_4_Dynamic_Programming.py:

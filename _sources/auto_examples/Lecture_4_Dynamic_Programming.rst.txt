@@ -165,7 +165,7 @@ Policy evaluation
                 delta = max(delta, np.abs(V[s]-Vs))
                 V[s] = Vs
             if draw:
-                rld.plot_frozenlake(env=env, v=V, policy=policy, draw_vals=True)
+                rld.plot_frozenlake(env=env, v=V, policy=policy, draw_vals=True, clear=True)
             if delta < theta:
                 break
         return V
@@ -617,9 +617,9 @@ Policy evaluation
 
  .. code-block:: none
 
-    /home/runner/work/rldurham/rldurham/rldurham/__init__.py:81: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
-      plt.figure(figsize=(3, 3))
-
+                                                                                                                                                                    /home/runner/work/rldurham/rldurham/rldurham/__init__.py:82: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+      plt.figure(figsize=(5, 5))
+                                                                                                                                                                                                                                                                                                        
 
 
 
@@ -958,7 +958,7 @@ Policy evaluation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 9.071 seconds)
+   **Total running time of the script:** (0 minutes 9.707 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Lecture_4_Dynamic_Programming.py:

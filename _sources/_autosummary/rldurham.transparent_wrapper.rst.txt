@@ -1,0 +1,6 @@
+rldurham.transparent\_wrapper
+=============================
+
+.. currentmodule:: rldurham
+
+.. autofunction:: transparent_wrapper

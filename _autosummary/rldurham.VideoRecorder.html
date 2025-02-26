@@ -59,6 +59,7 @@
 <li class="toctree-l3"><a class="reference internal" href="rldurham.plot_frozenlake.html">rldurham.plot_frozenlake</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.render.html">rldurham.render</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.seed_everything.html">rldurham.seed_everything</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.transparent_wrapper.html">rldurham.transparent_wrapper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.InfoTracker.html">rldurham.InfoTracker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.RLDurhamEnv.html">rldurham.RLDurhamEnv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.Recorder.html">rldurham.Recorder</a></li>
@@ -103,7 +104,7 @@
 <h1>rldurham.VideoRecorder<a class="headerlink" href="#rldurham-videorecorder" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">VideoRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#VideoRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.VideoRecorder" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">VideoRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#VideoRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.VideoRecorder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RecordVideo</span></code></p>
 <div class="autoclasstoc docutils container">
 <p class="rubric">Public Data Attributes:</p>
@@ -210,6 +211,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#rldurham.VideoRecorder.stop_recording" title="rldurham.VideoRecorder.stop_recording"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop_recording</span></code></a>()</p></td>
 <td><p>Stop current recording and saves the video.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rldurham.VideoRecorder.__getattr__" title="rldurham.VideoRecorder.__getattr__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getattr__</span></code></a>(item)</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -399,7 +403,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.__class_getitem__">
-<span class="sig-name descname"><span class="pre">__class_getitem__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.__class_getitem__" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__class_getitem__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.__class_getitem__" title="Link to this definition"></a></dt>
 <dd><p>Parameterizes a generic class.</p>
 <p>At least, parameterizing a generic class is the <em>main</em> thing this
 method does. For example, for some generic class <cite>Foo</cite>, this is called
@@ -416,7 +420,7 @@ classes in the first place with <cite>class Foo[T]: …</cite>.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rldurham',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">VideoRecorder.__init__&gt;,</span> <span class="pre">'stop_recording':</span> <span class="pre">&lt;function</span> <span class="pre">VideoRecorder.stop_recording&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__parameters__':</span> <span class="pre">(),</span> <span class="pre">'__annotations__':</span> <span class="pre">{'frames_per_sec':</span> <span class="pre">'int',</span> <span class="pre">'name_prefix':</span> <span class="pre">'str',</span> <span class="pre">'_video_name':</span> <span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'video_length':</span> <span class="pre">'int',</span> <span class="pre">'recording':</span> <span class="pre">'bool',</span> <span class="pre">'recorded_frames':</span> <span class="pre">'list[RenderFrame]',</span> <span class="pre">'render_history':</span> <span class="pre">'list[RenderFrame]',</span> <span class="pre">'_action_space':</span> <span class="pre">'spaces.Space[WrapperActType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_observation_space':</span> <span class="pre">'spaces.Space[WrapperObsType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_cached_spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]',</span> <span class="pre">'render_mode':</span> <span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'action_space':</span> <span class="pre">'spaces.Space[ActType]',</span> <span class="pre">'observation_space':</span> <span class="pre">'spaces.Space[ObsType]',</span> <span class="pre">'_np_random':</span> <span class="pre">'np.random.Generator</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_np_random_seed':</span> <span class="pre">'int</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_saved_kwargs':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]'}})</span></em><a class="headerlink" href="#rldurham.VideoRecorder.__dict__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rldurham',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">VideoRecorder.__init__&gt;,</span> <span class="pre">'stop_recording':</span> <span class="pre">&lt;function</span> <span class="pre">VideoRecorder.stop_recording&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__parameters__':</span> <span class="pre">(),</span> <span class="pre">'__annotations__':</span> <span class="pre">{'frames_per_sec':</span> <span class="pre">'int',</span> <span class="pre">'name_prefix':</span> <span class="pre">'str',</span> <span class="pre">'_video_name':</span> <span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'video_length':</span> <span class="pre">'int',</span> <span class="pre">'recording':</span> <span class="pre">'bool',</span> <span class="pre">'recorded_frames':</span> <span class="pre">'list[RenderFrame]',</span> <span class="pre">'render_history':</span> <span class="pre">'list[RenderFrame]',</span> <span class="pre">'_action_space':</span> <span class="pre">'spaces.Space[WrapperActType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_observation_space':</span> <span class="pre">'spaces.Space[WrapperObsType]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_cached_spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'metadata':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]',</span> <span class="pre">'render_mode':</span> <span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'spec':</span> <span class="pre">'EnvSpec</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'action_space':</span> <span class="pre">'spaces.Space[ActType]',</span> <span class="pre">'observation_space':</span> <span class="pre">'spaces.Space[ObsType]',</span> <span class="pre">'_np_random':</span> <span class="pre">'np.random.Generator</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_np_random_seed':</span> <span class="pre">'int</span> <span class="pre">|</span> <span class="pre">None',</span> <span class="pre">'_saved_kwargs':</span> <span class="pre">'dict[str,</span> <span class="pre">Any]'},</span> <span class="pre">'__getattr__':</span> <span class="pre">&lt;function</span> <span class="pre">transparent_wrapper.&lt;locals&gt;.__getattr__&gt;})</span></em><a class="headerlink" href="#rldurham.VideoRecorder.__dict__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -430,6 +434,11 @@ classes in the first place with <cite>class Foo[T]: …</cite>.</p>
 <span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.__exit__" title="Link to this definition"></a></dt>
 <dd><p>Support with-statement for the environment and closes the environment.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rldurham.VideoRecorder.__getattr__">
+<span class="sig-name descname"><span class="pre">__getattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.__getattr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.__init__">
@@ -456,7 +465,7 @@ fps (int): The frame per second in the video. Provides a custom video fps for en
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.__init_subclass__">
-<span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.__init_subclass__" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.__init_subclass__" title="Link to this definition"></a></dt>
 <dd><p>Function to initialize subclasses.</p>
 </dd></dl>
 
@@ -500,7 +509,7 @@ fps (int): The frame per second in the video. Provides a custom video fps for en
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder._np_random">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_np_random</span></span><a class="headerlink" href="#rldurham.VideoRecorder._np_random" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_np_random</span></span><a class="headerlink" href="#rldurham.VideoRecorder._np_random" title="Link to this definition"></a></dt>
 <dd><p>This code will never be run due to __getattr__ being called prior this.</p>
 <p>It seems that &#64;property overwrites the variable (<cite>_np_random</cite>) meaning that __getattr__ gets called with the missing variable.</p>
 </dd></dl>
@@ -512,13 +521,13 @@ fps (int): The frame per second in the video. Provides a custom video fps for en
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.action_space">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">WrapperActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.action_space" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">WrapperActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.action_space" title="Link to this definition"></a></dt>
 <dd><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.VideoRecorder.action_space" title="rldurham.VideoRecorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.VideoRecorder.action_space" title="rldurham.VideoRecorder.action_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">action_space</span></code></a> is used.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.class_name">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.class_name" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.class_name" title="Link to this definition"></a></dt>
 <dd><p>Returns the class name of the wrapper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -563,25 +572,25 @@ fps (int): The frame per second in the video. Provides a custom video fps for en
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.metadata">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.metadata" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.metadata" title="Link to this definition"></a></dt>
 <dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.VideoRecorder.metadata" title="rldurham.VideoRecorder.metadata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">metadata</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.np_random">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#rldurham.VideoRecorder.np_random" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#rldurham.VideoRecorder.np_random" title="Link to this definition"></a></dt>
 <dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.VideoRecorder.np_random" title="rldurham.VideoRecorder.np_random"><code class="xref py py-attr docutils literal notranslate"><span class="pre">np_random</span></code></a> attribute.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.np_random_seed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.VideoRecorder.np_random_seed" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.VideoRecorder.np_random_seed" title="Link to this definition"></a></dt>
 <dd><p>Returns the base environment’s <a class="reference internal" href="#rldurham.VideoRecorder.np_random_seed" title="rldurham.VideoRecorder.np_random_seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">np_random_seed</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.observation_space">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observation_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">WrapperObsType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.observation_space" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observation_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Space</span><span class="p"><span class="pre">[</span></span><span class="pre">WrapperObsType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.observation_space" title="Link to this definition"></a></dt>
 <dd><p>Return the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.VideoRecorder.observation_space" title="rldurham.VideoRecorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> unless overwritten then the wrapper <a class="reference internal" href="#rldurham.VideoRecorder.observation_space" title="rldurham.VideoRecorder.observation_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">observation_space</span></code></a> is used.</p>
 </dd></dl>
 
@@ -598,13 +607,13 @@ fps (int): The frame per second in the video. Provides a custom video fps for en
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.render_mode">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.VideoRecorder.render_mode" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.VideoRecorder.render_mode" title="Link to this definition"></a></dt>
 <dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.VideoRecorder.render_mode" title="rldurham.VideoRecorder.render_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">render_mode</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.reset" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.reset" title="Link to this definition"></a></dt>
 <dd><p>Reset the environment and eventually starts a new recording.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -626,7 +635,7 @@ value: The new variable value</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.spec">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EnvSpec</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.VideoRecorder.spec" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EnvSpec</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rldurham.VideoRecorder.spec" title="Link to this definition"></a></dt>
 <dd><p>Returns the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Env</span></code> <a class="reference internal" href="#rldurham.VideoRecorder.spec" title="rldurham.VideoRecorder.spec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">spec</span></code></a> attribute with the <cite>WrapperSpec</cite> if the wrapper inherits from <cite>EzPickle</cite>.</p>
 </dd></dl>
 
@@ -655,14 +664,14 @@ value: The new variable value</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.unwrapped">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrapped</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Env</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.unwrapped" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrapped</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Env</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.VideoRecorder.unwrapped" title="Link to this definition"></a></dt>
 <dd><p>Returns the base environment of the wrapper.</p>
 <p>This will be the bare <code class="xref py py-class docutils literal notranslate"><span class="pre">gymnasium.Env</span></code> environment, underneath all layers of wrappers.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.VideoRecorder.wrapper_spec">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrapper_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.wrapper_spec" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrapper_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.VideoRecorder.wrapper_spec" title="Link to this definition"></a></dt>
 <dd><p>Generates a <cite>WrapperSpec</cite> for the wrappers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>

@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:35.572** total execution time for 7 files **from all galleries**:
+**02:28.372** total execution time for 10 files **from all galleries**:
 
 .. container::
 
@@ -33,22 +33,31 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_Coursework_Template.py` (``../examples/Coursework_Template.py``)
-     - 01:14.565
+     - 01:13.131
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Practical_6_Temporal_Difference_Learning.py` (``../examples/Practical_6_Temporal_Difference_Learning.py``)
+     - 00:32.527
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Lecture_6_temporal_difference_learning.py` (``../examples/Lecture_6_temporal_difference_learning.py``)
+     - 00:10.987
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Lecture_4_Dynamic_Programming.py` (``../examples/Lecture_4_Dynamic_Programming.py``)
-     - 00:09.071
+     - 00:09.707
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Lecture_2_Gym.py` (``../examples/Lecture_2_Gym.py``)
-     - 00:06.948
+     - 00:07.535
      - 0.0
-   * - :ref:`sphx_glr_auto_examples_Practical_3_Markov_Decision_Processes.py` (``../examples/Practical_3_Markov_Decision_Processes.py``)
-     - 00:02.113
+   * - :ref:`sphx_glr_auto_examples_Lecture_5_Monte_Carlo_Methods.py` (``../examples/Lecture_5_Monte_Carlo_Methods.py``)
+     - 00:06.861
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Practical_4_Dynamic_Programming.py` (``../examples/Practical_4_Dynamic_Programming.py``)
-     - 00:01.622
+     - 00:04.235
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Practical_3_Markov_Decision_Processes.py` (``../examples/Practical_3_Markov_Decision_Processes.py``)
+     - 00:02.161
      - 0.0
    * - :ref:`sphx_glr_auto_examples_rldurham_basics.py` (``../examples/rldurham_basics.py``)
-     - 00:01.229
+     - 00:01.204
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Practical_2_Multi-Armed_Bandits.py` (``../examples/Practical_2_Multi-Armed_Bandits.py``)
      - 00:00.024

@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecture 5: Monte Carlo Methods &mdash; rldurham  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lecture 4: Dynamic Programming" href="Lecture_4_Dynamic_Programming.html" />
+    <link rel="prev" title="Practical 4: DynamicProgramming" href="Practical_4_Dynamic_Programming.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rldurham
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rldurham_basics.html">Basics of the RLDurham package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_6_temporal_difference_learning.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Lecture 5: Monte Carlo Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#empty-lake">Empty Lake</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_6_Temporal_Difference_Learning.html">Practical 6: Temporal Difference Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rldurham</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reinforcement Learning Durham Gallery</a></li>
+      <li class="breadcrumb-item active">Lecture 5: Monte Carlo Methods</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-lecture-5-monte-carlo-methods-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="lecture-5-monte-carlo-methods">
+<span id="sphx-glr-auto-examples-lecture-5-monte-carlo-methods-py"></span><h1>Lecture 5: Monte Carlo Methods<a class="headerlink" href="#lecture-5-monte-carlo-methods" title="Link to this heading"></a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Lecture 5: Monte Carlo Methods</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">rldurham</span> <span class="k">as</span> <span class="nn">rld</span>
+
+
+<span class="c1"># ## Learning a Policy with Monte Carlo Sampling</span>
+
+<span class="c1"># Our goal is to learn an optimal policy from randomly sampled trajectories. Our strategy is to estimate Q-values (state-action values) based on the samples and get the policy from the Q-values.</span>
+
+<span class="c1"># ### Essential Components</span>
+
+<span class="c1"># We can **define the policy** based on the Q-values by either deterministically picking an action (not a good idea) or giving equal probability to all actions with maximum value. Additionally, we can add uniform random actions with probability epsilon (exploration).</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">epsilon_greedy_policy</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">deterministic</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+    <span class="n">ns</span><span class="p">,</span> <span class="n">na</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ns</span><span class="p">):</span>
+        <span class="n">Qs</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">deterministic</span><span class="p">:</span>
+            <span class="n">max_action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Qs</span><span class="p">)</span>
+            <span class="n">p</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">max_action</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">max_actions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">Qs</span> <span class="o">==</span> <span class="n">Qs</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+            <span class="n">p</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">max_actions</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">max_actions</span><span class="p">)</span>
+        <span class="n">p</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">/</span> <span class="n">na</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+
+<span class="c1"># Given a policy, we can **sample episodes** in the environment, that is, complete trajectories that reach the goal state (or run over the time limit).</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_episode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">trajectory</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">policy</span><span class="p">[</span><span class="n">observation</span><span class="p">])</span>
+        <span class="n">new_observation</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">term</span><span class="p">,</span> <span class="n">trunc</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">trajectory</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">observation</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">))</span>
+        <span class="n">observation</span> <span class="o">=</span> <span class="n">new_observation</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">term</span> <span class="ow">or</span> <span class="n">trunc</span>
+    <span class="k">return</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">info</span>
+
+
+<span class="c1"># From the trajectory, we can **compute returns** (discounted cumulative rewards) for each state along the way, which is most efficiently done in reverse order.</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_returns</span><span class="p">(</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+    <span class="n">partial_return</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">returns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">observation</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">trajectory</span><span class="p">):</span>
+        <span class="n">partial_return</span> <span class="o">*=</span> <span class="n">gamma</span>
+        <span class="n">partial_return</span> <span class="o">+=</span> <span class="n">reward</span>
+        <span class="n">returns</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">observation</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">partial_return</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">returns</span><span class="p">))</span>
+
+
+<span class="c1"># Frome the returns, we can now **update the Q-values** using empirical averages as a Monte Carlo approximation of the expected return. This can be done using exact averages or exponentially smoothing averages (with constant learning rate alpha).</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">update_Q</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">ns</span><span class="p">,</span> <span class="n">returns</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">,</span> <span class="n">ret</span> <span class="ow">in</span> <span class="n">returns</span><span class="p">:</span>
+        <span class="n">ns</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>             <span class="c1"># update counts</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">ns</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span>  <span class="c1"># use exact means if no learning rate provided</span>
+            <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">+=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">ret</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">old_bias_correction</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">ns</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">new_bias_correction</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">**</span> <span class="n">ns</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span>
+            <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">*</span> <span class="n">old_bias_correction</span>  <span class="c1"># undo old bias correction</span>
+            <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">+=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">ret</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">])</span>       <span class="c1"># normal update as above</span>
+            <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">]</span> <span class="o">/</span> <span class="n">new_bias_correction</span>  <span class="c1"># apply new bias correction</span>
+
+
+<span class="c1"># ### Some Examples</span>
+
+<span class="c1"># Let&#39;s look at different scenarios starting with an empty lake and going through different hyper-parameter settings:</span>
+<span class="c1">#</span>
+</pre></div>
+</div>
+<section id="empty-lake">
+<h2>Empty Lake<a class="headerlink" href="#empty-lake" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>epsilon, gamma, det, alpha = 0.0, 1.0, True,  None</strong></p>
+<p>A deterministic policy without exploration typically does not learn at all because it never reaches the goal state.</p>
+</li>
+<li><p><strong>epsilon, gamma, det, alpha = 0.0, 1.0, False, None</strong></p>
+<p>A non-deterministic policy without exploration samples a successful episode at some point but then “clings” to it without exploring further, so is likely to get stuck and never find the optimal policy.</p>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p><strong>epsilon, gamma, det, alpha = 0.1, 1.0, False, None</strong></p>
+<p>A little exploration produces much more stable results and will eventually find the optimal policy. Without any discount it will not have a preference to shorter (or even finite) paths.</p>
+</li>
+<li><p><strong>epsilon, gamma, det, alpha = 0.5, 0.9, False, None</strong></p>
+<p>Considerable exploration and some discount produces very stable results with a preference for shorter paths, but the policy is far from optimal due to exploration.</p>
+</li>
+</ol>
+<p>%%
+8x8 Lake
+——–</p>
+<ul class="simple">
+<li><p>Things are more difficult because there are more “pockets” to explore.</p></li>
+</ul>
+<p>%%
+Exploration Noise
+—————–</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Run <strong>epsilon, gamma, det, alpha = 0.3, 1.0, False, None</strong> on small custom environment (<cite>slippery=True</cite>) for 1000 episodes</dt><dd><ul>
+<li><p>Currently optimal policy takes the short-but-risky path because everything is also risky with exploration noise.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Switch to <strong>epsilon, alpha = 0.2, 0.01</strong> and run for another 2000 episodes</dt><dd><ul>
+<li><p>Now the long-but-safe path is preferred as it should be (with gamma=1)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up environment</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;FrozenLake-v1&#39;</span><span class="p">,</span>     <span class="c1"># simple</span>
+    <span class="c1"># &#39;FrozenLake8x8-v1&#39;,  # more complex</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="p">[</span>             <span class="c1"># empty lake (start with this as it is most insightful)</span>
+        <span class="s2">&quot;SFFFFFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FFFFFFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FFFFFFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FFFFFFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FFFFFFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FFFFFFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FFFFFFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FFFFFFFG&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">is_slippery</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="c1"># desc=[               # short high-risk versus long low-risk paths with is_slippery=True</span>
+    <span class="c1">#     &quot;FFF&quot;,</span>
+    <span class="c1">#     &quot;FHF&quot;,</span>
+    <span class="c1">#     &quot;SFG&quot;,</span>
+    <span class="c1">#     &quot;FHF&quot;,</span>
+    <span class="c1"># ],</span>
+    <span class="c1"># is_slippery=True,</span>
+    <span class="n">render_mode</span><span class="o">=</span><span class="s2">&quot;rgb_array&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">LEFT</span><span class="p">,</span> <span class="n">DOWN</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">UP</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">Recorder</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">InfoTracker</span><span class="p">()</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+<span class="c1"># initialise Q values</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">))</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># different hyper parameters</span>
+<span class="n">epsilon</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">det</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span>  <span class="kc">None</span>  <span class="c1"># does not learn at all</span>
+<span class="c1"># epsilon, gamma, det, alpha = 0.0, 1.0, False, None  # very instable and gets stuck quickly</span>
+<span class="c1"># epsilon, gamma, det, alpha = 0.1, 1.0, False, None  # more stable but no preference for shorter paths</span>
+<span class="c1"># epsilon, gamma, det, alpha = 0.5, 0.9, False, None  # stable and preference for shorter paths, but non-optimal policy</span>
+<span class="c1"># epsilon, gamma, det, alpha = 0.3, 1.0, False, None  # sub-optimal policy due to exploration noise (on small custom map)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_001.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_001.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># sample episodes</span>
+<span class="c1"># n_episodes, plot_every = 1, 1       # one trial at a time</span>
+<span class="n">n_episodes</span><span class="p">,</span> <span class="n">plot_every</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span>  <span class="c1"># many trials at once</span>
+<span class="c1"># epsilon = 0.                        # force optimal policy</span>
+<span class="c1"># epsilon, alpha = 0.2, 0.01          # less exploration, some forgetting</span>
+<span class="k">for</span> <span class="n">eidx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">):</span>
+    <span class="c1"># epsilon-greedy policy</span>
+    <span class="n">policy</span> <span class="o">=</span> <span class="n">epsilon_greedy_policy</span><span class="p">(</span><span class="n">Q</span><span class="o">=</span><span class="n">Q</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">deterministic</span><span class="o">=</span><span class="n">det</span><span class="p">)</span>
+
+    <span class="c1"># sample complete episode</span>
+    <span class="n">trajectory</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">sample_episode</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">)</span>
+
+    <span class="c1"># compute step-wise returns from trajectory</span>
+    <span class="n">returns</span> <span class="o">=</span> <span class="n">compute_returns</span><span class="p">(</span><span class="n">trajectory</span><span class="o">=</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+
+    <span class="c1"># update Q values</span>
+    <span class="n">update_Q</span><span class="p">(</span><span class="n">Q</span><span class="o">=</span><span class="n">Q</span><span class="p">,</span> <span class="n">ns</span><span class="o">=</span><span class="n">ns</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="n">returns</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="c1"># track and plot progress</span>
+    <span class="n">tracker</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">eidx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">plot_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">tracker</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_sum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">r_mean_</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">Q</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                            <span class="n">policy</span><span class="o">=</span><span class="n">epsilon_greedy_policy</span><span class="p">(</span><span class="n">Q</span><span class="o">=</span><span class="n">Q</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">deterministic</span><span class="o">=</span><span class="n">det</span><span class="p">),</span>
+                            <span class="n">trajectory</span><span class="o">=</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_002.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_002.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_003.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_003.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_004.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_004.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_005.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_005.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_006.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_006.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_007.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_007.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_008.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_008.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_009.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_009.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_010.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_010.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_011.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_011.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_012.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_012.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_013.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_013.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_014.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_014.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_015.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_015.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_016.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_016.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_017.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_017.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_018.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_018.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_019.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_019.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_020.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_020.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_021.png" srcset="../_images/sphx_glr_Lecture_5_Monte_Carlo_Methods_021.png" alt="Lecture 5 Monte Carlo Methods" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># LEFT, DOWN, RIGHT, UP = 0, 1, 2, 3</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First steps (state, action, reward):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First returns (state, action, return):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">returns</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q values for first states:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">Q</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action counts for first states:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ns</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>First steps (state, action, reward):
+ [(0, 0, 0.0), (0, 0, 0.0), (0, 0, 0.0)]
+First returns (state, action, return):
+ [(0, 0, 0.0), (0, 0, 0.0), (0, 0, 0.0)]
+Q values for first states:
+ [[0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+Action counts for first states:
+ [[100000      0      0      0]
+ [     0      0      0      0]
+ [     0      0      0      0]]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 6.861 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-lecture-5-monte-carlo-methods-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/9469f2a338e76df8a88c85cc95e69b15/Lecture_5_Monte_Carlo_Methods.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Lecture_5_Monte_Carlo_Methods.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/c241d9c55826475d5e2329de1df26dc1/Lecture_5_Monte_Carlo_Methods.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Lecture_5_Monte_Carlo_Methods.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/086c9006fda3d7691d10858d66d46604/Lecture_5_Monte_Carlo_Methods.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">Lecture_5_Monte_Carlo_Methods.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Practical_4_Dynamic_Programming.html" class="btn btn-neutral float-left" title="Practical 4: DynamicProgramming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lecture_4_Dynamic_Programming.html" class="btn btn-neutral float-right" title="Lecture 4: Dynamic Programming" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

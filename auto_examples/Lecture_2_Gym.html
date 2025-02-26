@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="API Summary" href="../api_summary.html" />
-    <link rel="prev" title="Practical 3: Markov Decision Processes" href="Practical_3_Markov_Decision_Processes.html" /> 
+    <link rel="prev" title="Practical 6: Temporal Difference Learning" href="Practical_6_Temporal_Difference_Learning.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,12 +50,15 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rldurham_basics.html">Basics of the RLDurham package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_6_temporal_difference_learning.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_5_Monte_Carlo_Methods.html">Lecture 5: Monte Carlo Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_6_Temporal_Difference_Learning.html">Practical 6: Temporal Difference Learning</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Lecture 2: Gym</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dependencies-and-setup">Dependencies and setup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-environment">Basic environment</a></li>
@@ -439,7 +442,7 @@ The maximum timesteps is: 500
 <li><img src="../_images/sphx_glr_Lecture_2_Gym_032.png" srcset="../_images/sphx_glr_Lecture_2_Gym_032.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
 <li><img src="../_images/sphx_glr_Lecture_2_Gym_033.png" srcset="../_images/sphx_glr_Lecture_2_Gym_033.png" alt="Lecture 2 Gym" class = "sphx-glr-multi-img"/></li>
 </ul>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/rldurham/rldurham/rldurham/__init__.py:415: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/rldurham/rldurham/rldurham/__init__.py:450: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
   fig, ax = plt.subplots(1, 1)
 </pre></div>
 </div>
@@ -552,16 +555,16 @@ The maximum timesteps is: 500
 <span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>3 -25
-5 45
-4 -19
-5 45
-0 -25
-3 -25
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1 -25
 4 -25
-3 -25
-3 -25
+4 -19
+1 -25
+0 -25
 2 -25
+1 -25
+5 45
+5 45
+3 -25
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gym</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;BanditEnv-v0&quot;</span><span class="p">,</span> <span class="n">entry_point</span><span class="o">=</span><span class="n">BanditEnv</span><span class="p">)</span>
@@ -923,7 +926,7 @@ ALE/YarsRevenge-v5                ALE/Zaxxon-ram-v5                 ALE/Zaxxon-v
 rldurham/Walker
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 6.948 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.535 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-lecture-2-gym-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/bc8f68aaffc816fc2df7cfad18ecf7f5/Lecture_2_Gym.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Lecture_2_Gym.ipynb</span></code></a></p>
@@ -943,7 +946,7 @@ rldurham/Walker
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Practical_3_Markov_Decision_Processes.html" class="btn btn-neutral float-left" title="Practical 3: Markov Decision Processes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Practical_6_Temporal_Difference_Learning.html" class="btn btn-neutral float-left" title="Practical 6: Temporal Difference Learning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../api_summary.html" class="btn btn-neutral float-right" title="API Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

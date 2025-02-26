@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Practical 3: Markov Decision Processes" href="Practical_3_Markov_Decision_Processes.html" />
-    <link rel="prev" title="Practical 2: Multi-Armed Bandits" href="Practical_2_Multi-Armed_Bandits.html" /> 
+    <link rel="prev" title="Lecture 5: Monte Carlo Methods" href="Lecture_5_Monte_Carlo_Methods.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,15 +50,18 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rldurham_basics.html">Basics of the RLDurham package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_6_temporal_difference_learning.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_5_Monte_Carlo_Methods.html">Lecture 5: Monte Carlo Methods</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Lecture 4: Dynamic Programming</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#policy-evaluation">Policy evaluation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_6_Temporal_Difference_Learning.html">Practical 6: Temporal Difference Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
 </ul>
 </li>
@@ -163,7 +166,7 @@ truncated: False
             <span class="n">delta</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">-</span><span class="n">Vs</span><span class="p">))</span>
             <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vs</span>
         <span class="k">if</span> <span class="n">draw</span><span class="p">:</span>
-            <span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">V</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">V</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="n">theta</span><span class="p">:</span>
             <span class="k">break</span>
     <span class="k">return</span> <span class="n">V</span>
@@ -239,8 +242,8 @@ truncated: False
 <li><img src="../_images/sphx_glr_Lecture_4_Dynamic_Programming_058.png" srcset="../_images/sphx_glr_Lecture_4_Dynamic_Programming_058.png" alt="Lecture 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
 <li><img src="../_images/sphx_glr_Lecture_4_Dynamic_Programming_059.png" srcset="../_images/sphx_glr_Lecture_4_Dynamic_Programming_059.png" alt="Lecture 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
 </ul>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/rldurham/rldurham/rldurham/__init__.py:81: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
-  plt.figure(figsize=(3, 3))
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/rldurham/rldurham/rldurham/__init__.py:82: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  plt.figure(figsize=(5, 5))
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">q_from_v</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -376,7 +379,7 @@ truncated: False
 <li><img src="../_images/sphx_glr_Lecture_4_Dynamic_Programming_067.png" srcset="../_images/sphx_glr_Lecture_4_Dynamic_Programming_067.png" alt="Lecture 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
 <li><img src="../_images/sphx_glr_Lecture_4_Dynamic_Programming_068.png" srcset="../_images/sphx_glr_Lecture_4_Dynamic_Programming_068.png" alt="Lecture 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 9.071 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 9.707 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-lecture-4-dynamic-programming-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/9339c051b90542c8d9e0e8e71a32b9ee/Lecture_4_Dynamic_Programming.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Lecture_4_Dynamic_Programming.ipynb</span></code></a></p>
@@ -396,7 +399,7 @@ truncated: False
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Practical_2_Multi-Armed_Bandits.html" class="btn btn-neutral float-left" title="Practical 2: Multi-Armed Bandits" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lecture_5_Monte_Carlo_Methods.html" class="btn btn-neutral float-left" title="Lecture 5: Monte Carlo Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Practical_3_Markov_Decision_Processes.html" class="btn btn-neutral float-right" title="Practical 3: Markov Decision Processes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

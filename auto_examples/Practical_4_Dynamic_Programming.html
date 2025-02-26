@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Coursework Template" href="Coursework_Template.html" />
-    <link rel="prev" title="Reinforcement Learning Durham Gallery" href="index.html" /> 
+    <link rel="next" title="Lecture 5: Monte Carlo Methods" href="Lecture_5_Monte_Carlo_Methods.html" />
+    <link rel="prev" title="Example" href="Lecture_6_temporal_difference_learning.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,12 +50,15 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Practical 4: DynamicProgramming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rldurham_basics.html">Basics of the RLDurham package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_6_temporal_difference_learning.html">Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Practical 4: DynamicProgramming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lecture_5_Monte_Carlo_Methods.html">Lecture 5: Monte Carlo Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Practical_6_Temporal_Difference_Learning.html">Practical 6: Temporal Difference Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
 </ul>
 </li>
@@ -98,32 +101,48 @@ to download the full example code.</p>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">rldurham</span> <span class="k">as</span> <span class="nn">rld</span>
+
+
+<span class="c1"># ## Frozen Lake Environment</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;FrozenLake-v1&#39;</span>  <span class="c1"># small version</span>
-<span class="c1"># name = &#39;FrozenLake8x8-v1&#39;  # larger version</span>
-<span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">is_slippery</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;FrozenLake-v1&#39;</span><span class="p">,</span>         <span class="c1"># small version</span>
+    <span class="c1"># &#39;FrozenLake8x8-v1&#39;,    # larger version</span>
+    <span class="c1"># desc=[&quot;GFFS&quot;, &quot;FHFH&quot;, &quot;FFFH&quot;, &quot;HFFG&quot;],  # custom map</span>
+    <span class="n">render_mode</span><span class="o">=</span><span class="s2">&quot;rgb_array&quot;</span><span class="p">,</span> <span class="c1"># for rendering as image/video</span>
+    <span class="n">is_slippery</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>       <span class="c1"># warning: slippery=True results in complex dynamics</span>
+<span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">env_info</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">print_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
 <span class="n">LEFT</span><span class="p">,</span> <span class="n">DOWN</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">UP</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;action space: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reward range: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">reward_range</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;observation space: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="p">))</span>
-<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>actions are discrete with 4 dimensions/#actions
+observations are discrete with 16 dimensions/#observations
+maximum timesteps is: 100
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_001.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_001.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>action space: Discrete(4)
-reward range: (0, 1)
-observation space: Discrete(16)
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># render the environment (requires render_mode=&quot;rgb_array&quot;)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_001.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_001.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># helper function that can also plot policies and value functions</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+                    <span class="n">v</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+                    <span class="n">policy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span>
+                    <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_002.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_002.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span>
 <span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">))</span>
+
+
+<span class="c1"># ## Policy Evaluation</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_002.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_002.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_eval_step</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_003.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_003.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_eval_step</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">v_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">v_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
@@ -142,7 +161,7 @@ observation space: Discrete(16)
 <span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">),</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_003.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_003.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_eval_step_inplace</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_004.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_004.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_eval_step_inplace</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">v_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">v_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">v_init</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># opearate on copy in-place</span>
@@ -156,19 +175,36 @@ observation space: Discrete(16)
     <span class="k">return</span> <span class="n">v</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">print_iter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">):</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">policy_eval_step_inplace</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">),</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_005.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_005.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">print_iter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">v_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">v_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">v_init</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">new_v</span> <span class="o">=</span> <span class="n">policy_eval_step</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="c1"># new_v = policy_eval_step_inplace(env, policy, gamma, v)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">new_v</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">):</span>
             <span class="k">break</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">new_v</span>
     <span class="k">if</span> <span class="n">print_iter</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">print_iter</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">),</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1"># ## Policy Improvement</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_006.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_006.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>60 iterations
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">q_from_v</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
@@ -195,36 +231,124 @@ observation space: Discrete(16)
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;FrozenLake8x8-v1&#39;</span><span class="p">,</span> <span class="n">is_slippery</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">policy</span> <span class="o">=</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_004.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_004.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">new_policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">new_policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_005.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_005.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">new_policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
-<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">new_policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_007.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_007.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1"># ## Policy Iteration</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_008.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_008.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;FrozenLake8x8-v1&#39;</span><span class="p">,</span> <span class="n">is_slippery</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-<span class="n">new_policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
-<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">new_policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-
-<span class="c1"># In[ ]:</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
-<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_006.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_006.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
-<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_007.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_007.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_009.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_009.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_010.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_010.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
 </ul>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 0. 0. 1. 1. 1. 0. 1.
- 1. 0. 1. 1. 0. 1. 0. 1. 1. 1. 1. 0. 1. 1. 1. 0.]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.90305548e-03 2.16927106e-03 2.81470378e-03 4.12015600e-03
+ 6.54735001e-03 9.80286246e-03 1.34473983e-02 1.59696876e-02
+ 1.63695191e-03 1.79015872e-03 2.15477757e-03 2.99849785e-03
+ 5.71911640e-03 9.41393023e-03 1.45697438e-02 1.84920808e-02
+ 1.21774169e-03 1.19972568e-03 1.01582543e-03 0.00000000e+00
+ 3.91675258e-03 7.56407249e-03 1.69256504e-02 2.49369022e-02
+ 8.16627609e-04 7.75246174e-04 7.08844457e-04 7.73171495e-04
+ 2.38385304e-03 0.00000000e+00 2.06319427e-02 3.93930442e-02
+ 4.56952350e-04 3.75834825e-04 2.71166118e-04 0.00000000e+00
+ 4.84550082e-03 1.15941715e-02 2.62091075e-02 7.26103323e-02
+ 1.78428991e-04 0.00000000e+00 0.00000000e+00 1.44835445e-03
+ 5.40398429e-03 1.53220842e-02 0.00000000e+00 1.52228870e-01
+ 7.83491898e-05 0.00000000e+00 1.09382492e-04 3.89434175e-04
+ 0.00000000e+00 4.42901833e-02 0.00000000e+00 3.84076289e-01
+ 5.66254312e-05 3.49065027e-05 4.80960655e-05 0.00000000e+00
+ 5.39462166e-02 1.61838650e-01 3.87279550e-01 0.00000000e+00]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.622 seconds)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">rld</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;FrozenLake-v1&#39;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;FFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FHF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SFG&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FHF&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">is_slippery</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">render_mode</span><span class="o">=</span><span class="s1">&#39;rgb_array&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="n">rld</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+
+<span class="c1"># `gamma = 1`: Preference for longer but low-risk paths</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_011.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_011.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="n">policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1"># `gamma &lt; 1`: Preference for shorter but potentially riskier paths</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_012.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_012.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_013.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_013.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_014.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_014.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_015.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_015.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_016.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_016.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_017.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_017.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_018.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_018.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_019.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_019.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_020.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_020.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_021.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_021.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">uniform_policy</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">policy_evaluation</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="n">policy</span> <span class="o">=</span> <span class="n">policy_improvement</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="n">rld</span><span class="o">.</span><span class="n">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_022.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_022.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_023.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_023.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_024.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_024.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_025.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_025.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_026.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_026.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_027.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_027.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_028.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_028.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_029.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_029.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_030.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_030.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_Practical_4_Dynamic_Programming_031.png" srcset="../_images/sphx_glr_Practical_4_Dynamic_Programming_031.png" alt="Practical 4 Dynamic Programming" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.235 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-practical-4-dynamic-programming-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/1ba16bf1760069d61dffcee94b1e1873/Practical_4_Dynamic_Programming.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Practical_4_Dynamic_Programming.ipynb</span></code></a></p>
@@ -243,8 +367,8 @@ observation space: Discrete(16)
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Reinforcement Learning Durham Gallery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Coursework_Template.html" class="btn btn-neutral float-right" title="Coursework Template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Lecture_6_temporal_difference_learning.html" class="btn btn-neutral float-left" title="Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lecture_5_Monte_Carlo_Methods.html" class="btn btn-neutral float-right" title="Lecture 5: Monte Carlo Methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

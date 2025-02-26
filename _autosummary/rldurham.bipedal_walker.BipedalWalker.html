@@ -59,6 +59,7 @@
 <li class="toctree-l3"><a class="reference internal" href="rldurham.plot_frozenlake.html">rldurham.plot_frozenlake</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.render.html">rldurham.render</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.seed_everything.html">rldurham.seed_everything</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rldurham.transparent_wrapper.html">rldurham.transparent_wrapper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.InfoTracker.html">rldurham.InfoTracker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.RLDurhamEnv.html">rldurham.RLDurhamEnv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rldurham.Recorder.html">rldurham.Recorder</a></li>
@@ -107,7 +108,7 @@
 <h1>rldurham.bipedal_walker.BipedalWalker<a class="headerlink" href="#rldurham-bipedal-walker-bipedalwalker" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rldurham.bipedal_walker.BipedalWalker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.bipedal_walker.</span></span><span class="sig-name descname"><span class="pre">BipedalWalker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">render_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardcore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#BipedalWalker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rldurham.bipedal_walker.</span></span><span class="sig-name descname"><span class="pre">BipedalWalker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">render_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardcore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#BipedalWalker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Env</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">EzPickle</span></code></p>
 <p>## Description
 This is a simple 4-joint walker robot environment.
@@ -349,7 +350,7 @@ Created by Oleg Klimov</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.bipedal_walker.BipedalWalker.__class_getitem__">
-<span class="sig-name descname"><span class="pre">__class_getitem__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.__class_getitem__" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__class_getitem__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.__class_getitem__" title="Link to this definition"></a></dt>
 <dd><p>Parameterizes a generic class.</p>
 <p>At least, parameterizing a generic class is the <em>main</em> thing this
 method does. For example, for some generic class <cite>Foo</cite>, this is called
@@ -388,7 +389,7 @@ classes in the first place with <cite>class Foo[T]: …</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.bipedal_walker.BipedalWalker.__init_subclass__">
-<span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.__init_subclass__" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.__init_subclass__" title="Link to this definition"></a></dt>
 <dd><p>Function to initialize subclasses.</p>
 </dd></dl>
 
@@ -496,7 +497,7 @@ Calling <code class="docutils literal notranslate"><span class="pre">close</span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.bipedal_walker.BipedalWalker.np_random">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.np_random" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.np_random" title="Link to this definition"></a></dt>
 <dd><p>Returns the environment’s internal <a class="reference internal" href="#rldurham.bipedal_walker.BipedalWalker._np_random" title="rldurham.bipedal_walker.BipedalWalker._np_random"><code class="xref py py-attr docutils literal notranslate"><span class="pre">_np_random</span></code></a> that if not set will initialise with a random seed.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>Instances of <cite>np.random.Generator</cite></p>
@@ -506,7 +507,7 @@ Calling <code class="docutils literal notranslate"><span class="pre">close</span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.bipedal_walker.BipedalWalker.np_random_seed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.np_random_seed" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np_random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.np_random_seed" title="Link to this definition"></a></dt>
 <dd><p>Returns the environment’s internal <a class="reference internal" href="#rldurham.bipedal_walker.BipedalWalker._np_random_seed" title="rldurham.bipedal_walker.BipedalWalker._np_random_seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">_np_random_seed</span></code></a> that if not set will first initialise with a random int as seed.</p>
 <p>If <a class="reference internal" href="#rldurham.bipedal_walker.BipedalWalker.np_random_seed" title="rldurham.bipedal_walker.BipedalWalker.np_random_seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">np_random_seed</span></code></a> was set directly instead of through <a class="reference internal" href="#rldurham.bipedal_walker.BipedalWalker.reset" title="rldurham.bipedal_walker.BipedalWalker.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_np_random_through_seed()</span></code>,
 the seed will take the value -1.</p>
@@ -563,7 +564,7 @@ in the environment initialised, i.e., <code class="docutils literal notranslate"
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rldurham.bipedal_walker.BipedalWalker.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#BipedalWalker.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.reset" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham/bipedal_walker.html#BipedalWalker.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.reset" title="Link to this definition"></a></dt>
 <dd><p>Resets the environment to an initial internal state, returning an initial observation and info.</p>
 <p>This method generates a new starting state often with some randomness to ensure that the agent explores the
 state space and learns a generalised policy about the environment. This randomness can be controlled
@@ -656,7 +657,7 @@ a certain timelimit was exceeded, or the physics simulation has entered an inval
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rldurham.bipedal_walker.BipedalWalker.unwrapped">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrapped</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Env</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.unwrapped" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrapped</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Env</span><span class="p"><span class="pre">[</span></span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rldurham.bipedal_walker.BipedalWalker.unwrapped" title="Link to this definition"></a></dt>
 <dd><p>Returns the base non-wrapped environment.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>Env: The base non-wrapped <code class="xref py py-class docutils literal notranslate"><span class="pre">gymnasium.Env</span></code> instance</p>

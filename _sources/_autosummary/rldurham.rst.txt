@@ -21,6 +21,7 @@
       plot_frozenlake
       render
       seed_everything
+      transparent_wrapper
    
    
 
