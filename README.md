@@ -15,7 +15,7 @@ See the [notebooks](https://github.com/robert-lieck/rldurham/tree/main/notebooks
 
 ## Installation
 
-Install/upgrade via terminal as
+Start with a clean Python 3.10 environment (recommended) and install/upgrade via terminal as
 
 ```bash
 pip install swig
@@ -31,5 +31,10 @@ or Jupyter notebook as
 
 ## Known Issues
 
-- `swig` has to be installed **before** `rldurham` (as above) because of dependency issues with the packages used by `rldurham` in particular `gymnasium`.
-- Under python `3.11`, `swig` may need to be installed using system tools (i.e. not via `pip`).
+- **Have you tried turning it off and on again?** Restarting your kernel and/or restarting the install from a fresh and clean Python 3.10 environment resolves most problems.
+- **Check the error messages!** In many cases, they provide useful information and in many cases the problem is not with `rldurham` but either a general Python problem or a problem with `gymnasium`.
+- On **NCC** you need to create your own custom environment/kernel (as for the deep learning coursework); you cannot `pip install ...` things in the default environment (it may first look as if you can, but then the packages cannot be found).
+- Problems related to `swig`
+  - Remember that `swig` has to be **explicitly installed before** `rldurham` (as above) because of dependency issues with the packages used by `rldurham`, in particular `gymnasium`.
+  - Under python `3.11`, `swig` may need to be installed using system tools (i.e. not via `pip`), better avoid `3.11` and use `3.10` instead.
+  - If you see errors mentioning `Box2D`, this is related to `gymnasium`, which requires `Box2D`, which requires `swig`, which frequently causes problems. Installing from a clean environment, *first* installing `swig`, and using Python 3.10 (avoiding higher versions) are the best ways to avoid these problems.
