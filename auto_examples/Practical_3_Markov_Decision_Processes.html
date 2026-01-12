@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Practical 3: Markov Decision Processes &mdash; rldurham  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -143,7 +143,7 @@ to download the full example code.</p>
 <span class="c1"># Plot statistics of state visits</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f5969b62780&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b63410&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b624b0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b61be0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b607d0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b622a0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b60da0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b60ce0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b60e90&gt;, &lt;matplotlib.lines.Line2D object at 0x7f5969b61070&gt;]
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_001.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f1f1cb9ba10&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb9b2f0&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb9bd70&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb9bf20&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb9be60&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb9ac00&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb98110&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb98200&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb98800&gt;, &lt;matplotlib.lines.Line2D object at 0x7f1f1cb98770&gt;]
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">episodes</span> <span class="o">=</span> <span class="n">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">length_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -156,7 +156,7 @@ to download the full example code.</p>
 <span class="c1"># Compute the closed-form solution for stationary distribution</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend object at 0x7f59697a5670&gt;
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_002.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend object at 0x7f1f1cbc3320&gt;
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">transition_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -201,7 +201,7 @@ to download the full example code.</p>
 <span class="c1"># Add a discount factor and estimate state values</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f59697069f0&gt;]
+<img src="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" srcset="../_images/sphx_glr_Practical_3_Markov_Decision_Processes_003.png" alt="Practical 3 Markov Decision Processes" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D object at 0x7f1f1cc8e660&gt;]
 </pre></div>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_episodes</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">,</span> <span class="n">length_episodes</span><span class="p">,</span> <span class="n">start_state</span><span class="p">):</span>
@@ -351,7 +351,7 @@ Value for state 1: 0.587109375
 {9: np.float64(0.60015625), 0: np.float64(0.299765625), 1: np.float64(0.587109375)}
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.159 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.999 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-practical-3-markov-decision-processes-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/51abfdc6e557cf8caafdd76abc0aac00/Practical_3_Markov_Decision_Processes.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Practical_3_Markov_Decision_Processes.ipynb</span></code></a></p>

@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rldurham.getwrappedattr &mdash; rldurham  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -105,7 +105,25 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="rldurham.getwrappedattr">
 <span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">getwrappedattr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">try_getattr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#getwrappedattr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.getwrappedattr" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting or setting an attribute
+:type env: 
+:param env: environment
+:type attr: 
+:param attr: attribute name
+:param args: optional: value to set (if this is not provided, the attribute is returned)
+:type depth: 
+:param depth: maximum number of unwraps
+:type try_getattr: 
+:param try_getattr: try to get attribute before unwrapping (if False: block attempt to get attribute and unwrap</p>
+<blockquote>
+<div><p>directly)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

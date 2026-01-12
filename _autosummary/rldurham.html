@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rldurham &mdash; rldurham  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -108,7 +108,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="rldurham.getwrappedattr.html#rldurham.getwrappedattr" title="rldurham.getwrappedattr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getwrappedattr</span></code></a>(env, attr[, depth, try_getattr])</p></td>
-<td><p></p></td>
+<td><p>Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting or setting an attribute :type env:  :param env: environment :type attr:  :param attr: attribute name :param args: optional: value to set (if this is not provided, the attribute is returned) :type depth:  :param depth: maximum number of unwraps :type try_getattr:  :param try_getattr: try to get attribute before unwrapping (if False: block attempt to get attribute and unwrap  directly) :return:</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.make.html#rldurham.make" title="rldurham.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Drop-in replacement for <code class="docutils literal notranslate"><span class="pre">gym.make</span></code> to enable logging.</p></td>
@@ -136,7 +136,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.RLDurhamEnv.html#rldurham.RLDurhamEnv" title="rldurham.RLDurhamEnv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLDurhamEnv</span></code></a>(env)</p></td>
 <td><p>Light-weight environment wrapper to enable logging.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.Recorder.html#rldurham.Recorder" title="rldurham.Recorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Recorder</span></code></a>(env[, info, video, logs, key, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rldurham.Recorder.html#rldurham.Recorder" title="rldurham.Recorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Recorder</span></code></a>(env[, info, video, logs, ...])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.VideoRecorder.html#rldurham.VideoRecorder" title="rldurham.VideoRecorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VideoRecorder</span></code></a>(*args, name_func, **kwargs)</p></td>
