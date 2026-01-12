@@ -1,8 +1,9 @@
 from typing import Optional, Iterable, Union
-from collections import deque
+from collections import deque, namedtuple
 from math import sqrt
 import os
 import time
+
 
 import torch
 import numpy as np
@@ -23,6 +24,7 @@ import rldurham.version_check
 gym.register(
     id="rldurham/Walker",
     entry_point="rldurham.bipedal_walker:BipedalWalker",
+    max_episode_steps=2000,
 )
 
 def seed_everything(seed: Optional[int] = None,
@@ -200,6 +202,16 @@ class RLDurhamEnv(gym.Wrapper):
 
 
 def getwrappedattr(env, attr, depth=None, try_getattr=True):
+    """
+    Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting or setting an attribute
+    :param env: environment
+    :param attr: attribute name
+    :param args: optional: value to set (if this is not provided, the attribute is returned)
+    :param depth: maximum number of unwraps
+    :param try_getattr: try to get attribute before unwrapping (if False: block attempt to get attribute and unwrap
+     directly)
+    :return:
+    """
     # try to get the attribute
     if try_getattr:
         try:
@@ -221,7 +233,7 @@ def getwrappedattr(env, attr, depth=None, try_getattr=True):
                              f"(unwrapped as much as possible but no more 'env' attribute found, "
                              f"probably reached base environment)")
     # recursively unwrap
-    return getwrappedattr(env, attr, depth)
+    return getwrappedattr(env, attr, depth=depth)
 
 
 def make(*args, **kwargs):
@@ -265,7 +277,7 @@ class VideoRecorder(gym.wrappers.RecordVideo):
 class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
     # see RecordEpisodeStatistics for inspiration
 
-    def __init__(self, env, info=True, video=False, logs=False, key="recorder",
+    def __init__(self, env, info=True, video=False, logs=False, ignore_existing=False, key="recorder",
                  video_folder="videos", video_prefix="xxxx00-agent-video",
                  full_stats=False, smoothing=None):
         gym.utils.RecordConstructorArgs.__init__(self)
@@ -282,6 +294,7 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
         self.info = info
         self.video = video
         self.logs = logs
+        self.ignore_existing = ignore_existing
 
         # other settings
         self._key = key
@@ -316,6 +329,43 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
     def _video_name_func(self):
         return f",episode={self._episode_count},score={self._episode_reward_sum_unscaled}"
 
+    def add_stats(self, info, ignore_existing=None):
+        if ignore_existing is None:
+            ignore_existing = self.ignore_existing
+        if self._key in info:
+            if ignore_existing:
+                return
+            else:
+                raise RuntimeError(f"Cannot add statistics because key '{self._key}' is already present in info")
+
+        # add episode stats
+        i = {
+            "idx": self._episode_count,
+            "length": self._episode_length,
+            "r_sum": self._episode_reward_sum,
+            "r_mean": self._episode_reward_sum / self._episode_length,
+            "r_std": sqrt(self._episode_squared_reward_sum / self._episode_length - (
+                        self._episode_reward_sum / self._episode_length) ** 2),
+        }
+        # add smoothing stats
+        if self._smoothing is not None:
+            self._episode_reward_sum_queue.append(self._episode_reward_sum)
+            self._episode_length_queue.append(self._episode_length)
+            assert len(self._episode_reward_sum_queue) == len(self._episode_length_queue)
+            queue_length = len(self._episode_reward_sum_queue)
+            length_ = sum(self._episode_length_queue) / queue_length
+            r_sum_ = sum(self._episode_reward_sum_queue)
+            r_mean_ = r_sum_ / queue_length
+            r_std_ = sqrt(sum([r ** 2 for r in self._episode_reward_sum_queue]) / queue_length - r_mean_ ** 2)
+            i["length_"] = length_
+            i["r_sum_"] = r_sum_
+            i["r_mean_"] = r_mean_
+            i["r_std_"] = r_std_
+
+        if self._full_stats:
+            i['full'] = self._episode_full_stats
+        info[self._key] = i
+
     def step(self, action):
         self._episode_started = True
         obs, reward, terminated, truncated, info = super().step(action)
@@ -330,33 +380,7 @@ class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
             self._episode_full_stats.append((obs, reward, terminated, truncated, info))
 
         if self.info and (terminated or truncated):
-            assert self._key not in info
-            # add episode stats
-            i = {
-                "idx": self._episode_count,
-                "length": self._episode_length,
-                "r_sum": self._episode_reward_sum,
-                "r_mean": self._episode_reward_sum / self._episode_length,
-                "r_std": sqrt(self._episode_squared_reward_sum / self._episode_length - (self._episode_reward_sum / self._episode_length) ** 2),
-            }
-            # add smoothing stats
-            if self._smoothing is not None:
-                self._episode_reward_sum_queue.append(self._episode_reward_sum)
-                self._episode_length_queue.append(self._episode_length)
-                assert len(self._episode_reward_sum_queue) == len(self._episode_length_queue)
-                queue_length = len(self._episode_reward_sum_queue)
-                length_ = sum(self._episode_length_queue) / queue_length
-                r_sum_ = sum(self._episode_reward_sum_queue)
-                r_mean_ = r_sum_ / queue_length
-                r_std_ = sqrt(sum([r ** 2 for r in self._episode_reward_sum_queue]) / queue_length - r_mean_ ** 2)
-                i["length_"] = length_
-                i["r_sum_"] = r_sum_
-                i["r_mean_"] = r_mean_
-                i["r_std_"] = r_std_
-
-            if self._full_stats:
-                i['full'] = self._episode_full_stats
-            info[self._key] = i
+            self.add_stats(info)
 
         return obs, reward, terminated, truncated, info
 
