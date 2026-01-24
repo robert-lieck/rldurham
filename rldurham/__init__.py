@@ -62,6 +62,15 @@ def seed_everything(seed: Optional[int] = None,
 
 
 def render(env, clear=False, axis_off=True, show=True, sleep=0):
+    """
+    Helper function for rendering environments. The RGB array is shown with plt.imshow.
+
+    :param env: environment to render
+    :param clear: clear output in IPython notebooks before rendering
+    :param axis_off: don't show axes
+    :param show: call plt.show
+    :param sleep: add time delay after rendering
+    """
     if clear:
         disp.clear_output(wait=True)
     try:
@@ -78,7 +87,17 @@ def render(env, clear=False, axis_off=True, show=True, sleep=0):
 
 
 def plot_frozenlake(env, v=None, policy=None, trajectory=None, col_ramp=1, draw_vals=False, clear=False):
-    """helper function to draw the frozen lake"""
+    """
+    A helper function to draw the frozen lake environment with state values and policy.
+
+    :param env: the specific instance of the environment
+    :param v: state values
+    :param policy: policy
+    :param trajectory: a trajectory of states to plot
+    :param col_ramp: non-linear rescaling for state values (values are mapped to grey scale using 1 - v ** col_ramp)
+    :param draw_vals: show textual state values
+    :param clear: clear output in IPython notebooks before showing plot
+    """
     # set up plot
     gray = np.array((0.32, 0.36, 0.38))
     plt.figure(figsize=(5, 5))
@@ -138,6 +157,13 @@ def plot_frozenlake(env, v=None, policy=None, trajectory=None, col_ramp=1, draw_
 
 
 def env_info(env, print_out=False):
+    """
+    Return and (optionally) print some info about action and observation states.
+
+    :param env: environment
+    :param print_out: print info
+    :return: (discrete_act: bool, discrete_obs: bool, act_dim: int, obs_dim: int)
+    """
     discrete_act = hasattr(env.action_space, 'n')
     discrete_obs = hasattr(env.observation_space, 'n')
     act_dim = env.action_space.n if discrete_act else env.action_space.shape[0]
@@ -152,6 +178,12 @@ def env_info(env, print_out=False):
 
 
 def check_device():
+    """
+    Check if CUDA is available and return 'cuda' or 'cpu' accordingly. Also prints warning/confirmation as it is
+    recommended to use non-GPU environments.
+
+    :return: 'cuda' or 'cpu'
+    """
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     print(f'The device is: {device} ', end='')
     if device.type == 'cpu':
@@ -162,6 +194,13 @@ def check_device():
 
 
 def transparent_wrapper(cls):
+    """
+    Decorator that tried to find attributes hidden inside wrapped environments. This is done by adding a __getattr__
+    function that calls getwrappedattr.
+
+    :param cls: wrapper class
+    :return: modified wrapper class
+    """
     def __getattr__(self, item):
         # do not try to unwrap "special" attributes used below or in getwrappedattr (--> infinite recursion)
         if item in ["unwrap", "env"]:
@@ -203,7 +242,8 @@ class RLDurhamEnv(gym.Wrapper):
 
 def getwrappedattr(env, attr, depth=None, try_getattr=True):
     """
-    Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting or setting an attribute
+    Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting an attribute.
+
     :param env: environment
     :param attr: attribute name
     :param args: optional: value to set (if this is not provided, the attribute is returned)
@@ -244,8 +284,18 @@ def make(*args, **kwargs):
 
 
 class VideoRecorder(gym.wrappers.RecordVideo):
+    """
+    Wrapper to record videos (adapted from gym.wrappers.RecordVideo) with a custom callback function to adapt the
+    file name.
+    """
 
     def __init__(self, *args, name_func, **kwargs):
+        """
+        :param args: normal gym.wrappers.RecordVideo args
+        :param name_func: callback function for file name: video is saved as
+         <video_folder>/<name_prefix><name_func()>.mp4
+        :param kwargs: normal gym.wrappers.RecordVideo kwargs
+        """
         super().__init__(*args, **kwargs)
         self.name_func = name_func
 
@@ -275,11 +325,44 @@ class VideoRecorder(gym.wrappers.RecordVideo):
 
 @transparent_wrapper
 class Recorder(gym.Wrapper, gym.utils.RecordConstructorArgs):
-    # see RecordEpisodeStatistics for inspiration
 
     def __init__(self, env, info=True, video=False, logs=False, ignore_existing=False, key="recorder",
                  video_folder="videos", video_prefix="xxxx00-agent-video",
                  full_stats=False, smoothing=None):
+        """
+        Wrapper to record statistics, videos, and logs.
+
+        The statistics added to info are
+            "idx": index of this episode
+            "length": length of this episode
+            "r_sum": sum of rewards of this episode
+            "r_mean": mean reward of this episode
+            "r_std": standard deviation of rewards of this episode
+
+        If smoothings is not None:
+            "length_": smoothed length of episodes (i.e. smoothed version of "length")
+            "r_sum_": sum (over smoothing window) of sum (over single episodes) of rewards
+            "r_mean_": average (over smoothing window) of sum (over single episodes) of rewards (i.e. smoothed
+             version of "r_sum")
+            "r_std_": standard deviation of sums over rewards (i.e. the std associated with "r_mean_")
+
+        if full_stats:
+            "full": list of [(obs, reward, terminated, truncated, info), ...] for episode
+
+        :param env: environment
+        :param info: populate info dict with statistics at each step
+        :param video: wrap env with VideoRecorder and activate recording (can be deactivated by setting ``video =
+         False`` on the Recorder object)
+        :param logs: keep logs of episode statistics (these are different stats from the ones in info and useful for
+         evaluating training performance over episodes)
+        :param ignore_existing: silently skip adding stats in info if an entry with corresponding key already exists
+         (otherwise raises a RuntimeError)
+        :param key: key used to store stats in info dict
+        :param video_folder: folder for storing videos
+        :param video_prefix: prefix for video files
+        :param full_stats: add full stats of (obs, reward, terminated, truncated, info) for each step of the episode
+        :param smoothing: add stats smoothed over this many time steps
+        """
         gym.utils.RecordConstructorArgs.__init__(self)
         if video:
             env = transparent_wrapper(VideoRecorder)(
@@ -467,6 +550,26 @@ class InfoTracker:
             length=False, r_sum=False, r_mean=False, r_std=False,
             length_=False, r_sum_=False, r_mean_=False, r_std_=False
     ):
+        """
+        Plot statistics recorded by Recorder, for example:
+
+           >>> info_tracker.plot(r_mean_=True, r_std_=True, r_sum=dict(linestyle=':', marker='x'))
+
+        :param show: call plt.show at the end
+        :param ax: axis to plot to
+        :param key: key used to record stats
+        :param ignore_empty: don't plot if info is empty
+        :param clear: clear IPython output before showing plot
+        :param length: plot "length" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_sum: plot "r_sum" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_mean: plot "r_mean" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_std: plot "r_std" stats (see Recorder): bool or kwargs for plt.plot
+        :param length_: plot "length_" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_sum_: plot "r_sum_" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_mean_: plot "r_mean_" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_std_: plot "r_std_" stats (see Recorder): bool or kwargs for plt.plot
+        :return: None if ax was provided else (fig, ax)
+        """
         if not self.info and ignore_empty:
             return
         fig = None
