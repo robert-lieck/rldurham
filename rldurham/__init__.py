@@ -553,7 +553,7 @@ class InfoTracker:
         """
         Plot statistics recorded by Recorder, for example:
 
-           >>> info_tracker.plot(r_mean_=True, r_std_=True, r_sum=dict(linestyle=':', marker='x'))
+           >>> info_tracker.plot(r_mean_=True, r_std_=True, r_sum=dict(linestyle=':', marker='x'))  # doctest: +SKIP
 
         :param show: call plt.show at the end
         :param ax: axis to plot to
@@ -564,10 +564,10 @@ class InfoTracker:
         :param r_sum: plot "r_sum" stats (see Recorder): bool or kwargs for plt.plot
         :param r_mean: plot "r_mean" stats (see Recorder): bool or kwargs for plt.plot
         :param r_std: plot "r_std" stats (see Recorder): bool or kwargs for plt.plot
-        :param length_: plot "length_" stats (see Recorder): bool or kwargs for plt.plot
-        :param r_sum_: plot "r_sum_" stats (see Recorder): bool or kwargs for plt.plot
-        :param r_mean_: plot "r_mean_" stats (see Recorder): bool or kwargs for plt.plot
-        :param r_std_: plot "r_std_" stats (see Recorder): bool or kwargs for plt.plot
+        :param length_: plot "length\_" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_sum_: plot "r_sum\_" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_mean_: plot "r_mean\_" stats (see Recorder): bool or kwargs for plt.plot
+        :param r_std_: plot "r_std\_" stats (see Recorder): bool or kwargs for plt.plot
         :return: None if ax was provided else (fig, ax)
         """
         if not self.info and ignore_empty:
