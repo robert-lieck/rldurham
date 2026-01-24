@@ -18,8 +18,8 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -144,6 +144,15 @@
 <div class="viewcode-block" id="render">
 <a class="viewcode-back" href="../_autosummary/rldurham.render.html#rldurham.render">[docs]</a>
 <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis_off</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sleep</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function for rendering environments. The RGB array is shown with plt.imshow.</span>
+
+<span class="sd">    :param env: environment to render</span>
+<span class="sd">    :param clear: clear output in IPython notebooks before rendering</span>
+<span class="sd">    :param axis_off: don&#39;t show axes</span>
+<span class="sd">    :param show: call plt.show</span>
+<span class="sd">    :param sleep: add time delay after rendering</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
         <span class="n">disp</span><span class="o">.</span><span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -163,7 +172,17 @@
 <div class="viewcode-block" id="plot_frozenlake">
 <a class="viewcode-back" href="../_autosummary/rldurham.plot_frozenlake.html#rldurham.plot_frozenlake">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_frozenlake</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trajectory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">col_ramp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">draw_vals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;helper function to draw the frozen lake&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A helper function to draw the frozen lake environment with state values and policy.</span>
+
+<span class="sd">    :param env: the specific instance of the environment</span>
+<span class="sd">    :param v: state values</span>
+<span class="sd">    :param policy: policy</span>
+<span class="sd">    :param trajectory: a trajectory of states to plot</span>
+<span class="sd">    :param col_ramp: non-linear rescaling for state values (values are mapped to grey scale using 1 - v ** col_ramp)</span>
+<span class="sd">    :param draw_vals: show textual state values</span>
+<span class="sd">    :param clear: clear output in IPython notebooks before showing plot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># set up plot</span>
     <span class="n">gray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">0.32</span><span class="p">,</span> <span class="mf">0.36</span><span class="p">,</span> <span class="mf">0.38</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -226,6 +245,13 @@
 <div class="viewcode-block" id="env_info">
 <a class="viewcode-back" href="../_autosummary/rldurham.env_info.html#rldurham.env_info">[docs]</a>
 <span class="k">def</span> <span class="nf">env_info</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">print_out</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return and (optionally) print some info about action and observation states.</span>
+
+<span class="sd">    :param env: environment</span>
+<span class="sd">    :param print_out: print info</span>
+<span class="sd">    :return: (discrete_act: bool, discrete_obs: bool, act_dim: int, obs_dim: int)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">discrete_act</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
     <span class="n">discrete_obs</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
     <span class="n">act_dim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span> <span class="k">if</span> <span class="n">discrete_act</span> <span class="k">else</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -243,6 +269,12 @@
 <div class="viewcode-block" id="check_device">
 <a class="viewcode-back" href="../_autosummary/rldurham.check_device.html#rldurham.check_device">[docs]</a>
 <span class="k">def</span> <span class="nf">check_device</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if CUDA is available and return &#39;cuda&#39; or &#39;cpu&#39; accordingly. Also prints warning/confirmation as it is</span>
+<span class="sd">    recommended to use non-GPU environments.</span>
+
+<span class="sd">    :return: &#39;cuda&#39; or &#39;cpu&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The device is: </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;cpu&#39;</span><span class="p">:</span>
@@ -256,6 +288,13 @@
 <div class="viewcode-block" id="transparent_wrapper">
 <a class="viewcode-back" href="../_autosummary/rldurham.transparent_wrapper.html#rldurham.transparent_wrapper">[docs]</a>
 <span class="k">def</span> <span class="nf">transparent_wrapper</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator that tried to find attributes hidden inside wrapped environments. This is done by adding a __getattr__</span>
+<span class="sd">    function that calls getwrappedattr.</span>
+
+<span class="sd">    :param cls: wrapper class</span>
+<span class="sd">    :return: modified wrapper class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="c1"># do not try to unwrap &quot;special&quot; attributes used below or in getwrappedattr (--&gt; infinite recursion)</span>
         <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;unwrap&quot;</span><span class="p">,</span> <span class="s2">&quot;env&quot;</span><span class="p">]:</span>
@@ -309,7 +348,8 @@
 <a class="viewcode-back" href="../_autosummary/rldurham.getwrappedattr.html#rldurham.getwrappedattr">[docs]</a>
 <span class="k">def</span> <span class="nf">getwrappedattr</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">try_getattr</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting or setting an attribute</span>
+<span class="sd">    Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting an attribute.</span>
+
 <span class="sd">    :param env: environment</span>
 <span class="sd">    :param attr: attribute name</span>
 <span class="sd">    :param args: optional: value to set (if this is not provided, the attribute is returned)</span>
@@ -356,10 +396,20 @@
 <div class="viewcode-block" id="VideoRecorder">
 <a class="viewcode-back" href="../_autosummary/rldurham.VideoRecorder.html#rldurham.VideoRecorder">[docs]</a>
 <span class="k">class</span> <span class="nc">VideoRecorder</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">wrappers</span><span class="o">.</span><span class="n">RecordVideo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper to record videos (adapted from gym.wrappers.RecordVideo) with a custom callback function to adapt the</span>
+<span class="sd">    file name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="VideoRecorder.__init__">
 <a class="viewcode-back" href="../_autosummary/rldurham.VideoRecorder.html#rldurham.VideoRecorder.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">name_func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param args: normal gym.wrappers.RecordVideo args</span>
+<span class="sd">        :param name_func: callback function for file name: video is saved as</span>
+<span class="sd">         &lt;video_folder&gt;/&lt;name_prefix&gt;&lt;name_func()&gt;.mp4</span>
+<span class="sd">        :param kwargs: normal gym.wrappers.RecordVideo kwargs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="o">=</span> <span class="n">name_func</span></div>
 
@@ -396,13 +446,46 @@
 <a class="viewcode-back" href="../_autosummary/rldurham.Recorder.html#rldurham.Recorder">[docs]</a>
 <span class="nd">@transparent_wrapper</span>
 <span class="k">class</span> <span class="nc">Recorder</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Wrapper</span><span class="p">,</span> <span class="n">gym</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">RecordConstructorArgs</span><span class="p">):</span>
-    <span class="c1"># see RecordEpisodeStatistics for inspiration</span>
 
 <div class="viewcode-block" id="Recorder.__init__">
 <a class="viewcode-back" href="../_autosummary/rldurham.Recorder.html#rldurham.Recorder.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">video</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">logs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;recorder&quot;</span><span class="p">,</span>
                  <span class="n">video_folder</span><span class="o">=</span><span class="s2">&quot;videos&quot;</span><span class="p">,</span> <span class="n">video_prefix</span><span class="o">=</span><span class="s2">&quot;xxxx00-agent-video&quot;</span><span class="p">,</span>
                  <span class="n">full_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wrapper to record statistics, videos, and logs.</span>
+
+<span class="sd">        The statistics added to info are</span>
+<span class="sd">            &quot;idx&quot;: index of this episode</span>
+<span class="sd">            &quot;length&quot;: length of this episode</span>
+<span class="sd">            &quot;r_sum&quot;: sum of rewards of this episode</span>
+<span class="sd">            &quot;r_mean&quot;: mean reward of this episode</span>
+<span class="sd">            &quot;r_std&quot;: standard deviation of rewards of this episode</span>
+
+<span class="sd">        If smoothings is not None:</span>
+<span class="sd">            &quot;length_&quot;: smoothed length of episodes (i.e. smoothed version of &quot;length&quot;)</span>
+<span class="sd">            &quot;r_sum_&quot;: sum (over smoothing window) of sum (over single episodes) of rewards</span>
+<span class="sd">            &quot;r_mean_&quot;: average (over smoothing window) of sum (over single episodes) of rewards (i.e. smoothed</span>
+<span class="sd">             version of &quot;r_sum&quot;)</span>
+<span class="sd">            &quot;r_std_&quot;: standard deviation of sums over rewards (i.e. the std associated with &quot;r_mean_&quot;)</span>
+
+<span class="sd">        if full_stats:</span>
+<span class="sd">            &quot;full&quot;: list of [(obs, reward, terminated, truncated, info), ...] for episode</span>
+
+<span class="sd">        :param env: environment</span>
+<span class="sd">        :param info: populate info dict with statistics at each step</span>
+<span class="sd">        :param video: wrap env with VideoRecorder and activate recording (can be deactivated by setting ``video =</span>
+<span class="sd">         False`` on the Recorder object)</span>
+<span class="sd">        :param logs: keep logs of episode statistics (these are different stats from the ones in info and useful for</span>
+<span class="sd">         evaluating training performance over episodes)</span>
+<span class="sd">        :param ignore_existing: silently skip adding stats in info if an entry with corresponding key already exists</span>
+<span class="sd">         (otherwise raises a RuntimeError)</span>
+<span class="sd">        :param key: key used to store stats in info dict</span>
+<span class="sd">        :param video_folder: folder for storing videos</span>
+<span class="sd">        :param video_prefix: prefix for video files</span>
+<span class="sd">        :param full_stats: add full stats of (obs, reward, terminated, truncated, info) for each step of the episode</span>
+<span class="sd">        :param smoothing: add stats smoothed over this many time steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">gym</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">RecordConstructorArgs</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">video</span><span class="p">:</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">transparent_wrapper</span><span class="p">(</span><span class="n">VideoRecorder</span><span class="p">)(</span>
@@ -635,6 +718,26 @@
             <span class="n">length</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r_sum</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r_mean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r_std</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">length_</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r_sum_</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r_mean_</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r_std_</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot statistics recorded by Recorder, for example:</span>
+
+<span class="sd">           &gt;&gt;&gt; info_tracker.plot(r_mean_=True, r_std_=True, r_sum=dict(linestyle=&#39;:&#39;, marker=&#39;x&#39;))  # doctest: +SKIP</span>
+
+<span class="sd">        :param show: call plt.show at the end</span>
+<span class="sd">        :param ax: axis to plot to</span>
+<span class="sd">        :param key: key used to record stats</span>
+<span class="sd">        :param ignore_empty: don&#39;t plot if info is empty</span>
+<span class="sd">        :param clear: clear IPython output before showing plot</span>
+<span class="sd">        :param length: plot &quot;length&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :param r_sum: plot &quot;r_sum&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :param r_mean: plot &quot;r_mean&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :param r_std: plot &quot;r_std&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :param length_: plot &quot;length\_&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :param r_sum_: plot &quot;r_sum\_&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :param r_mean_: plot &quot;r_mean\_&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :param r_std_: plot &quot;r_std\_&quot; stats (see Recorder): bool or kwargs for plt.plot</span>
+<span class="sd">        :return: None if ax was provided else (fig, ax)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="ow">and</span> <span class="n">ignore_empty</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span>

@@ -14,23 +14,6 @@ Reinforcement Learning Durham Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Coursework Template">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Coursework_Template_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Coursework_Template`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Coursework Template</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Basics of the RLDurham package">
 
 .. only:: html
@@ -46,142 +29,6 @@ Reinforcement Learning Durham Gallery
     </div>
 
 
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Practical 2: Multi-Armed Bandits">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Practical_2_Multi-Armed_Bandits_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Practical_2_Multi-Armed_Bandits`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Practical 2: Multi-Armed Bandits</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Example">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Lecture_6_temporal_difference_learning_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Lecture_6_temporal_difference_learning`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Example</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Practical 4: DynamicProgramming">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Practical_4_Dynamic_Programming_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Practical_4_Dynamic_Programming`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Practical 4: DynamicProgramming</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Lecture 5: Monte Carlo Methods">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Lecture_5_Monte_Carlo_Methods_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Lecture_5_Monte_Carlo_Methods`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Lecture 5: Monte Carlo Methods</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Lecture 4: Dynamic Programming">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Lecture_4_Dynamic_Programming_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Lecture_4_Dynamic_Programming`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Lecture 4: Dynamic Programming</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Practical 3: Markov Decision Processes">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Practical_3_Markov_Decision_Processes_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Practical_3_Markov_Decision_Processes`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Practical 3: Markov Decision Processes</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Practical 6: Temporal Difference Learning">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Practical_6_Temporal_Difference_Learning_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Practical_6_Temporal_Difference_Learning`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Practical 6: Temporal Difference Learning</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Lecture 2: Gym">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_Lecture_2_Gym_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/Lecture_2_Gym`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Lecture 2: Gym</div>
-    </div>
-
-
 .. thumbnail-parent-div-close
 
 .. raw:: html
@@ -192,16 +39,7 @@ Reinforcement Learning Durham Gallery
 .. toctree::
    :hidden:
 
-   /auto_examples/Coursework_Template
    /auto_examples/rldurham_basics
-   /auto_examples/Practical_2_Multi-Armed_Bandits
-   /auto_examples/Lecture_6_temporal_difference_learning
-   /auto_examples/Practical_4_Dynamic_Programming
-   /auto_examples/Lecture_5_Monte_Carlo_Methods
-   /auto_examples/Lecture_4_Dynamic_Programming
-   /auto_examples/Practical_3_Markov_Decision_Processes
-   /auto_examples/Practical_6_Temporal_Difference_Learning
-   /auto_examples/Lecture_2_Gym
 
 
 .. only:: html

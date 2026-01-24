@@ -19,8 +19,8 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -105,22 +105,20 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="rldurham.getwrappedattr">
 <span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">getwrappedattr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">try_getattr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#getwrappedattr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.getwrappedattr" title="Link to this definition"></a></dt>
-<dd><p>Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting or setting an attribute
-:type env: 
-:param env: environment
-:type attr: 
-:param attr: attribute name
-:param args: optional: value to set (if this is not provided, the attribute is returned)
-:type depth: 
-:param depth: maximum number of unwraps
-:type try_getattr: 
-:param try_getattr: try to get attribute before unwrapping (if False: block attempt to get attribute and unwrap</p>
-<blockquote>
-<div><p>directly)</p>
-</div></blockquote>
+<dd><p>Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting an attribute.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – environment</p></li>
+<li><p><strong>attr</strong> – attribute name</p></li>
+<li><p><strong>args</strong> – optional: value to set (if this is not provided, the attribute is returned)</p></li>
+<li><p><strong>depth</strong> – maximum number of unwraps</p></li>
+<li><p><strong>try_getattr</strong> – try to get attribute before unwrapping (if False: block attempt to get attribute and unwrap
+directly)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
 </dd>
 </dl>
 </dd></dl>

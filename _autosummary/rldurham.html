@@ -19,8 +19,8 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -102,28 +102,28 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="rldurham.check_device.html#rldurham.check_device" title="rldurham.check_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_device</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Check if CUDA is available and return 'cuda' or 'cpu' accordingly.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.env_info.html#rldurham.env_info" title="rldurham.env_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">env_info</span></code></a>(env[, print_out])</p></td>
-<td><p></p></td>
+<td><p>Return and (optionally) print some info about action and observation states.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="rldurham.getwrappedattr.html#rldurham.getwrappedattr" title="rldurham.getwrappedattr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getwrappedattr</span></code></a>(env, attr[, depth, try_getattr])</p></td>
-<td><p>Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting or setting an attribute :type env:  :param env: environment :type attr:  :param attr: attribute name :param args: optional: value to set (if this is not provided, the attribute is returned) :type depth:  :param depth: maximum number of unwraps :type try_getattr:  :param try_getattr: try to get attribute before unwrapping (if False: block attempt to get attribute and unwrap  directly) :return:</p></td>
+<td><p>Attempts to unwrap an environment (by repeatedly calling env = env.env) before getting an attribute.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.make.html#rldurham.make" title="rldurham.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Drop-in replacement for <code class="docutils literal notranslate"><span class="pre">gym.make</span></code> to enable logging.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="rldurham.plot_frozenlake.html#rldurham.plot_frozenlake" title="rldurham.plot_frozenlake"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frozenlake</span></code></a>(env[, v, policy, ...])</p></td>
-<td><p>helper function to draw the frozen lake</p></td>
+<td><p>A helper function to draw the frozen lake environment with state values and policy.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.render.html#rldurham.render" title="rldurham.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code></a>(env[, clear, axis_off, show, sleep])</p></td>
-<td><p></p></td>
+<td><p>Helper function for rendering environments.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="rldurham.seed_everything.html#rldurham.seed_everything" title="rldurham.seed_everything"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seed_everything</span></code></a>([seed, env, seed_env, ...])</p></td>
 <td><p>This uses the <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">PyTorch Lightning</a> <code class="docutils literal notranslate"><span class="pre">seed_everything</span></code> method to seed pseudo-random number generators in pytorch, numpy, and python.random.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.transparent_wrapper.html#rldurham.transparent_wrapper" title="rldurham.transparent_wrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transparent_wrapper</span></code></a>(cls)</p></td>
-<td><p></p></td>
+<td><p>Decorator that tried to find attributes hidden inside wrapped environments.</p></td>
 </tr>
 </tbody>
 </table>
@@ -140,7 +140,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rldurham.VideoRecorder.html#rldurham.VideoRecorder" title="rldurham.VideoRecorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VideoRecorder</span></code></a>(*args, name_func, **kwargs)</p></td>
-<td><p></p></td>
+<td><p>Wrapper to record videos (adapted from gym.wrappers.RecordVideo) with a custom callback function to adapt the file name.</p></td>
 </tr>
 </tbody>
 </table>

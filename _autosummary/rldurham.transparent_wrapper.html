@@ -19,8 +19,8 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -105,7 +105,17 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="rldurham.transparent_wrapper">
 <span class="sig-prename descclassname"><span class="pre">rldurham.</span></span><span class="sig-name descname"><span class="pre">transparent_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rldurham.html#transparent_wrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rldurham.transparent_wrapper" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Decorator that tried to find attributes hidden inside wrapped environments. This is done by adding a __getattr__
+function that calls getwrappedattr.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cls</strong> – wrapper class</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>modified wrapper class</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

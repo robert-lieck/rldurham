@@ -238,8 +238,6 @@ This is the workflow required for the coursework to ensure correct logging
 
  .. code-block:: none
 
-    /home/runner/.local/lib/python3.12/site-packages/gymnasium/wrappers/rendering.py:293: UserWarning: WARN: Overwriting existing videos at /home/runner/work/rldurham/rldurham/examples/videos folder (try specifying a different `video_folder` for the `RecordVideo` wrapper if this is not desired)
-      logger.warn(
     {'recorder': {'idx': [0], 'length': [29], 'r_sum': [29.0], 'r_mean': [1.0], 'r_std': [0.0], 'length_': [29.0], 'r_sum_': [29.0], 'r_mean_': [29.0], 'r_std_': [0.0]}}
             {'recorder': {'idx': [0], 'length': [29], 'r_sum': [29.0], 'r_mean': [1.0], 'r_std': [0.0], 'length_': [29.0], 'r_sum_': [29.0], 'r_mean_': [29.0], 'r_std_': [0.0]}}
             {'recorder': {'idx': [0, 2], 'length': [29, 69], 'r_sum': [29.0, 69.0], 'r_mean': [1.0, 1.0], 'r_std': [0.0, 0.0], 'length_': [29.0, 49.0], 'r_sum_': [29.0, 98.0], 'r_mean_': [29.0, 49.0], 'r_std_': [0.0, 20.0]}}
@@ -385,7 +383,7 @@ Render the environment with matplotlib (essentially a single video frame; requir
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.286 seconds)
+   **Total running time of the script:** (0 minutes 1.690 seconds)
 
 
 .. _sphx_glr_download_auto_examples_rldurham_basics.py:

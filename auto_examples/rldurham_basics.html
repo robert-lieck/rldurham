@@ -19,13 +19,13 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Practical 2: Multi-Armed Bandits" href="Practical_2_Multi-Armed_Bandits.html" />
-    <link rel="prev" title="Coursework Template" href="Coursework_Template.html" /> 
+    <link rel="next" title="API Summary" href="../api_summary.html" />
+    <link rel="prev" title="Reinforcement Learning Durham Gallery" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,7 +50,6 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reinforcement Learning Durham Gallery</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Coursework_Template.html">Coursework Template</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Basics of the RLDurham package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#imports">Imports</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#simple-gym-workflow">Simple gym workflow</a></li>
@@ -58,14 +57,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#other-helper-functions">Other Helper Functions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="Practical_2_Multi-Armed_Bandits.html">Practical 2: Multi-Armed Bandits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Lecture_6_temporal_difference_learning.html">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Practical_4_Dynamic_Programming.html">Practical 4: DynamicProgramming</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Lecture_5_Monte_Carlo_Methods.html">Lecture 5: Monte Carlo Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Lecture_4_Dynamic_Programming.html">Lecture 4: Dynamic Programming</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Practical_3_Markov_Decision_Processes.html">Practical 3: Markov Decision Processes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Practical_6_Temporal_Difference_Learning.html">Practical 6: Temporal Difference Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Lecture_2_Gym.html">Lecture 2: Gym</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
@@ -210,9 +201,7 @@ to download the full example code.</p>
 <li><img src="../_images/sphx_glr_rldurham_basics_010.png" srcset="../_images/sphx_glr_rldurham_basics_010.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
 <li><img src="../_images/sphx_glr_rldurham_basics_011.png" srcset="../_images/sphx_glr_rldurham_basics_011.png" alt="rldurham basics" class = "sphx-glr-multi-img"/></li>
 </ul>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/.local/lib/python3.12/site-packages/gymnasium/wrappers/rendering.py:293: UserWarning: WARN: Overwriting existing videos at /home/runner/work/rldurham/rldurham/examples/videos folder (try specifying a different `video_folder` for the `RecordVideo` wrapper if this is not desired)
-  logger.warn(
-{&#39;recorder&#39;: {&#39;idx&#39;: [0], &#39;length&#39;: [29], &#39;r_sum&#39;: [29.0], &#39;r_mean&#39;: [1.0], &#39;r_std&#39;: [0.0], &#39;length_&#39;: [29.0], &#39;r_sum_&#39;: [29.0], &#39;r_mean_&#39;: [29.0], &#39;r_std_&#39;: [0.0]}}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;recorder&#39;: {&#39;idx&#39;: [0], &#39;length&#39;: [29], &#39;r_sum&#39;: [29.0], &#39;r_mean&#39;: [1.0], &#39;r_std&#39;: [0.0], &#39;length_&#39;: [29.0], &#39;r_sum_&#39;: [29.0], &#39;r_mean_&#39;: [29.0], &#39;r_std_&#39;: [0.0]}}
 
 
 {&#39;recorder&#39;: {&#39;idx&#39;: [0], &#39;length&#39;: [29], &#39;r_sum&#39;: [29.0], &#39;r_mean&#39;: [1.0], &#39;r_std&#39;: [0.0], &#39;length_&#39;: [29.0], &#39;r_sum_&#39;: [29.0], &#39;r_mean_&#39;: [29.0], &#39;r_std_&#39;: [0.0]}}
@@ -294,7 +283,7 @@ maximum timesteps is: 500
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rld</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_rldurham_basics_012.png" srcset="../_images/sphx_glr_rldurham_basics_012.png" alt="rldurham basics" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.286 seconds)</p>
+<img src="../_images/sphx_glr_rldurham_basics_012.png" srcset="../_images/sphx_glr_rldurham_basics_012.png" alt="rldurham basics" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.690 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-rldurham-basics-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/737fd82cba2663f68b5dbde1a0d6a917/rldurham_basics.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">rldurham_basics.ipynb</span></code></a></p>
@@ -314,8 +303,8 @@ maximum timesteps is: 500
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Coursework_Template.html" class="btn btn-neutral float-left" title="Coursework Template" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Practical_2_Multi-Armed_Bandits.html" class="btn btn-neutral float-right" title="Practical 2: Multi-Armed Bandits" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Reinforcement Learning Durham Gallery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api_summary.html" class="btn btn-neutral float-right" title="API Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
