@@ -32,18 +32,19 @@ except ImportError as e:
 if TYPE_CHECKING:
     import pygame
 
+########## DEFAULT
+
 FPS = 50
 SCALE = 30.0  # affects how fast-paced the game is, forces should be adjusted as well
 
-MOTORS_TORQUE = 60  # default: 80
-SPEED_HIP = 6  # default: 4
-SPEED_KNEE = 8  # default: 6
+MOTORS_TORQUE = 80
+SPEED_HIP = 4
+SPEED_KNEE = 6
 LIDAR_RANGE = 160 / SCALE
 
 INITIAL_RANDOM = 5
 
-# HULL_POLY = [(-30, +9), (+6, +9), (+34, +1), (+34, -8), (-30, -8)]
-HULL_POLY = [(-28, +8), (-6, +11), (+6, +11), (+38, +1), (+38, -1), (-6, -11), (+6, -11), (-28, -8)]
+HULL_POLY = [(-30, +9), (+6, +9), (+34, +1), (+34, -8), (-30, -8)]
 
 LEG_DOWN = -8 / SCALE
 LEG_W, LEG_H = 8 / SCALE, 34 / SCALE
@@ -57,6 +58,42 @@ TERRAIN_HEIGHT = VIEWPORT_H / SCALE / 4
 TERRAIN_GRASS = 10  # low long are grass spots, in steps
 TERRAIN_STARTPAD = 20  # in steps
 FRICTION = 2.5
+
+hull_color1 = (127, 51, 229)
+hull_color2 = (76, 76, 127)
+leg_color1 = (153, 76, 127)
+leg_color2 = (102, 51, 76)
+color_sub = 25
+
+########## 24/25
+
+# MOTORS_TORQUE = 60
+# SPEED_HIP = 6
+# SPEED_KNEE = 8
+#
+# HULL_POLY = [(-28, +8), (-6, +11), (+6, +11), (+38, +1), (+38, -1), (-6, -11), (+6, -11), (-28, -8)]
+#
+# hull_color1 = (200, 50, 50)
+# hull_color2 = (50, 50, 50)
+# leg_color1 = (100, 100, 100)
+# leg_color2 = (50, 50, 50)
+# color_sub = 25
+
+########## 25/26
+
+SCALE = 40.0
+
+MOTORS_TORQUE = 100
+
+HULL_POLY = [(-43.319, +8.22), (-34.325, +13.51), (-24.273, +17.478), (-5.669, +17.39), (+24.486, +12.717), (+43.003, +6.545), (+48.029, +2.401), (+48.646, -2.537), (+41.592, -5.535), (+25.28, -8.709), (+6.323, -10.649), (-7.697, -10.473), (-22.862, -8.886), (-35.824, -6.064), (-42.26, -2.096)]
+
+hull_color1 = (50, 150, 50)
+hull_color2 = (50, 50, 50)
+leg_color1 = (150, 50, 50)
+leg_color2 = (100, 50, 50)
+color_sub = 20
+
+##########
 
 HULL_FD = fixtureDef(
     shape=polygonShape(vertices=[(x / SCALE, y / SCALE) for x, y in HULL_POLY]),
@@ -456,8 +493,8 @@ class BipedalWalker(gym.Env, EzPickle):
         self.hull = self.world.CreateDynamicBody(
             position=(init_x, init_y), fixtures=HULL_FD
         )
-        self.hull.color1 = (200, 50, 50)  # default: (127, 51, 229)
-        self.hull.color2 = (50, 50, 50)  # default: (76, 76, 127)
+        self.hull.color1 = hull_color1
+        self.hull.color2 = hull_color2
         self.hull.ApplyForceToCenter(
             (self.np_random.uniform(-INITIAL_RANDOM, INITIAL_RANDOM), 0), True
         )
@@ -470,8 +507,8 @@ class BipedalWalker(gym.Env, EzPickle):
                 angle=(i * 0.05),
                 fixtures=LEG_FD,
             )
-            leg.color1 = (100 - i * 15, 100 - i * 15, 100 - i * 15)  # default: (153 - i * 25, 76 - i * 25, 127 - i * 25)
-            leg.color2 = (50 - i * 15, 50 - i * 15, 50 - i * 15)  # default: (102 - i * 25, 51 - i * 25, 76 - i * 25)
+            leg.color1 = tuple(np.array(leg_color1) - i * color_sub)
+            leg.color2 = tuple(np.array(leg_color2) - i * color_sub)
             rjd = revoluteJointDef(
                 bodyA=self.hull,
                 bodyB=leg,
@@ -492,8 +529,8 @@ class BipedalWalker(gym.Env, EzPickle):
                 angle=(i * 0.05),
                 fixtures=LOWER_FD,
             )
-            lower.color1 = (100 - i * 15, 100 - i * 15, 100 - i * 15)  # default: (153 - i * 25, 76 - i * 25, 127 - i * 25)
-            lower.color2 = (50 - i * 15, 50 - i * 15, 50 - i * 15)  # default: (102 - i * 25, 51 - i * 25, 76 - i * 25)
+            lower.color1 = tuple(np.array(leg_color1) - i * color_sub)
+            lower.color2 = tuple(np.array(leg_color2) - i * color_sub)
             rjd = revoluteJointDef(
                 bodyA=leg,
                 bodyB=lower,
