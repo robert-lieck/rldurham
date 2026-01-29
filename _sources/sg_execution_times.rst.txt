@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:01.690** total execution time for 1 file **from all galleries**:
+**00:01.625** total execution time for 1 file **from all galleries**:
 
 .. container::
 
@@ -33,5 +33,5 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_rldurham_basics.py` (``../examples/rldurham_basics.py``)
-     - 00:01.690
+     - 00:01.625
      - 0.0
